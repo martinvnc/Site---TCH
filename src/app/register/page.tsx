@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -51,11 +52,17 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 py-12">
-            <div className="w-full max-w-md space-y-8 rounded-3xl bg-white p-10 shadow-xl border border-zinc-100">
+        <div className="flex min-h-screen items-center justify-center bg-[#638d66] px-4 py-12">
+            <div className="w-full max-w-md space-y-8 rounded-3xl bg-white p-10 shadow-2xl">
                 <div className="text-center">
-                    <div className="mx-auto mb-4 h-12 w-12 rounded-xl bg-yellow-400 flex items-center justify-center font-bold text-black shadow-sm">
-                        TCH
+                    <div className="mx-auto mb-6 flex justify-center">
+                        <Image
+                            src="/logo-tch.png"
+                            alt="Tennis Club Halluin Logo"
+                            width={180}
+                            height={80}
+                            className="h-auto w-auto max-h-24 object-contain"
+                        />
                     </div>
                     <h2 className="text-3xl font-black tracking-tight text-zinc-900">Créer un compte</h2>
                     <p className="mt-2 text-zinc-500">Rejoignez le Tennis Club d'Halluin</p>
