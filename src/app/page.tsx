@@ -19,12 +19,12 @@ export default function Home() {
           <Link href="/contact" className="font-medium transition-colors hover:text-yellow-600">Contact</Link>
         </div>
         <div className="flex items-center gap-4">
-          <button className="rounded-full px-6 py-2.5 font-semibold transition-all hover:bg-zinc-100">
+          <Link href="/login" className="rounded-full px-6 py-2.5 font-semibold transition-all hover:bg-zinc-100">
             Connexion
-          </button>
-          <button className="rounded-full bg-zinc-900 px-6 py-2.5 font-semibold text-white shadow-lg transition-all hover:bg-zinc-800 hover:shadow-xl active:scale-95">
+          </Link>
+          <Link href="/register" className="rounded-full bg-zinc-900 px-6 py-2.5 font-semibold text-white shadow-lg transition-all hover:bg-zinc-800 hover:shadow-xl active:scale-95">
             S'inscrire
-          </button>
+          </Link>
         </div>
       </nav>
 
