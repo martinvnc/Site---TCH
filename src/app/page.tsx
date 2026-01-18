@@ -6,17 +6,21 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-zinc-50 font-sans text-zinc-900 selection:bg-yellow-200">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 flex h-20 w-full items-center justify-between border-b border-zinc-200 bg-white/80 px-8 backdrop-blur-md">
-        <div className="flex items-center gap-2">
-          <div className="h-10 w-10 rounded-xl bg-yellow-400 flex items-center justify-center font-bold text-black shadow-sm">
-            TCH
-          </div>
-          <span className="text-xl font-bold tracking-tight">Tennis Club Halluin</span>
-        </div>
-        <div className="hidden items-center gap-8 md:flex">
-          <Link href="/" className="font-medium transition-colors hover:text-yellow-600">Accueil</Link>
-          <Link href="/reserver" className="font-medium transition-colors hover:text-yellow-600">Réserver</Link>
-          <Link href="/club" className="font-medium transition-colors hover:text-yellow-600">Le Club</Link>
-          <Link href="/contact" className="font-medium transition-colors hover:text-yellow-600">Contact</Link>
+        <Link href="/" className="flex items-center gap-4">
+          <Image
+            src="/logo-tch.png"
+            alt="Logo TCH"
+            width={80}
+            height={40}
+            className="h-10 w-auto"
+          />
+          <span className="text-xl font-bold tracking-tight text-[#638d66]">Tennis Club Halluin</span>
+        </Link>
+        <div className="hidden items-center gap-8 md:flex text-zinc-600">
+          <Link href="/" className="font-semibold transition-colors hover:text-[#638d66]">Accueil</Link>
+          <Link href="/reserver" className="font-semibold transition-colors hover:text-[#638d66]">Réserver</Link>
+          <Link href="/club" className="font-semibold transition-colors hover:text-[#638d66]">Le Club</Link>
+          <Link href="/contact" className="font-semibold transition-colors hover:text-[#638d66]">Contact</Link>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/login" className="rounded-full px-6 py-2.5 font-semibold transition-all hover:bg-zinc-100">
@@ -97,11 +101,15 @@ export default function Home() {
       <footer className="border-t border-zinc-200 bg-white py-12 px-8">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-4">
           <div className="col-span-2">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-yellow-400 flex items-center justify-center font-bold text-black text-sm">
-                TCH
-              </div>
-              <span className="text-lg font-bold tracking-tight">Tennis Club Halluin</span>
+            <div className="mb-4 flex items-center gap-4">
+              <Image
+                src="/logo-tch.png"
+                alt="Logo TCH"
+                width={60}
+                height={30}
+                className="h-8 w-auto"
+              />
+              <span className="text-lg font-bold tracking-tight text-[#638d66]">Tennis Club Halluin</span>
             </div>
             <p className="max-w-xs text-zinc-500">
               Le club de tennis de référence à Halluin. Passion, progrès et convivialité depuis 1970.
