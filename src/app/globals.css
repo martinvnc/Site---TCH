@@ -8,10 +8,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand-green: #638d66;
-  --color-brand-yellow: #f7c07b;
+  /* TCH Brand Colors - Charte Graphique Janvier 2026 */
+  --color-brand-green: #4c7650;
+  --color-brand-green-light: #639268;
+  --color-brand-yellow: #f6ca73;
   --color-brand-dark: #2d452e;
 }
 
