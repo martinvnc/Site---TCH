@@ -24,8 +24,27 @@ export default function Header() {
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-3 items-center h-20">
-                    {/* Espace à gauche (vide pour équilibrer) */}
-                    <div></div>
+                    {/* Menu navigation à gauche */}
+                    <nav className="flex items-center gap-6">
+                        <Link
+                            href="/club"
+                            className="text-sm font-semibold text-[#4c7650] hover:text-[#f6ca73] transition-colors"
+                        >
+                            Le Club
+                        </Link>
+                        <Link
+                            href="/reservation"
+                            className="text-sm font-semibold text-[#4c7650] hover:text-[#f6ca73] transition-colors"
+                        >
+                            Réservation
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="text-sm font-semibold text-[#4c7650] hover:text-[#f6ca73] transition-colors"
+                        >
+                            Contact
+                        </Link>
+                    </nav>
 
                     {/* Logo centré */}
                     <Link href="/" className="flex items-center justify-center">
