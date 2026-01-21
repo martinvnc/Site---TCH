@@ -18,25 +18,28 @@ export default function Header() {
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? "bg-white shadow-md"
-                    : "bg-white/90 backdrop-blur-sm"
+                ? "bg-white shadow-md"
+                : "bg-white/90 backdrop-blur-sm"
                 }`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center">
+                <div className="grid grid-cols-3 items-center h-20">
+                    {/* Espace à gauche (vide pour équilibrer) */}
+                    <div></div>
+
+                    {/* Logo centré */}
+                    <Link href="/" className="flex items-center justify-center">
                         <Image
                             src="/Logo TCH - Vert.png"
                             alt="Tennis Club Halluin"
-                            width={120}
-                            height={50}
-                            className="h-12 w-auto object-contain"
+                            width={180}
+                            height={75}
+                            className="h-16 w-auto object-contain"
                         />
                     </Link>
 
-                    {/* Navigation buttons */}
-                    <div className="flex items-center gap-3">
+                    {/* Navigation buttons à droite */}
+                    <div className="flex items-center justify-end gap-3">
                         <Link
                             href="/login"
                             className="px-5 py-2.5 text-sm font-semibold text-[#4c7650] hover:text-[#639268] transition-colors"
