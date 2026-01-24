@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-garet), ui-sans-serif, system-ui, sans-serif;
 
   /* TCH Brand Colors - Charte Graphique Janvier 2026 */
   --color-brand-green: #4c7650;
@@ -27,7 +27,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  /* font-family: var(--font-sans); */
 
   /* Enhanced text rendering for maximum clarity */
   -webkit-font-smoothing: antialiased;

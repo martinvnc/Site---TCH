@@ -1,12 +1,46 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
-  display: "swap",
+const garet = localFont({
+  src: [
+    {
+      path: "./fonts/Garet-Book.woff",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Book.woff",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Book.woff",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Heavy.woff",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Heavy.woff",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Heavy.woff",
+      weight: "850",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Garet-Heavy.woff",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-garet",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${poppins.variable} antialiased font-sans`}>
+      <body className={`${garet.className} ${garet.variable} antialiased`}>
         {children}
       </body>
     </html>

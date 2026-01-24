@@ -3,36 +3,36 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-            {/* Background Image */}
+        <section className="relative h-[75vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+            {/* Background Image with Simplified Overlay */}
             <div className="absolute inset-0">
                 <Image
-                    src="/hero-tennis.jpg"
+                    src="/hero-tch-indoor.jpg"
                     alt="Tennis Club d'Halluin"
                     fill
                     className="object-cover"
                     priority
                 />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
+                <div className="absolute inset-0 bg-black/25" />
             </div>
 
-            {/* Content */}
-            <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 drop-shadow-2xl">
-                    Tennis Club d'Halluin
-                </h1>
-                <p className="text-xl sm:text-2xl lg:text-3xl text-white/95 mb-8 font-medium drop-shadow-lg">
-                    Votre passion, notre engagement
-                </p>
-                <p className="text-lg sm:text-xl text-white/90 mb-12 max-w-2xl mx-auto drop-shadow-md">
-                    Rejoignez un club dynamique et convivial pour pratiquer le tennis dans les meilleures conditions
-                </p>
+            {/* Content centered with vertical offset */}
+            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 transform translate-y-12 gap-8">
+                <div className="animate-fade-in-down">
+                    <Image
+                        src="/Logo TCH - Blanc.png"
+                        alt="Logo Tennis Club Halluin"
+                        width={700}
+                        height={300}
+                        className="w-auto h-64 sm:h-80 lg:h-[450px] object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.45)]"
+                        priority
+                    />
+                </div>
 
-                {/* CTA Button */}
+                {/* New Green CTA Button */}
                 <Link
-                    href="#actualites"
-                    className="inline-block px-8 py-4 bg-[#f6ca73] text-[#2d452e] text-lg font-bold rounded-2xl hover:bg-[#f6ca73]/90 transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95"
+                    href="/club"
+                    className="inline-block px-10 py-5 bg-[#4c7650] text-white text-xl font-bold rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 animate-fade-in-up"
                 >
                     Découvrir le club
                 </Link>

@@ -1,13 +1,32 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 export default function CTASection() {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setUser(session?.user ?? null);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
     const actions = [
         {
             id: 1,
             title: "Réservation",
             description: "Réservez votre court en ligne",
             icon: "📅",
-            href: "/reservation",
+            href: user ? "/reservation" : "/login",
             color: "from-[#4c7650] to-[#639268]",
         },
         {
