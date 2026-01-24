@@ -10,6 +10,8 @@ import { ArrowLeft, UserPlus } from "lucide-react";
 export default function RegisterPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [gender, setGender] = useState("");
+    const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,6 +38,8 @@ export default function RegisterPage() {
                 data: {
                     first_name: firstName,
                     last_name: lastName,
+                    gender: gender,
+                    phone: phone,
                 },
             },
         });
@@ -118,6 +122,33 @@ export default function RegisterPage() {
                                 placeholder="Dupont"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-[#2d452e]/80 ml-1">Sexe</label>
+                            <select
+                                required
+                                className="w-full rounded-2xl border border-transparent bg-[#4c7650]/5 px-6 py-4 text-[#2d452e] outline-none transition-all duration-300 focus:border-[#4c7650] focus:bg-white focus:ring-4 focus:ring-[#4c7650]/5"
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                            >
+                                <option value="">Sélectionner</option>
+                                <option value="homme">Homme</option>
+                                <option value="femme">Femme</option>
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-[#2d452e]/80 ml-1">Téléphone</label>
+                            <input
+                                type="tel"
+                                required
+                                className="w-full rounded-2xl border border-transparent bg-[#4c7650]/5 px-6 py-4 text-[#2d452e] placeholder:text-[#2d452e]/30 outline-none transition-all duration-300 focus:border-[#4c7650] focus:bg-white focus:ring-4 focus:ring-[#4c7650]/5"
+                                placeholder="06 12 34 56 78"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
                             />
                         </div>
                     </div>
