@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, RefreshCw } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-export const dynamic = 'force-dynamic';
-
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
     const searchParams = useSearchParams();
     const email = searchParams.get('email') || '';
     const [resending, setResending] = useState(false);
@@ -98,5 +96,17 @@ export default function VerifyEmailPage() {
                 </Link>
             </div>
         </div>
+    );
+}
+
+export default function VerifyEmailPage() {
+    return (
+        <Suspense fallback={
+            <div className="relative min-h-screen flex items-center justify-center bg-white">
+                <div className="text-[#4c7650] font-bold">Chargement...</div>
+            </div>
+        }>
+            <VerifyEmailContent />
+        </Suspense>
     );
 }
