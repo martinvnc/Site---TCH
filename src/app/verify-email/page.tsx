@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Mail, RefreshCw } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic';
+
 export default function VerifyEmailPage() {
     const searchParams = useSearchParams();
     const email = searchParams.get('email') || '';
