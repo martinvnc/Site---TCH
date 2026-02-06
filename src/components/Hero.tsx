@@ -3,22 +3,22 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="relative h-[75vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-            {/* Background Image with Simplified Overlay */}
-            <div className="absolute inset-0">
-                <Image
-                    src="/hero-tch-indoor.jpg"
-                    alt="Tennis Club d'Halluin"
-                    fill
-                    className="object-cover"
-                    priority
-                />
-                <div className="absolute inset-0 bg-black/25" />
-            </div>
+        <section
+            className="relative h-[65vh] min-h-[500px] flex items-center justify-center overflow-hidden"
+            style={{
+                backgroundColor: '#2d452e',
+                backgroundImage: 'url(/hero-indoor-new.jpeg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+            }}
+        >
+            {/* Overlay sombre */}
+            <div className="absolute inset-0 bg-black/25" />
 
             {/* Content centered with vertical offset */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 transform translate-y-12 gap-8">
-                <div className="animate-fade-in-down">
+            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 transform translate-y-8 gap-8">
+                <div>
                     <Image
                         src="/Logo TCH - Blanc.png"
                         alt="Logo Tennis Club Halluin"
@@ -32,7 +32,7 @@ export default function Hero() {
                 {/* New Green CTA Button */}
                 <Link
                     href="/club"
-                    className="inline-block px-10 py-5 bg-[#4c7650] text-white text-xl font-bold rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 animate-fade-in-up"
+                    className="inline-block px-10 py-5 bg-[#4c7650] text-white text-xl font-bold rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95"
                 >
                     Découvrir le club
                 </Link>

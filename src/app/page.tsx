@@ -4,15 +4,13 @@ import NewsSection from "@/components/NewsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
-export default function HomePage() {
+export default function Home() {
     return (
-        <main className="min-h-screen flex flex-col">
+        <main className="bg-white">
             <Header />
-            <div className="flex-grow">
-                <Hero />
-                <NewsSection />
-                <CTASection />
-            </div>
+            <Hero />
+            <NewsSection />
+            <CTASection />
             <Footer />
         </main>
     );

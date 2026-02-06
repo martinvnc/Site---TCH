@@ -50,31 +50,30 @@ export default function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
-                ? "bg-white/98 backdrop-blur-2xl shadow-[0_8px_32px_rgba(76,118,80,0.12)] border-b border-[#4c7650]/15"
-                : "bg-white/90 backdrop-blur-xl border-b border-transparent"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border-b py-2.5 ${scrolled
+                ? "bg-white/98 backdrop-blur-xl shadow-[0_10px_30px_rgba(45,69,46,0.08)] border-[#4c7650]/10"
+                : "bg-white/95 backdrop-blur-md border-[#4c7650]/5"
                 }`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20 transition-all duration-700">
+                <div className="flex items-center justify-between h-14">
                     {/* Groupe Gauche : Logo + Nav */}
-                    <div className="flex items-center gap-10">
+                    <div className="flex items-center gap-12">
                         <Link
                             href="/"
-                            className="flex items-center group shrink-0 relative"
+                            className="flex items-center group shrink-0"
                         >
-                            <div className="absolute -inset-4 bg-[#4c7650]/5 rounded-full blur-xl scale-0 group-hover:scale-100 transition-transform duration-500" />
                             <Image
                                 src="/Logo TCH - Vert (header).png"
                                 alt="Tennis Club Halluin"
-                                width={180}
-                                height={75}
-                                className="w-auto object-contain relative z-10 transition-all duration-500 ease-out group-hover:scale-105 h-11"
+                                width={160}
+                                height={65}
+                                className="w-auto h-10 object-contain transition-transform duration-500 group-hover:scale-105"
                             />
                         </Link>
 
-                        {/* Menu navigation avec micro-interactions */}
-                        <nav className="hidden lg:flex items-center gap-2">
+                        {/* Menu navigation épuré */}
+                        <nav className="hidden lg:flex items-center gap-1">
                             {[
                                 { name: "Accueil", href: "/" },
                                 { name: "Le Club", href: "/club" },
@@ -84,30 +83,29 @@ export default function Header() {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="relative px-5 py-2.5 text-base font-semibold tracking-tight text-[#4c7650] transition-colors duration-300 hover:text-[#2d452e] group overflow-hidden rounded-xl"
+                                    className="relative px-5 py-2 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
                                 >
                                     <span className="relative z-10">{item.name}</span>
-                                    <span className="absolute inset-0 bg-gradient-to-br from-[#4c7650]/5 to-[#4c7650]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                                    <span className="absolute bottom-1 left-5 right-5 h-0.5 bg-[#4c7650] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                                    <span className="absolute bottom-1 left-5 right-5 h-[1.5px] bg-[#F6CA73] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
                                 </Link>
                             ))}
                         </nav>
                     </div>
 
                     {/* Navigation buttons à droite */}
-                    <div className="flex items-center justify-end gap-4 shrink-0">
+                    <div className="flex items-center gap-4 shrink-0">
                         {!user ? (
                             <>
                                 <Link
                                     href="/login"
-                                    className="relative hidden sm:flex items-center justify-center px-6 py-3 text-base font-bold tracking-tight text-[#4c7650] border-2 border-[#4c7650]/20 rounded-xl transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 active:scale-95 h-[52px] min-w-[160px] group"
+                                    className="hidden sm:flex items-center justify-center px-5 py-2 text-sm font-medium text-[#4c7650] border border-[#4c7650]/40 rounded-full transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:scale-105 active:scale-95"
                                 >
-                                    <span className="relative z-10">Se connecter</span>
+                                    Se connecter
                                 </Link>
 
                                 <Link
                                     href="/register"
-                                    className="relative flex items-center justify-center px-6 py-3 rounded-xl bg-[#4c7650] text-base font-bold tracking-tight text-white transition-all duration-300 hover:bg-[#3a5a3d] hover:shadow-[0_12px_28px_rgba(76,118,80,0.3)] hover:scale-[1.03] active:scale-[0.98] h-[52px] min-w-[160px] group"
+                                    className="relative flex items-center justify-center px-6 py-2.5 rounded-full bg-[#4c7650] text-sm font-medium text-white transition-all duration-500 hover:bg-[#3d5f41] hover:shadow-[0_10px_25px_rgba(76,118,80,0.2)] hover:scale-[1.02] active:scale-[0.98] group overflow-hidden"
                                 >
                                     <span className="relative z-10">S'inscrire</span>
                                 </Link>
@@ -116,58 +114,39 @@ export default function Header() {
                             <div className="relative user-menu">
                                 <button
                                     onClick={() => setMenuOpen(!menuOpen)}
-                                    className={`flex items-center justify-center w-12 h-12 rounded-2xl bg-[#4c7650]/5 text-[#4c7650] transition-all duration-300 hover:bg-[#4c7650] hover:text-white border border-[#4c7650]/10 ${menuOpen ? 'bg-[#4c7650] text-white ring-4 ring-[#4c7650]/10' : ''}`}
+                                    className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 border ${menuOpen
+                                        ? 'bg-[#4c7650] text-white border-[#4c7650]'
+                                        : 'bg-[#4c7650]/5 text-[#4c7650] border-[#4c7650]/10 hover:bg-[#4c7650]/10'
+                                        }`}
                                 >
-                                    <UserIcon className={`w-6 h-6 transition-transform duration-500 ${menuOpen ? 'rotate-[360deg]' : ''}`} />
+                                    <UserIcon className={`w-5 h-5 transition-transform duration-500 ${menuOpen ? 'rotate-180' : ''}`} />
                                 </button>
 
-                                {/* Account Dropdown */}
+                                {/* Dropdown Modern minimaliste */}
                                 {menuOpen && (
-                                    <div className="absolute top-full right-0 mt-4 w-72 bg-white rounded-[32px] border border-[#4c7650]/10 shadow-[0_20px_50px_rgba(76,118,80,0.15)] overflow-hidden animate-in fade-in zoom-in-95 duration-200 origin-top-right backdrop-blur-xl">
-                                        <div className="p-6 bg-[#4c7650]/5 border-b border-[#4c7650]/10">
-                                            <p className="text-sm font-bold text-[#4c7650] uppercase tracking-wider mb-1">Mon Compte</p>
-                                            <p className="text-[#2d452e] font-bold truncate">{user.email}</p>
+                                    <div className="absolute top-full right-0 mt-4 w-64 bg-white rounded-[24px] border border-[#2d452e]/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-300 origin-top-right">
+                                        <div className="p-5 bg-gradient-to-br from-[#4c7650]/5 to-transparent border-b border-[#2d452e]/5 leading-tight">
+                                            <p className="text-[10px] font-bold text-[#4c7650]/40 uppercase tracking-widest mb-1">Session active</p>
+                                            <p className="text-[#2d452e] font-bold truncate">{user.email?.split('@')[0]}</p>
                                         </div>
 
-                                        <div className="p-3">
+                                        <div className="p-2">
                                             <Link
                                                 href="/mes-reservations"
                                                 onClick={() => setMenuOpen(false)}
-                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-[#4c7650]/5 text-[#2d452e] font-semibold transition-all group"
+                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-[#4c7650]/5 text-[#2d452e] font-medium transition-all group"
                                             >
-                                                <Calendar className="w-5 h-5 text-[#4c7650]" />
+                                                <Calendar className="w-4 h-4 text-[#4c7650]/50 group-hover:text-[#4c7650]" />
                                                 <span>Mes Réservations</span>
                                             </Link>
 
-                                            <div className="relative group px-4 py-3 rounded-2xl opacity-60 flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <UserIcon className="w-5 h-5 text-[#4c7650]" />
-                                                    <span className="font-semibold text-[#2d452e]">Mon Profil</span>
-                                                </div>
-                                                <span className="text-[10px] bg-[#4c7650]/10 text-[#4c7650] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">Bientôt</span>
-                                            </div>
-
-                                            <div className="relative group px-4 py-3 rounded-2xl opacity-60 flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <LogOut className="w-5 h-5 text-[#4c7650]" rotate={180} />
-                                                    <span className="font-semibold text-[#2d452e]">Paramètres</span>
-                                                </div>
-                                                <span className="text-[10px] bg-[#4c7650]/10 text-[#4c7650] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">Bientôt</span>
-                                            </div>
-
-                                            <div className="h-[1px] bg-[#4c7650]/10 my-2 mx-2" />
-
                                             <button
                                                 onClick={handleLogout}
-                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl hover:bg-red-50 text-red-600 font-bold transition-all group"
+                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-medium transition-all group"
                                             >
-                                                <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                                                <LogOut className="w-4 h-4 opacity-50 group-hover:opacity-100" />
                                                 <span>Déconnexion</span>
                                             </button>
-                                        </div>
-
-                                        <div className="p-4 bg-zinc-50 flex items-center justify-center">
-                                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-[0.2em]">Tennis Club Halluin</p>
                                         </div>
                                     </div>
                                 )}
@@ -176,9 +155,6 @@ export default function Header() {
                     </div>
                 </div>
             </div>
-
-            {/* Bottom transition border - Always visible for definition */}
-            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#4c7650]/20 to-transparent transition-opacity duration-700 opacity-100" />
         </header>
     );
 }

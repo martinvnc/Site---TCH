@@ -24,7 +24,7 @@ export default function NewsSection() {
     ];
 
     return (
-        <section id="actualites" className="py-20 bg-gray-50">
+        <section id="actualites" className="py-20 bg-gray-50 min-h-[400px]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                     <h2 className="text-4xl font-extrabold text-[#2d452e] mb-4">
