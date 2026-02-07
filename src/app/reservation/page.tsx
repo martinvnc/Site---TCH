@@ -8,6 +8,9 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Clock, ChevronRight, Trophy, ChevronLeft, X, Calendar, Plus, Info } from "lucide-react";
+import ReservationStatusBadge from "@/components/ReservationStatusBadge";
+import TimeRemaining from "@/components/TimeRemaining";
+import ConfirmationButton from "@/components/ConfirmationButton";
 
 // Courts data
 const COURTS = [
@@ -32,6 +35,10 @@ type Reservation = {
     date: string;
     start_time: string;
     user_name: string;
+    status: 'pending' | 'confirmed' | 'expired';
+    confirmed_by?: string;
+    confirmed_at?: string;
+    expires_at?: string;
 };
 
 export default function ReservationPage() {
@@ -68,7 +75,8 @@ export default function ReservationPage() {
         const { data, error } = await supabase
             .from('reservations')
             .select('*')
-            .eq('date', dateString);
+            .eq('date', dateString)
+            .neq('status', 'expired'); // Don't show expired reservations
 
         if (error) {
             console.error('Error fetching reservations:', error);
@@ -110,12 +118,27 @@ export default function ReservationPage() {
         );
 
         if (reservation) {
-            return {
-                status: 'Réservé',
-                color: 'bg-[#4c7650] text-white',
-                bookedBy: reservation.user_name,
-                isPast: isPastSlot(time)
-            };
+            // Confirmed reservations block the slot
+            if (reservation.status === 'confirmed') {
+                return {
+                    status: 'Réservé',
+                    color: 'bg-[#4c7650] text-white',
+                    bookedBy: reservation.user_name,
+                    isPast: isPastSlot(time),
+                    reservation: reservation
+                };
+            }
+
+            // Pending reservations also block the slot but with different styling
+            if (reservation.status === 'pending') {
+                return {
+                    status: 'En attente',
+                    color: 'bg-orange-100 text-orange-700 border-2 border-orange-300',
+                    bookedBy: reservation.user_name,
+                    isPast: isPastSlot(time),
+                    reservation: reservation
+                };
+            }
         }
 
         // Check if slot is in the past
@@ -124,11 +147,51 @@ export default function ReservationPage() {
                 status: 'Passé',
                 color: 'bg-gray-100 text-gray-400',
                 bookedBy: null,
-                isPast: true
+                isPast: true,
+                reservation: undefined
             };
         }
 
-        return { status: 'Disponible', color: 'bg-white hover:bg-[#4c7650]/5 text-[#4c7650]', bookedBy: null, isPast: false };
+        return {
+            status: 'Disponible',
+            color: 'bg-white hover:bg-[#4c7650]/5 text-[#4c7650]',
+            bookedBy: null,
+            isPast: false,
+            reservation: undefined
+        };
+    };
+
+    const handleConfirmReservation = async (reservationId: string) => {
+        if (!user) return;
+
+        setNotification(null);
+
+        const { error } = await supabase
+            .from('reservations')
+            .update({
+                status: 'confirmed',
+                confirmed_by: user.id,
+                confirmed_at: new Date().toISOString()
+            })
+            .eq('id', reservationId)
+            .eq('status', 'pending')
+            .neq('user_id', user.id); // Cannot confirm own reservation
+
+        if (error) {
+            setNotification({
+                type: 'error',
+                message: 'Erreur lors de la confirmation. Veuillez réessayer.'
+            });
+            console.error('Confirmation error:', error);
+        } else {
+            setNotification({
+                type: 'success',
+                message: 'Réservation confirmée avec succès !'
+            });
+            fetchReservations();
+        }
+
+        setTimeout(() => setNotification(null), 3000);
     };
 
     const handleBooking = async () => {
@@ -153,6 +216,10 @@ export default function ReservationPage() {
             return;
         }
 
+        // Calculate expiration time (15 minutes from now)
+        const expiresAt = new Date();
+        expiresAt.setMinutes(expiresAt.getMinutes() + 15);
+
         const { error } = await supabase
             .from('reservations')
             .insert({
@@ -160,7 +227,9 @@ export default function ReservationPage() {
                 court_id: selectedSlot.courtId,
                 date: dateString,
                 start_time: selectedSlot.time,
-                user_name: userName
+                user_name: userName,
+                status: 'pending',
+                expires_at: expiresAt.toISOString()
             });
 
         setBookingLoading(false);
@@ -174,7 +243,7 @@ export default function ReservationPage() {
         } else {
             setNotification({
                 type: 'success',
-                message: 'Réservation confirmée !'
+                message: 'Réservation créée ! Un autre membre doit la confirmer dans les 15 minutes.'
             });
             setSelectedSlot(null);
             fetchReservations();
@@ -262,31 +331,51 @@ export default function ReservationPage() {
                                                 {time}
                                             </td>
                                             {COURTS.map(court => {
-                                                const { status, color, bookedBy, isPast } = getSlotStatus(court.id, time);
+                                                const { status, color, bookedBy, isPast, reservation } = getSlotStatus(court.id, time);
                                                 const isAvailable = status === 'Disponible';
                                                 const isPastUnreserved = status === 'Passé';
+                                                const isPending = status === 'En attente';
+                                                const canConfirm = isPending && reservation && reservation.user_id !== user?.id;
+
                                                 return (
                                                     <td
                                                         key={`${court.id}-${time}`}
-                                                        className={`p-0 border-b border-r border-[#4c7650]/10 last:border-r-0 h-16 transition-all`}
+                                                        className={`p-0 border-b border-r border-[#4c7650]/10 last:border-r-0 min-h-16 transition-all`}
                                                     >
-                                                        <button
-                                                            onClick={() => isAvailable && setSelectedSlot({ court: court.name, courtId: court.id, time })}
-                                                            disabled={!isAvailable}
-                                                            className={`w-full h-full flex items-center justify-center transition-all group/cell ${color} ${!isAvailable ? 'cursor-not-allowed' : 'relative overflow-hidden'}`}
-                                                            title={bookedBy ? `Réservé par ${bookedBy}` : (isPastUnreserved ? 'Créneau passé' : '')}
-                                                        >
-                                                            {isAvailable ? (
-                                                                <div className="opacity-0 group-hover/cell:opacity-100 transition-opacity flex items-center gap-2 text-xs font-bold uppercase tracking-tighter">
-                                                                    <Plus className="w-4 h-4 translate-y-px" />
-                                                                    <span>Réserver</span>
-                                                                </div>
-                                                            ) : isPastUnreserved ? (
-                                                                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Passé</span>
-                                                            ) : (
-                                                                <span className="text-[10px] font-medium uppercase tracking-wide">{bookedBy}</span>
-                                                            )}
-                                                        </button>
+                                                        {isPending && reservation ? (
+                                                            <div className={`w-full h-full p-2 flex flex-col items-center justify-center gap-1 ${color}`}>
+                                                                <span className="text-[9px] font-bold uppercase tracking-wide">{bookedBy}</span>
+                                                                {reservation.expires_at && (
+                                                                    <TimeRemaining expiresAt={reservation.expires_at} className="text-[9px]" />
+                                                                )}
+                                                                {canConfirm && (
+                                                                    <button
+                                                                        onClick={() => handleConfirmReservation(reservation.id)}
+                                                                        className="mt-1 px-2 py-0.5 bg-[#4c7650] text-white rounded text-[9px] font-bold hover:bg-[#2d452e] transition-all"
+                                                                    >
+                                                                        Confirmer
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => isAvailable && setSelectedSlot({ court: court.name, courtId: court.id, time })}
+                                                                disabled={!isAvailable}
+                                                                className={`w-full h-full flex items-center justify-center transition-all group/cell ${color} ${!isAvailable ? 'cursor-not-allowed' : 'relative overflow-hidden'}`}
+                                                                title={bookedBy ? `Réservé par ${bookedBy}` : (isPastUnreserved ? 'Créneau passé' : '')}
+                                                            >
+                                                                {isAvailable ? (
+                                                                    <div className="opacity-0 group-hover/cell:opacity-100 transition-opacity flex items-center gap-2 text-xs font-bold uppercase tracking-tighter">
+                                                                        <Plus className="w-4 h-4 translate-y-px" />
+                                                                        <span>Réserver</span>
+                                                                    </div>
+                                                                ) : isPastUnreserved ? (
+                                                                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Passé</span>
+                                                                ) : (
+                                                                    <span className="text-[10px] font-medium uppercase tracking-wide">{bookedBy}</span>
+                                                                )}
+                                                            </button>
+                                                        )}
                                                     </td>
                                                 );
                                             })}
