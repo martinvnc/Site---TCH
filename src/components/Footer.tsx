@@ -20,8 +20,10 @@ export default function Footer() {
                             alt="Tennis Club Halluin"
                             width={180}
                             height={75}
+                            sizes="180px"
                             className="h-14 w-auto object-contain"
-                            priority
+                            loading="lazy"
+                            quality={85}
                         />
                         <p className="text-white/80 text-sm leading-relaxed max-w-xs font-medium">
                             L'excellence du tennis au cœur d'Halluin. Un cadre unique pour votre passion, ouvert à tous.

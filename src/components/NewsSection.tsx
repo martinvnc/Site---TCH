@@ -1,4 +1,6 @@
-export default function NewsSection() {
+import { memo } from "react";
+
+const NewsSection = memo(function NewsSection() {
     const news = [
         {
             id: 1,
@@ -61,4 +63,6 @@ export default function NewsSection() {
             </div>
         </section>
     );
-}
+});
+
+export default NewsSection;

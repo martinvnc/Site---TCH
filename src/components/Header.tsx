@@ -111,46 +111,90 @@ export default function Header() {
                                 </Link>
                             </>
                         ) : (
-                            <div className="relative user-menu">
-                                <button
-                                    onClick={() => setMenuOpen(!menuOpen)}
-                                    className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 border ${menuOpen
-                                        ? 'bg-[#4c7650] text-white border-[#4c7650]'
-                                        : 'bg-[#4c7650]/5 text-[#4c7650] border-[#4c7650]/10 hover:bg-[#4c7650]/10'
-                                        }`}
+                            <>
+                                {/* Bouton Mes entrainements */}
+                                <Link
+                                    href="/mes-entrainements"
+                                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-[#4c7650]/30 text-[#4c7650] text-sm font-medium transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:shadow-[0_5px_15px_rgba(76,118,80,0.15)] hover:scale-105 active:scale-95"
                                 >
-                                    <UserIcon className={`w-5 h-5 transition-transform duration-500 ${menuOpen ? 'rotate-180' : ''}`} />
-                                </button>
+                                    <svg
+                                        className="w-4 h-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        {/* Tête de raquette ovale */}
+                                        <ellipse cx="12" cy="8" rx="6" ry="7" />
+                                        {/* Cordage */}
+                                        <line x1="12" y1="1" x2="12" y2="15" />
+                                        <line x1="6" y1="8" x2="18" y2="8" />
+                                        <line x1="9" y1="4" x2="9" y2="12" opacity="0.5" />
+                                        <line x1="15" y1="4" x2="15" y2="12" opacity="0.5" />
+                                        {/* Manche */}
+                                        <path d="M10 15 L10 23 L14 23 L14 15" />
+                                        <rect x="10" y="22" width="4" height="1.5" rx="0.5" />
+                                    </svg>
+                                    <span>Mes entrainements</span>
+                                </Link>
 
-                                {/* Dropdown Modern minimaliste */}
-                                {menuOpen && (
-                                    <div className="absolute top-full right-0 mt-4 w-64 bg-white rounded-[24px] border border-[#2d452e]/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-300 origin-top-right">
-                                        <div className="p-5 bg-gradient-to-br from-[#4c7650]/5 to-transparent border-b border-[#2d452e]/5 leading-tight">
-                                            <p className="text-[10px] font-bold text-[#4c7650]/40 uppercase tracking-widest mb-1">Session active</p>
-                                            <p className="text-[#2d452e] font-bold truncate">{user.email?.split('@')[0]}</p>
+                                {/* Menu utilisateur */}
+                                <div className="relative user-menu">
+                                    <button
+                                        onClick={() => setMenuOpen(!menuOpen)}
+                                        className="relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-500 overflow-hidden group bg-gradient-to-br from-[#4c7650] to-[#3d5f41] text-white hover:shadow-[0_8px_20px_rgba(76,118,80,0.3)] hover:scale-105 active:scale-95"
+                                    >
+                                        {/* Effet de brillance au survol */}
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                        {/* Icône utilisateur */}
+                                        <UserIcon className="relative z-10 w-5 h-5" />
+                                    </button>
+
+
+                                    {/* Dropdown Modern minimaliste */}
+                                    {menuOpen && (
+                                        <div className="absolute top-full right-0 mt-4 w-64 bg-white rounded-[24px] border border-[#2d452e]/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden animate-in fade-in zoom-in-95 duration-300 origin-top-right">
+                                            <div className="p-5 bg-gradient-to-br from-[#4c7650]/5 to-transparent border-b border-[#2d452e]/5 leading-tight">
+                                                <p className="text-[10px] font-bold text-[#4c7650]/40 uppercase tracking-widest mb-1">Session active</p>
+                                                <p className="text-[#2d452e] font-bold truncate">{user.email?.split('@')[0]}</p>
+                                            </div>
+
+                                            <div className="p-2">
+                                                <Link
+                                                    href="/mon-compte"
+                                                    onClick={() => setMenuOpen(false)}
+                                                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-[#4c7650]/5 text-[#2d452e] font-medium transition-all group"
+                                                >
+                                                    <UserIcon className="w-4 h-4 text-[#4c7650]/50 group-hover:text-[#4c7650]" />
+                                                    <span>Mon Compte</span>
+                                                </Link>
+
+                                                <Link
+                                                    href="/mes-reservations"
+                                                    onClick={() => setMenuOpen(false)}
+                                                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-[#4c7650]/5 text-[#2d452e] font-medium transition-all group"
+                                                >
+                                                    <Calendar className="w-4 h-4 text-[#4c7650]/50 group-hover:text-[#4c7650]" />
+                                                    <span>Mes Réservations</span>
+                                                </Link>
+
+                                                <div className="my-2 h-px bg-[#2d452e]/5" />
+
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-medium transition-all group"
+                                                >
+                                                    <LogOut className="w-4 h-4 opacity-50 group-hover:opacity-100" />
+                                                    <span>Déconnexion</span>
+                                                </button>
+                                            </div>
                                         </div>
-
-                                        <div className="p-2">
-                                            <Link
-                                                href="/mes-reservations"
-                                                onClick={() => setMenuOpen(false)}
-                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-[#4c7650]/5 text-[#2d452e] font-medium transition-all group"
-                                            >
-                                                <Calendar className="w-4 h-4 text-[#4c7650]/50 group-hover:text-[#4c7650]" />
-                                                <span>Mes Réservations</span>
-                                            </Link>
-
-                                            <button
-                                                onClick={handleLogout}
-                                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl hover:bg-red-50 text-red-600 font-medium transition-all group"
-                                            >
-                                                <LogOut className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                                                <span>Déconnexion</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>

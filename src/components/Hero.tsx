@@ -3,16 +3,19 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section
-            className="relative h-[65vh] min-h-[500px] flex items-center justify-center overflow-hidden"
-            style={{
-                backgroundColor: '#2d452e',
-                backgroundImage: 'url(/hero-indoor-new.jpeg)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-            }}
-        >
+        <section className="relative h-[65vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-[#2d452e]">
+            {/* Background Image optimisée avec Next.js */}
+            <Image
+                src="/hero-indoor-new.jpeg"
+                alt="Tennis Club Halluin Indoor"
+                fill
+                priority
+                quality={85}
+                sizes="100vw"
+                className="object-cover"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            />
             {/* Overlay sombre */}
             <div className="absolute inset-0 bg-black/25" />
 
@@ -24,8 +27,10 @@ export default function Hero() {
                         alt="Logo Tennis Club Halluin"
                         width={700}
                         height={300}
+                        sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 450px"
                         className="w-auto h-64 sm:h-80 lg:h-[450px] object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.45)]"
                         priority
+                        quality={90}
                     />
                 </div>
 
