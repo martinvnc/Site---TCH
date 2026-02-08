@@ -39,24 +39,32 @@ export default function Footer() {
                             Contact
                         </h3>
                         <div className="space-y-6">
-                            <div className="flex items-center gap-4 cursor-default group">
+                            <Link
+                                href="https://www.google.com/maps/search/?api=1&query=341+Rue+de+la+Lys+59250+Halluin"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-4 group transition-all"
+                            >
                                 <div className="p-2 -ml-2 rounded-lg group-hover:bg-white/5 transition-colors">
                                     <MapPin className="w-5 h-5 text-white/90 group-hover:text-[#F6CA73] transition-colors flex-shrink-0" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-white">Localisation</p>
-                                    <p className="text-sm text-white/60 lowercase">Rue du Tennis, Halluin</p>
+                                    <p className="text-sm font-bold text-white group-hover:text-[#F6CA73] transition-colors">Localisation</p>
+                                    <p className="text-sm text-white/60 lowercase">341 Rue de la Lys, Halluin</p>
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-4 cursor-default group">
+                            </Link>
+                            <Link
+                                href="mailto:contact@tch.fr"
+                                className="flex items-center gap-4 group transition-all"
+                            >
                                 <div className="p-2 -ml-2 rounded-lg group-hover:bg-white/5 transition-colors">
                                     <Mail className="w-5 h-5 text-white/90 group-hover:text-[#F6CA73] transition-colors flex-shrink-0" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-bold text-white">Email</p>
-                                    <p className="text-sm text-white/60">contact@tch-tennis.fr</p>
+                                    <p className="text-sm font-bold text-white group-hover:text-[#F6CA73] transition-colors">Email</p>
+                                    <p className="text-sm text-white/60">contact@tch.fr</p>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                         {/* Vertical Divider (Only on LG to avoid double on MD) */}
                         <div className="hidden lg:absolute lg:block right-0 top-1/2 -translate-y-1/2 w-px h-32 bg-gradient-to-b from-transparent via-white/10 to-transparent" />
@@ -103,7 +111,7 @@ export default function Footer() {
                             </div>
                             <div className="flex justify-between items-center text-sm">
                                 <span className="text-white/60 font-medium">Weekend</span>
-                                <span className="font-bold text-white">8h - 20h</span>
+                                <span className="font-bold text-white">9h - 20h</span>
                             </div>
                         </div>
                     </div>
@@ -115,13 +123,11 @@ export default function Footer() {
                         <span>&copy; {new Date().getFullYear()} Tennis Club d'Halluin</span>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />
                         <Link href="/mentions-legales" className="hover:text-[#F6CA73] transition-colors">Mentions légales</Link>
-                        <div className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />
-                        <Link href="/cookies" className="hover:text-[#F6CA73] transition-colors">Cookies</Link>
                     </div>
 
                     <div className="flex items-center gap-6">
                         <Link
-                            href="https://facebook.com/TCHalluin"
+                            href="https://www.facebook.com/tchalluinois"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-white/40 hover:text-[#F6CA73] hover:scale-110 transition-all duration-300"
@@ -129,7 +135,7 @@ export default function Footer() {
                             <Facebook className="w-5 h-5 fill-current" />
                         </Link>
                         <Link
-                            href="https://instagram.com/tch_tennis"
+                            href="https://www.instagram.com/tchalluin/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-white/40 hover:text-[#F6CA73] hover:scale-110 transition-all duration-300"

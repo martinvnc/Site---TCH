@@ -79,14 +79,14 @@ export default function RegisterPage() {
                     <span className="hidden sm:inline">Retour</span>
                 </Link>
 
-                <div className="text-center mb-10">
+                <div className="text-center mb-12">
                     <div className="mx-auto mb-8 flex justify-center transform hover:scale-105 transition-transform duration-500">
                         <Image
-                            src="/Logo TCH - Vert.png"
+                            src="/Logo TCH - Vert (header).png"
                             alt="Tennis Club Halluin"
-                            width={400}
-                            height={150}
-                            className="h-auto w-auto max-h-32 object-contain"
+                            width={300}
+                            height={107}
+                            className="h-auto w-auto max-h-24 object-contain"
                         />
                     </div>
                     <h2 className="text-4xl font-extrabold tracking-tight text-[#2d452e]">Créer un compte</h2>

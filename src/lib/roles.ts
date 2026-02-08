@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-export type UserRole = 'user' | 'admin';
+export type UserRole = 'member' | 'admin';
 
 /**
  * Récupère le rôle d'un utilisateur
@@ -58,5 +58,5 @@ export async function getCurrentUserRole(): Promise<UserRole | null> {
  * Crée un rôle par défaut pour un nouvel utilisateur
  */
 export async function createDefaultUserRole(userId: string): Promise<boolean> {
-    return await assignRole(userId, 'user');
+    return await assignRole(userId, 'member');
 }
