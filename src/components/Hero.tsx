@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Hero() {
     return (
-        <section className="relative h-[50vh] min-h-[400px] sm:h-[60vh] sm:min-h-[500px] lg:h-[75vh] lg:min-h-[600px] flex items-center justify-center overflow-hidden bg-[#2d452e]">
+        <section className="relative h-[60vh] min-h-[500px] sm:h-[65vh] lg:h-[80vh] flex items-center justify-center overflow-hidden bg-[#2d452e]">
             {/* Background Image optimisée avec Next.js */}
             <Image
                 src="/hero-indoor-new.jpeg"
@@ -20,15 +20,15 @@ export default function Hero() {
             <div className="absolute inset-0 bg-black/25" />
 
             {/* Content centered with vertical offset */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 transform translate-y-4 sm:translate-y-8 lg:translate-y-12 gap-4 sm:gap-6 lg:gap-8">
+            <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 transform translate-y-2 sm:translate-y-4 lg:translate-y-6 gap-6 sm:gap-8 lg:gap-10">
                 <div>
                     <Image
                         src="/Logo TCH - Blanc.png"
                         alt="Logo Tennis Club Halluin"
                         width={700}
                         height={300}
-                        sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 450px"
-                        className="w-auto h-32 sm:h-48 md:h-64 lg:h-80 xl:h-[450px] object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.45)]"
+                        sizes="(max-width: 640px) 240px, (max-width: 1024px) 380px, 600px"
+                        className="w-auto h-24 sm:h-32 md:h-48 lg:h-64 xl:h-[380px] object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.45)]"
                         priority
                         quality={90}
                     />
@@ -37,7 +37,7 @@ export default function Hero() {
                 {/* Green CTA Button - Responsive */}
                 <Link
                     href="/club"
-                    className="inline-block px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 bg-[#4c7650] text-white text-base sm:text-lg lg:text-xl font-bold rounded-xl lg:rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 animate-fade-in-up"
+                    className="inline-block px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4.5 bg-[#4c7650] text-white text-base sm:text-lg lg:text-xl font-bold rounded-xl lg:rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 animate-fade-in-up"
                 >
                     Découvrir le club
                 </Link>

@@ -58,7 +58,7 @@ export default function Header() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-14 sm:h-16">
                     {/* Groupe Gauche : Logo + Nav */}
-                    <div className="flex items-center gap-12">
+                    <div className="flex items-center gap-4 xl:gap-12">
                         <Link
                             href="/"
                             className="flex items-center group shrink-0"
@@ -68,7 +68,7 @@ export default function Header() {
                                 alt="Tennis Club Halluin"
                                 width={180}
                                 height={75}
-                                className="w-auto h-8 sm:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
+                                className="w-auto h-8 sm:h-9 md:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
                             />
                         </Link>
 
@@ -83,7 +83,7 @@ export default function Header() {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="relative px-5 py-2 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
+                                    className="relative px-3 xl:px-5 py-2 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
                                 >
                                     <span className="relative z-10">{item.name}</span>
                                     <span className="absolute bottom-1 left-5 right-5 h-[1.5px] bg-[#F6CA73] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
@@ -106,7 +106,7 @@ export default function Header() {
 
                                 <Link
                                     href="/register"
-                                    className="relative flex items-center justify-center px-6 py-2.5 rounded-full bg-[#4c7650] text-sm font-medium text-white transition-all duration-500 hover:bg-[#3d5f41] hover:shadow-[0_10px_25px_rgba(76,118,80,0.2)] hover:scale-[1.02] active:scale-[0.98] group overflow-hidden"
+                                    className="relative flex items-center justify-center px-4 xl:px-6 py-2.5 rounded-full bg-[#4c7650] text-sm font-medium text-white transition-all duration-500 hover:bg-[#3d5f41] hover:shadow-[0_10px_25px_rgba(76,118,80,0.2)] hover:scale-[1.02] active:scale-[0.98] group overflow-hidden"
                                 >
                                     <span className="relative z-10">S'inscrire</span>
                                 </Link>
