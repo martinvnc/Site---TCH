@@ -7,6 +7,8 @@ import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Calendar, Clock, Trash2, Info } from "lucide-react";
+import ReservationStatusBadge from "@/components/ReservationStatusBadge";
+import TimeRemaining from "@/components/TimeRemaining";
 
 const COURTS = [
     { id: 1, name: 'Terrain 1', type: 'Indoor', surface: 'Dur' },
@@ -25,6 +27,10 @@ type Reservation = {
     start_time: string;
     user_name: string;
     created_at: string;
+    status: 'pending' | 'confirmed' | 'expired';
+    expires_at?: string;
+    confirmed_by?: string;
+    confirmed_at?: string;
 };
 
 export default function MyReservationsPage() {
@@ -128,8 +134,13 @@ export default function MyReservationsPage() {
         );
     }
 
-    const upcomingReservations = reservations.filter(r => isUpcoming(r.date, r.start_time));
-    const pastReservations = reservations.filter(r => !isUpcoming(r.date, r.start_time));
+    // Filter out expired reservations from upcoming
+    const upcomingReservations = reservations.filter(r =>
+        isUpcoming(r.date, r.start_time) && r.status !== 'expired'
+    );
+    const pastReservations = reservations.filter(r =>
+        !isUpcoming(r.date, r.start_time) || r.status === 'expired'
+    );
 
     return (
         <main className="flex flex-col min-h-screen bg-white">
@@ -177,7 +188,7 @@ export default function MyReservationsPage() {
                                             className="bg-white border-2 border-[#4c7650]/10 rounded-3xl p-6 hover:border-[#4c7650]/30 hover:shadow-lg transition-all group"
                                         >
                                             <div className="flex items-center justify-between gap-6">
-                                                <div className="flex-grow grid grid-cols-1 md:grid-cols-4 gap-4">
+                                                <div className="flex-grow grid grid-cols-1 md:grid-cols-5 gap-4">
                                                     {/* Court */}
                                                     <div>
                                                         <p className="text-[#4c7650]/60 text-xs font-bold uppercase tracking-wider mb-1">Terrain</p>
@@ -204,6 +215,20 @@ export default function MyReservationsPage() {
                                                     <div>
                                                         <p className="text-[#4c7650]/60 text-xs font-bold uppercase tracking-wider mb-1">Durée</p>
                                                         <p className="text-[#2d452e] font-bold">1 heure</p>
+                                                    </div>
+
+                                                    {/* Status */}
+                                                    <div>
+                                                        <p className="text-[#4c7650]/60 text-xs font-bold uppercase tracking-wider mb-1">Statut</p>
+                                                        <div className="flex flex-col gap-1">
+                                                            <ReservationStatusBadge status={reservation.status} />
+                                                            {reservation.status === 'pending' && reservation.expires_at && (
+                                                                <div className="flex items-center gap-1 text-xs">
+                                                                    <span className="text-[#4c7650]/60 font-semibold">Expire dans:</span>
+                                                                    <TimeRemaining expiresAt={reservation.expires_at} />
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
 

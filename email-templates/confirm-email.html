@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmez votre email - Tennis Club Halluin</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif; background: linear-gradient(135deg, #ffffff 0%, #f8faf8 50%, #f0f5f1 100%); min-height: 100vh;">
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 24px; box-shadow: 0 20px 50px rgba(76, 118, 80, 0.1); overflow: hidden;">
+        
+        <!-- Header avec dégradé vert -->
+        <tr>
+            <td style="background: linear-gradient(135deg, #4c7650 0%, #3d5f41 100%); padding: 40px 30px; text-align: center;">
+                <!-- Logo TCH (remplacer par votre logo hébergé) -->
+                <img src="{{ .SiteURL }}/Logo%20TCH%20-%20Blanc.png" alt="Tennis Club Halluin" style="max-width: 200px; height: auto; margin-bottom: 20px;" />
+                <h1 style="color: #ffffff; font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.5px;">
+                    Bienvenue au TCH ! 🎾
+                </h1>
+            </td>
+        </tr>
+
+        <!-- Corps du message -->
+        <tr>
+            <td style="padding: 50px 40px;">
+                <h2 style="color: #2d452e; font-size: 24px; font-weight: 700; margin: 0 0 20px 0;">
+                    Confirmez votre adresse email
+                </h2>
+                
+                <p style="color: #4c7650; font-size: 16px; line-height: 1.6; margin: 0 0 25px 0;">
+                    Bonjour et bienvenue dans notre communauté ! 👋
+                </p>
+                
+                <p style="color: #4c7650; font-size: 16px; line-height: 1.6; margin: 0 0 25px 0;">
+                    Nous sommes ravis de vous compter parmi les membres du <strong>Tennis Club Halluin</strong>. Pour finaliser votre inscription et accéder à toutes nos fonctionnalités, veuillez confirmer votre adresse email.
+                </p>
+
+                <!-- Bouton CTA -->
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 35px auto;">
+                    <tr>
+                        <td style="border-radius: 16px; background: linear-gradient(135deg, #4c7650 0%, #3d5f41 100%); box-shadow: 0 10px 30px rgba(76, 118, 80, 0.25);">
+                            <a href="{{ .ConfirmationURL }}" target="_blank" style="display: inline-block; padding: 18px 50px; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700; border-radius: 16px; letter-spacing: 0.3px;">
+                                ✓ Confirmer mon email
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+                <p style="color: #4c7650; font-size: 14px; line-height: 1.6; margin: 30px 0 0 0; text-align: center; opacity: 0.8;">
+                    Ou copiez ce lien dans votre navigateur :
+                </p>
+                <p style="font-size: 12px; color: #4c7650; word-break: break-all; background-color: #f0f5f1; padding: 12px; border-radius: 8px; margin: 10px 0 0 0; border-left: 4px solid #4c7650;">
+                    <a href="{{ .ConfirmationURL }}" style="color: #2d452e; text-decoration: none;">{{ .ConfirmationURL }}</a>
+                </p>
+            </td>
+        </tr>
+
+        <!-- Section informations -->
+        <tr>
+            <td style="background-color: #f8faf8; padding: 30px 40px; border-top: 1px solid #e5e9e6;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                        <td style="width: 50%; padding-right: 15px;">
+                            <div style="background-color: #ffffff; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #e5e9e6;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">🎾</div>
+                                <p style="color: #2d452e; font-size: 14px; font-weight: 700; margin: 0 0 5px 0;">
+                                    Réservez vos courts
+                                </p>
+                                <p style="color: #4c7650; font-size: 12px; margin: 0; opacity: 0.8;">
+                                    En ligne 24/7
+                                </p>
+                            </div>
+                        </td>
+                        <td style="width: 50%; padding-left: 15px;">
+                            <div style="background-color: #ffffff; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #e5e9e6;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">📅</div>
+                                <p style="color: #2d452e; font-size: 14px; font-weight: 700; margin: 0 0 5px 0;">
+                                    Suivez vos séances
+                                </p>
+                                <p style="color: #4c7650; font-size: 12px; margin: 0; opacity: 0.8;">
+                                    Historique complet
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+            <td style="background-color: #2d452e; padding: 30px 40px; text-align: center;">
+                <p style="color: #ffffff; font-size: 16px; font-weight: 700; margin: 0 0 10px 0;">
+                    Tennis Club Halluin
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.7); font-size: 13px; margin: 0 0 15px 0; line-height: 1.5;">
+                    Votre passion du tennis commence ici
+                </p>
+                <p style="color: rgba(255, 255, 255, 0.5); font-size: 11px; margin: 0; line-height: 1.5;">
+                    Cet email a été envoyé à <strong>{{ .Email }}</strong><br />
+                    Si vous n'avez pas créé de compte, vous pouvez ignorer cet email.
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Sécurité en bas de page -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 20px auto;">
+        <tr>
+            <td style="text-align: center; padding: 0 20px;">
+                <p style="color: #4c7650; font-size: 12px; opacity: 0.6; margin: 0;">
+                    🔒 Ce lien expire dans 24 heures pour votre sécurité
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,4 +1,6 @@
-export default function NewsSection() {
+import { memo } from "react";
+
+const NewsSection = memo(function NewsSection() {
     const news = [
         {
             id: 1,
@@ -24,7 +26,7 @@ export default function NewsSection() {
     ];
 
     return (
-        <section id="actualites" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <section id="actualites" className="py-12 sm:py-16 lg:py-20 bg-gray-50 min-h-[400px]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12">
                     <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2d452e] mb-3 sm:mb-4">
@@ -61,4 +63,6 @@ export default function NewsSection() {
             </div>
         </section>
     );
-}
+});
+
+export default NewsSection;

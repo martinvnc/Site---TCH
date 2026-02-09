@@ -7,7 +7,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Clock, ChevronRight, Trophy, ChevronLeft, X, Calendar, Plus, Info } from "lucide-react";
+import { Clock, ChevronRight, ChevronLeft, X, Calendar, Plus, Info } from "lucide-react";
+import ReservationStatusBadge from "@/components/ReservationStatusBadge";
+import TimeRemaining from "@/components/TimeRemaining";
+import ConfirmationButton from "@/components/ConfirmationButton";
+import AdminBulkReservations from "@/components/AdminBulkReservations";
+import { isAdmin } from "@/lib/roles";
 
 // Courts data
 const COURTS = [
@@ -32,11 +37,20 @@ type Reservation = {
     date: string;
     start_time: string;
     user_name: string;
+    status: 'pending' | 'confirmed' | 'expired';
+    confirmed_by?: string;
+    confirmed_by_name?: string;
+    confirmed_at?: string;
+    expires_at?: string;
+    reservation_type?: 'normal' | 'cours' | 'match' | 'interclub' | 'admin';
+    description?: string;
+    created_by_admin?: boolean;
 };
 
 export default function ReservationPage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isUserAdmin, setIsUserAdmin] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedSlot, setSelectedSlot] = useState<{ court: string, courtId: number, time: string } | null>(null);
     const [showHelp, setShowHelp] = useState(false);
@@ -46,11 +60,14 @@ export default function ReservationPage() {
     const router = useRouter();
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
             if (!session) {
                 router.push("/login");
             } else {
                 setUser(session.user);
+                // Check if user is admin
+                const adminStatus = await isAdmin(session.user.id);
+                setIsUserAdmin(adminStatus);
                 setLoading(false);
             }
         });
@@ -63,12 +80,47 @@ export default function ReservationPage() {
         }
     }, [selectedDate, user]);
 
+    // Auto-refresh reservations every 5 seconds + Realtime subscription
+    useEffect(() => {
+        if (!user) return;
+
+        // Polling every 5 seconds
+        const interval = setInterval(() => {
+            fetchReservations();
+        }, 5000);
+
+        // Supabase Realtime subscription
+        const dateString = selectedDate.toISOString().split('T')[0];
+        const channel = supabase
+            .channel('reservations-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'reservations',
+                    filter: `date=eq.${dateString}`
+                },
+                () => {
+                    console.log('Reservation change detected, refreshing...');
+                    fetchReservations();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            clearInterval(interval);
+            supabase.removeChannel(channel);
+        };
+    }, [user, selectedDate]);
+
     const fetchReservations = async () => {
         const dateString = selectedDate.toISOString().split('T')[0];
         const { data, error } = await supabase
             .from('reservations')
             .select('*')
-            .eq('date', dateString);
+            .eq('date', dateString)
+            .neq('status', 'expired');
 
         if (error) {
             console.error('Error fetching reservations:', error);
@@ -110,12 +162,46 @@ export default function ReservationPage() {
         );
 
         if (reservation) {
-            return {
-                status: 'Réservé',
-                color: 'bg-[#4c7650] text-white',
-                bookedBy: reservation.user_name,
-                isPast: isPastSlot(time)
-            };
+            // Admin reservations: special display
+            if (reservation.created_by_admin && reservation.status === 'confirmed') {
+                const typeColors = {
+                    cours: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white',
+                    match: 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
+                    interclub: 'bg-gradient-to-r from-pink-500 to-pink-600 text-white',
+                    admin: 'bg-gradient-to-r from-gray-600 to-gray-700 text-white',
+                    normal: 'bg-[#4c7650] text-white'
+                };
+
+                return {
+                    status: 'Admin',
+                    color: typeColors[reservation.reservation_type || 'normal'],
+                    bookedBy: reservation.description || reservation.user_name,
+                    isPast: isPastSlot(time),
+                    reservation: reservation
+                };
+            }
+
+            // Confirmed reservations block the slot
+            if (reservation.status === 'confirmed') {
+                return {
+                    status: 'Réservé',
+                    color: 'bg-[#4c7650] text-white',
+                    bookedBy: reservation.user_name,
+                    isPast: isPastSlot(time),
+                    reservation: reservation
+                };
+            }
+
+            // Pending reservations also block the slot but with different styling
+            if (reservation.status === 'pending') {
+                return {
+                    status: 'En attente',
+                    color: 'bg-orange-100 text-orange-700 border-2 border-orange-300',
+                    bookedBy: reservation.user_name,
+                    isPast: isPastSlot(time),
+                    reservation: reservation
+                };
+            }
         }
 
         // Check if slot is in the past
@@ -124,11 +210,54 @@ export default function ReservationPage() {
                 status: 'Passé',
                 color: 'bg-gray-100 text-gray-400',
                 bookedBy: null,
-                isPast: true
+                isPast: true,
+                reservation: undefined
             };
         }
 
-        return { status: 'Disponible', color: 'bg-white hover:bg-[#4c7650]/5 text-[#4c7650]', bookedBy: null, isPast: false };
+        return {
+            status: 'Disponible',
+            color: 'bg-white hover:bg-[#4c7650]/5 text-[#4c7650]',
+            bookedBy: null,
+            isPast: false,
+            reservation: undefined
+        };
+    };
+
+    const handleConfirmReservation = async (reservationId: string) => {
+        if (!user) return;
+
+        setNotification(null);
+
+        const confirmerName = `${user.user_metadata?.first_name || ''} ${user.user_metadata?.last_name || ''}`.trim() || user.email?.split('@')[0] || 'Membre';
+
+        const { error } = await supabase
+            .from('reservations')
+            .update({
+                status: 'confirmed',
+                confirmed_by: user.id,
+                confirmed_by_name: confirmerName,
+                confirmed_at: new Date().toISOString()
+            })
+            .eq('id', reservationId)
+            .eq('status', 'pending')
+            .neq('user_id', user.id); // Cannot confirm own reservation
+
+        if (error) {
+            setNotification({
+                type: 'error',
+                message: 'Erreur lors de la confirmation. Veuillez réessayer.'
+            });
+            console.error('Confirmation error:', error);
+        } else {
+            setNotification({
+                type: 'success',
+                message: 'Réservation confirmée avec succès !'
+            });
+            fetchReservations();
+        }
+
+        setTimeout(() => setNotification(null), 3000);
     };
 
     const handleBooking = async () => {
@@ -153,6 +282,10 @@ export default function ReservationPage() {
             return;
         }
 
+        // Calculate expiration time (15 minutes from now)
+        const expiresAt = new Date();
+        expiresAt.setMinutes(expiresAt.getMinutes() + 15);
+
         const { error } = await supabase
             .from('reservations')
             .insert({
@@ -160,7 +293,9 @@ export default function ReservationPage() {
                 court_id: selectedSlot.courtId,
                 date: dateString,
                 start_time: selectedSlot.time,
-                user_name: userName
+                user_name: userName,
+                status: 'pending',
+                expires_at: expiresAt.toISOString()
             });
 
         setBookingLoading(false);
@@ -171,10 +306,12 @@ export default function ReservationPage() {
                 message: 'Erreur lors de la réservation. Veuillez réessayer.'
             });
             console.error('Booking error:', error);
+            console.error('Error stringified:', JSON.stringify(error, null, 2));
+            console.error('Error details:', { message: error.message, code: error.code, details: error.details, hint: error.hint });
         } else {
             setNotification({
                 type: 'success',
-                message: 'Réservation confirmée !'
+                message: 'Réservation créée ! Un autre membre doit la confirmer dans les 15 minutes.'
             });
             setSelectedSlot(null);
             fetchReservations();
@@ -240,8 +377,10 @@ export default function ReservationPage() {
                             <table className="w-full border-collapse">
                                 <thead>
                                     <tr className="bg-[#4c7650]/5">
-                                        <th className="sticky left-0 z-20 bg-white border-b border-r border-[#4c7650]/10 p-6 w-24">
-                                            <Clock className="w-5 h-5 text-[#4c7650] mx-auto" />
+                                        <th className="sticky left-0 z-20 bg-white border-b border-r border-[#4c7650]/10 p-6 w-24 min-h-[80px]">
+                                            <div className="h-full flex items-center justify-center">
+                                                <Clock className="w-5 h-5 text-[#4c7650]" />
+                                            </div>
                                         </th>
                                         {COURTS.map(court => (
                                             <th key={court.id} className="p-6 border-b border-r border-[#4c7650]/10 last:border-r-0 min-w-[160px]">
@@ -262,31 +401,81 @@ export default function ReservationPage() {
                                                 {time}
                                             </td>
                                             {COURTS.map(court => {
-                                                const { status, color, bookedBy, isPast } = getSlotStatus(court.id, time);
+                                                const { status, color, bookedBy, isPast, reservation } = getSlotStatus(court.id, time);
                                                 const isAvailable = status === 'Disponible';
                                                 const isPastUnreserved = status === 'Passé';
+                                                const isPending = status === 'En attente';
+                                                const canConfirm = isPending && reservation && reservation.user_id !== user?.id;
+
                                                 return (
                                                     <td
                                                         key={`${court.id}-${time}`}
-                                                        className={`p-0 border-b border-r border-[#4c7650]/10 last:border-r-0 h-16 transition-all`}
+                                                        className={`p-0 border-b border-r border-[#4c7650]/10 last:border-r-0 min-h-16 transition-all`}
                                                     >
-                                                        <button
-                                                            onClick={() => isAvailable && setSelectedSlot({ court: court.name, courtId: court.id, time })}
-                                                            disabled={!isAvailable}
-                                                            className={`w-full h-full flex items-center justify-center transition-all group/cell ${color} ${!isAvailable ? 'cursor-not-allowed' : 'relative overflow-hidden'}`}
-                                                            title={bookedBy ? `Réservé par ${bookedBy}` : (isPastUnreserved ? 'Créneau passé' : '')}
-                                                        >
-                                                            {isAvailable ? (
-                                                                <div className="opacity-0 group-hover/cell:opacity-100 transition-opacity flex items-center gap-2 text-xs font-bold uppercase tracking-tighter">
-                                                                    <Plus className="w-4 h-4 translate-y-px" />
-                                                                    <span>Réserver</span>
-                                                                </div>
-                                                            ) : isPastUnreserved ? (
-                                                                <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Passé</span>
-                                                            ) : (
-                                                                <span className="text-[10px] font-medium uppercase tracking-wide">{bookedBy}</span>
-                                                            )}
-                                                        </button>
+                                                        {isPending && reservation ? (
+                                                            <div className={`w-full h-full p-2 flex flex-col items-center justify-center gap-1 ${color}`}>
+                                                                <span className="text-[9px] font-bold uppercase tracking-wide">{bookedBy}</span>
+                                                                {reservation.expires_at && (
+                                                                    <TimeRemaining expiresAt={reservation.expires_at} className="text-[9px]" />
+                                                                )}
+                                                                {canConfirm && (
+                                                                    <button
+                                                                        onClick={() => handleConfirmReservation(reservation.id)}
+                                                                        className="mt-1 px-2 py-0.5 bg-[#4c7650] text-white rounded text-[9px] font-bold hover:bg-[#2d452e] transition-all"
+                                                                    >
+                                                                        Confirmer
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => isAvailable && setSelectedSlot({ court: court.name, courtId: court.id, time })}
+                                                                disabled={!isAvailable}
+                                                                className={`w-full h-full min-h-[64px] flex items-center justify-center transition-all group/cell ${color} ${!isAvailable ? 'cursor-not-allowed' : 'relative overflow-hidden'}`}
+                                                                title={bookedBy ? `Réservé par ${bookedBy}` : (isPastUnreserved ? 'Créneau passé' : '')}
+                                                            >
+                                                                {isAvailable ? (
+                                                                    <div className="opacity-0 group-hover/cell:opacity-100 transition-opacity flex items-center gap-2 text-xs font-bold uppercase tracking-tighter">
+                                                                        <Plus className="w-4 h-4 translate-y-px" />
+                                                                        <span>Réserver</span>
+                                                                    </div>
+                                                                ) : isPastUnreserved ? (
+                                                                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Passé</span>
+                                                                ) : status === 'Admin' && reservation ? (
+                                                                    // Réservation admin : afficher la description
+                                                                    <div className="flex flex-col items-center justify-center gap-1 py-2 px-1.5 w-full">
+                                                                        <div className="text-[8px] font-black uppercase tracking-wide opacity-60">
+                                                                            {reservation.reservation_type || 'Admin'}
+                                                                        </div>
+                                                                        <div className="text-[10px] font-bold text-center leading-tight px-1">
+                                                                            {reservation.description || bookedBy}
+                                                                        </div>
+                                                                    </div>
+                                                                ) : status === 'Réservé' && reservation ? (
+                                                                    <div className="flex flex-col items-center justify-center gap-0.5">
+                                                                        <div className="text-white text-xs font-medium leading-tight">
+                                                                            {(() => {
+                                                                                const parts = reservation.user_name.split(' ');
+                                                                                const first = parts[0];
+                                                                                const last = parts.slice(1).join(' ').toUpperCase();
+                                                                                return `${first} ${last}`;
+                                                                            })()}
+                                                                        </div>
+                                                                        <div className="text-white text-xs font-medium leading-tight">
+                                                                            {(() => {
+                                                                                const name = reservation.confirmed_by_name || 'Confirmé';
+                                                                                const parts = name.split(' ');
+                                                                                const first = parts[0];
+                                                                                const last = parts.slice(1).join(' ').toUpperCase();
+                                                                                return `${first} ${last}`;
+                                                                            })()}
+                                                                        </div>
+                                                                    </div>
+                                                                ) : (
+                                                                    <span className="text-[10px] font-medium uppercase tracking-wide">{bookedBy}</span>
+                                                                )}
+                                                            </button>
+                                                        )}
                                                     </td>
                                                 );
                                             })}
@@ -414,7 +603,7 @@ export default function ReservationPage() {
                                     num: "04",
                                     title: "C'est réservé !",
                                     text: "Préparez vos raquettes et rendez-vous au club",
-                                    icon: <Trophy className="w-5 h-5" />
+                                    icon: <Calendar className="w-5 h-5" />
                                 }
                             ].map((step, idx) => (
                                 <div
@@ -455,6 +644,11 @@ export default function ReservationPage() {
                     </div>
                 </div>
             )}
+
+            {/* Admin Interface - Only visible for admins */}
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+                {isUserAdmin && user && <AdminBulkReservations user={user} />}
+            </div>
 
             <Footer />
         </main>

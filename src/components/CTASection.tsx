@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 
-export default function CTASection() {
+const CTASection = memo(function CTASection() {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export default function CTASection() {
         return () => subscription.unsubscribe();
     }, []);
 
-    const actions = [
+    const actions = useMemo(() => [
         {
             id: 1,
             title: "Réservation",
@@ -45,10 +45,10 @@ export default function CTASection() {
             href: "/about",
             color: "from-[#2d452e] to-[#4c7650]",
         },
-    ];
+    ], [user]);
 
     return (
-        <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <section className="py-12 sm:py-16 lg:py-20 bg-white min-h-[400px]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12">
                     <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2d452e] mb-3 sm:mb-4">
@@ -104,4 +104,6 @@ export default function CTASection() {
             </div>
         </section>
     );
-}
+});
+
+export default CTASection;

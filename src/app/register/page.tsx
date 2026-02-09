@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { createDefaultUserRole } from "@/lib/roles";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -31,7 +32,7 @@ export default function RegisterPage() {
             return;
         }
 
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data, error: signUpError } = await supabase.auth.signUp({
             email,
             password,
             options: {
@@ -46,7 +47,10 @@ export default function RegisterPage() {
 
         if (signUpError) {
             setError(signUpError.message);
-        } else {
+        } else if (data.user) {
+            // Créer le rôle par défaut 'user' pour le nouvel utilisateur
+            await createDefaultUserRole(data.user.id);
+
             setSuccess(true);
             setTimeout(() => {
                 router.push(`/verify-email?email=${encodeURIComponent(email)}`);
@@ -66,7 +70,7 @@ export default function RegisterPage() {
             <div className="w-full max-w-xl relative bg-white p-12 md:p-16 rounded-[40px] border border-[#4c7650]/10 shadow-[0_20px_50px_rgba(76,118,80,0.08)]">
                 {/* Back Button */}
                 <Link
-                    href="/login"
+                    href="/"
                     className="absolute top-8 left-8 flex items-center gap-2 text-[#4c7650] hover:text-[#2d452e] font-bold transition-all group"
                 >
                     <div className="w-10 h-10 rounded-xl bg-[#4c7650]/5 flex items-center justify-center group-hover:bg-[#4c7650] group-hover:text-white transition-all">
@@ -75,14 +79,14 @@ export default function RegisterPage() {
                     <span className="hidden sm:inline">Retour</span>
                 </Link>
 
-                <div className="text-center mb-10">
+                <div className="text-center mb-12">
                     <div className="mx-auto mb-8 flex justify-center transform hover:scale-105 transition-transform duration-500">
                         <Image
-                            src="/Logo TCH - Vert.png"
+                            src="/Logo TCH - Vert (header).png"
                             alt="Tennis Club Halluin"
-                            width={400}
-                            height={150}
-                            className="h-auto w-auto max-h-32 object-contain"
+                            width={300}
+                            height={107}
+                            className="h-auto w-auto max-h-24 object-contain"
                         />
                     </div>
                     <h2 className="text-4xl font-extrabold tracking-tight text-[#2d452e]">Créer un compte</h2>

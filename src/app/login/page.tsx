@@ -52,14 +52,14 @@ export default function LoginPage() {
                     </div>
                     <span className="hidden sm:inline">Retour</span>
                 </Link>
-                <div className="text-center mb-10">
+                <div className="text-center mb-12">
                     <div className="mx-auto mb-8 flex justify-center transform hover:scale-105 transition-transform duration-500">
                         <Image
-                            src="/Logo TCH - Vert.png"
+                            src="/Logo TCH - Vert (header).png"
                             alt="Tennis Club Halluin"
-                            width={450}
-                            height={160}
-                            className="h-auto w-auto max-h-48 object-contain"
+                            width={300}
+                            height={107}
+                            className="h-auto w-auto max-h-24 object-contain"
                         />
                     </div>
                     <h2 className="text-4xl font-extrabold tracking-tight text-[#2d452e]">Connexion</h2>
@@ -87,7 +87,7 @@ export default function LoginPage() {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between ml-1">
                                 <label className="block text-sm font-bold text-[#2d452e]/80">Mot de passe</label>
-                                <Link href="#" className="text-sm font-bold text-[#4c7650] hover:text-[#2d452e] transition-colors leading-none">
+                                <Link href="/forgot-password" className="text-sm font-bold text-[#4c7650] hover:text-[#2d452e] transition-colors leading-none">
                                     Oublié ?
                                 </Link>
                             </div>
