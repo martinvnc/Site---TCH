@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { User as UserIcon, Mail, Calendar, Shield, Save, Loader2 } from "lucide-react";
+import { isAdmin } from "@/lib/roles";
+import { User as UserIcon, Mail, Calendar, Shield, Save, Loader2, LayoutDashboard } from "lucide-react";
 
 export default function MonComptePage() {
     const [user, setUser] = useState<User | null>(null);
+    const [admin, setAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
@@ -20,6 +22,8 @@ export default function MonComptePage() {
                 router.push("/login");
             } else {
                 setUser(session.user);
+                const isUserAdmin = await isAdmin(session.user.id);
+                setAdmin(isUserAdmin);
             }
             setLoading(false);
         };
@@ -61,8 +65,8 @@ export default function MonComptePage() {
                 {/* Message de notification */}
                 {message && (
                     <div className={`mb-6 p-4 rounded-2xl border ${message.type === 'success'
-                            ? 'bg-green-50 border-green-200 text-green-800'
-                            : 'bg-red-50 border-red-200 text-red-800'
+                        ? 'bg-green-50 border-green-200 text-green-800'
+                        : 'bg-red-50 border-red-200 text-red-800'
                         } animate-in fade-in slide-in-from-top-2 duration-300`}>
                         {message.text}
                     </div>
@@ -120,8 +124,8 @@ export default function MonComptePage() {
                             <div className="bg-gradient-to-br from-[#4c7650]/5 to-transparent rounded-xl p-4 border border-[#2d452e]/5">
                                 <div className="flex items-center gap-3">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.email_confirmed_at
-                                            ? 'bg-green-100 text-green-700 border border-green-200'
-                                            : 'bg-amber-100 text-amber-700 border border-amber-200'
+                                        ? 'bg-green-100 text-green-700 border border-green-200'
+                                        : 'bg-amber-100 text-amber-700 border border-amber-200'
                                         }`}>
                                         {user.email_confirmed_at ? '✓ Email vérifié' : '⚠ Email non vérifié'}
                                     </span>
@@ -149,6 +153,15 @@ export default function MonComptePage() {
                     {/* Actions rapides */}
                     <div className="p-8 pt-0">
                         <div className="grid sm:grid-cols-2 gap-4">
+                            {admin && (
+                                <button
+                                    onClick={() => router.push('/admin/homepage')}
+                                    className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#2d452e] text-white font-medium transition-all duration-300 hover:shadow-[0_10px_30px_rgba(45,69,46,0.3)] hover:scale-[1.02] active:scale-[0.98] sm:col-span-2 mb-2"
+                                >
+                                    <LayoutDashboard className="w-5 h-5" />
+                                    Administration Home Page
+                                </button>
+                            )}
                             <button
                                 onClick={() => router.push('/mes-reservations')}
                                 className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-gradient-to-br from-[#4c7650] to-[#3d5f41] text-white font-medium transition-all duration-300 hover:shadow-[0_10px_30px_rgba(76,118,80,0.3)] hover:scale-[1.02] active:scale-[0.98]"

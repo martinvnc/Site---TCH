@@ -23,13 +23,17 @@ export default function ClubPage() {
                         priority
                     />
                 </div>
-                <div className="relative z-10 text-center px-4">
-                    <span className="text-[#F6CA73] font-bold tracking-[0.3em] uppercase text-xs sm:text-sm mb-4 block animate-fade-in">
-                        Depuis 1927
-                    </span>
-                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight animate-fade-in-up">
-                        Le Club
-                    </h1>
+                <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 animate-fade-in-up">
+                    <Image
+                        src="/Logo TCH - Blanc.png"
+                        alt="Logo Tennis Club Halluin"
+                        width={240}
+                        height={120}
+                        sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 450px"
+                        className="w-auto h-32 sm:h-40 md:h-48 lg:h-56 xl:h-64 object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)] translate-y-4 -translate-x-1"
+                        priority
+                        quality={90}
+                    />
                 </div>
             </section>
 

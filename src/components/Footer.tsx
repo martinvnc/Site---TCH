@@ -40,7 +40,7 @@ export default function Footer() {
                         </h3>
                         <div className="space-y-3 sm:space-y-4">
                             <Link
-                                href="https://www.google.com/maps/search/?api=1&query=341+Rue+de+la+Lys+59250+Halluin"
+                                href="https://www.google.com/maps/place/Tennis+Club+Halluin/@50.7825924,3.1111629,17z/data=!4m15!1m8!3m7!1s0x47c32dde3c52598f:0x7d31320ce023fc84!2s341+Rue+de+la+Lys,+59250+Halluin!3b1!8m2!3d50.7825924!4d3.1111629!16s%2Fg%2F11d_tl3wbq!3m5!1s0x47c32ddcf15ab66d:0x1c013b97bc4aed07!8m2!3d50.7825924!4d3.1111629!16s%2Fg%2F1tcwq904?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoASAFQAw%3D%3D"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-4 group transition-all"

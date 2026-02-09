@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { LogOut, User as UserIcon, Calendar, Menu, X } from "lucide-react";
 
 export default function Header() {
+    const pathname = usePathname();
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -25,8 +27,19 @@ export default function Header() {
         };
 
         // Auth state
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                console.error("Session retrieval error:", error);
+                if (error.message.includes("refresh_token_not_found") || error.message.includes("refresh token")) {
+                    supabase.auth.signOut();
+                }
+                setUser(null);
+            } else {
+                setUser(session?.user ?? null);
+            }
+        }).catch((err) => {
+            console.error("Unexpected session error:", err);
+            setUser(null);
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -79,16 +92,21 @@ export default function Header() {
                                 { name: "Le Club", href: "/club" },
                                 { name: "Réservation", href: user ? "/reservation" : "/login" },
                                 { name: "Contact", href: "/contact" },
-                            ].map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="relative px-2 xl:px-4 py-1.5 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
-                                >
-                                    <span className="relative z-10">{item.name}</span>
-                                    <span className="absolute bottom-1 left-5 right-5 h-[1.5px] bg-[#F6CA73] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
-                                </Link>
-                            ))}
+                            ].map((item) => {
+                                const isActive = pathname === item.href;
+                                return (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        className={`relative px-2 xl:px-4 py-1.5 text-sm font-medium tracking-wide transition-all duration-300 group ${isActive ? "text-[#4c7650]" : "text-[#2d452e] hover:text-[#4c7650]"
+                                            }`}
+                                    >
+                                        <span className="relative z-10">{item.name}</span>
+                                        <span className={`absolute bottom-1 left-5 right-5 h-[1.5px] bg-[#F6CA73] transition-transform duration-500 ease-out origin-left ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                                            }`} />
+                                    </Link>
+                                );
+                            })}
                         </nav>
 
                     </div>
@@ -221,16 +239,22 @@ export default function Header() {
                                     { name: "Le Club", href: "/club" },
                                     { name: "Réservation", href: user ? "/reservation" : "/login" },
                                     { name: "Contact", href: "/contact" },
-                                ].map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="block px-4 py-3 text-base font-bold text-[#2d452e] hover:bg-[#4c7650]/5 hover:text-[#4c7650] rounded-xl transition-all"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
+                                ].map((item) => {
+                                    const isActive = pathname === item.href;
+                                    return (
+                                        <Link
+                                            key={item.name}
+                                            href={item.href}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={`block px-4 py-3 text-base font-bold rounded-xl transition-all ${isActive
+                                                ? "bg-[#4c7650]/5 text-[#4c7650]"
+                                                : "text-[#2d452e] hover:bg-[#4c7650]/5 hover:text-[#4c7650]"
+                                                }`}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    );
+                                })}
                             </div>
 
                             {!user ? (

@@ -1,16 +1,18 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import NewsSection from "@/components/NewsSection";
-import CTASection from "@/components/CTASection";
+import ResultsSection from "@/components/ResultsSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
     return (
-        <main className="bg-white">
+        <main className="min-h-screen flex flex-col bg-white">
             <Header />
-            <Hero />
-            <NewsSection />
-            <CTASection />
+            <div className="flex-grow">
+                <Hero />
+                <NewsSection />
+                <ResultsSection />
+            </div>
             <Footer />
         </main>
     );
