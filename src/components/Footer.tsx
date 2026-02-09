@@ -4,23 +4,23 @@ import { Facebook, Instagram, MapPin, Mail } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-10 xl:pt-16 pb-6 xl:pb-8 overflow-hidden border-t border-white/5">
+        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-6 xl:pt-10 pb-4 xl:pb-6 overflow-hidden border-t border-white/5">
             {/* Subtle Golden Decorative Pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                 <div className="absolute top-10 right-20 w-32 h-32 rounded-full bg-[#F6CA73] blur-3xl" />
                 <div className="absolute bottom-20 left-10 w-40 h-40 rounded-full bg-[#F6CA73] blur-3xl" />
             </div>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0">
                     {/* Club Info */}
-                    <div className="relative space-y-6 md:pr-12 lg:pr-10">
+                    <div className="relative space-y-4 md:pr-12 lg:pr-10">
                         <Image
                             src="/Logo TCH - Blanc (footer).png"
                             alt="Tennis Club Halluin"
                             width={180}
                             height={75}
                             sizes="180px"
-                            className="h-9 xl:h-14 w-auto object-contain"
+                            className="h-8 xl:h-12 w-auto object-contain"
                             priority
                             loading="eager"
                             quality={85}
@@ -34,11 +34,11 @@ export default function Footer() {
 
                     {/* Contact - Minimal */}
                     <div className="relative md:pl-12 lg:px-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-6 sm:mb-8 flex items-center gap-2">
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-4 sm:mb-6 flex items-center gap-2">
                             <span className="w-8 h-[2px] bg-gradient-to-r from-[#F6CA73] to-transparent rounded-full" />
                             Contact
                         </h3>
-                        <div className="space-y-4 sm:space-y-6">
+                        <div className="space-y-3 sm:space-y-4">
                             <Link
                                 href="https://www.google.com/maps/search/?api=1&query=341+Rue+de+la+Lys+59250+Halluin"
                                 target="_blank"
@@ -72,11 +72,11 @@ export default function Footer() {
 
                     {/* Navigation - Minimal */}
                     <div className="relative md:pr-12 lg:px-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-6 sm:mb-8 flex items-center gap-2">
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-4 sm:mb-6 flex items-center gap-2">
                             <span className="w-8 h-[2px] bg-gradient-to-r from-[#F6CA73] to-transparent rounded-full" />
                             Explorer
                         </h3>
-                        <ul className="grid grid-cols-1 gap-4">
+                        <ul className="grid grid-cols-1 gap-3">
                             {[
                                 { name: "Accueil", href: "/" },
                                 { name: "Le Club", href: "/club" },
@@ -100,11 +100,11 @@ export default function Footer() {
 
                     {/* Stats/Horaires - Minimal */}
                     <div className="self-start md:pl-12 lg:pl-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-6 sm:mb-8 flex items-center gap-2">
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-[#F6CA73] mb-4 sm:mb-6 flex items-center gap-2">
                             <span className="w-8 h-[2px] bg-gradient-to-r from-[#F6CA73] to-transparent rounded-full" />
                             Horaires
                         </h3>
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             <div className="flex justify-between items-center text-sm border-b border-white/5 pb-3 hover:border-[#F6CA73]/30 transition-colors">
                                 <span className="text-white/60 font-medium">Semaine</span>
                                 <span className="font-bold text-white">9h - 22h</span>
@@ -118,7 +118,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar - Ultra Discreet */}
-                <div className="mt-8 xl:mt-16 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+                <div className="mt-6 xl:mt-10 pt-4 sm:pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-white/40 text-[10px] font-bold tracking-wider uppercase">
                         <span>&copy; {new Date().getFullYear()} Tennis Club d'Halluin</span>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />

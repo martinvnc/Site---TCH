@@ -37,7 +37,7 @@ export default function Hero() {
                 {/* Green CTA Button - Compact & Balanced */}
                 <Link
                     href="/club"
-                    className="inline-block px-7 py-3 sm:px-9 sm:py-3.5 bg-[#4c7650] text-white text-xs sm:text-sm lg:text-base font-bold rounded-xl lg:rounded-2xl hover:bg-[#3a5a3d] transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 animate-fade-in-up"
+                    className="inline-block px-5 py-2 sm:px-6 sm:py-2.5 bg-[#4c7650] text-white text-xs sm:text-sm font-bold rounded-xl hover:bg-[#3a5a3d] transition-all shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 animate-fade-in-up"
                 >
                     Découvrir le club
                 </Link>

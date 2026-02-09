@@ -50,13 +50,13 @@ export default function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border-b py-1.5 xl:py-2.5 ${scrolled
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border-b py-1 xl:py-1.5 ${scrolled
                 ? "bg-white/98 backdrop-blur-xl shadow-[0_10px_30px_rgba(45,69,46,0.08)] border-[#4c7650]/10"
                 : "bg-white/95 backdrop-blur-md border-[#4c7650]/5"
                 }`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-14 xl:h-16">
+                <div className="flex items-center justify-between h-12 xl:h-14">
                     {/* Groupe Gauche : Logo + Nav */}
                     <div className="flex items-center gap-4 xl:gap-12">
                         <Link
@@ -68,7 +68,7 @@ export default function Header() {
                                 alt="Tennis Club Halluin"
                                 width={180}
                                 height={75}
-                                className="w-auto h-8 xl:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
+                                className="w-auto h-7 xl:h-9 object-contain transition-transform duration-500 group-hover:scale-105"
                             />
                         </Link>
 
@@ -83,7 +83,7 @@ export default function Header() {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="relative px-3 xl:px-5 py-2 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
+                                    className="relative px-2 xl:px-4 py-1.5 text-sm font-medium tracking-wide text-[#2d452e] transition-all duration-300 hover:text-[#4c7650] group"
                                 >
                                     <span className="relative z-10">{item.name}</span>
                                     <span className="absolute bottom-1 left-5 right-5 h-[1.5px] bg-[#F6CA73] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left" />
@@ -99,14 +99,14 @@ export default function Header() {
                             <>
                                 <Link
                                     href="/login"
-                                    className="hidden sm:flex items-center justify-center px-5 py-2 text-sm font-medium text-[#4c7650] border border-[#4c7650]/40 rounded-full transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:scale-105 active:scale-95"
+                                    className="hidden sm:flex items-center justify-center px-4 py-1.5 text-sm font-medium text-[#4c7650] border border-[#4c7650]/40 rounded-full transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:scale-105 active:scale-95"
                                 >
                                     Se connecter
                                 </Link>
 
                                 <Link
                                     href="/register"
-                                    className="relative flex items-center justify-center px-4 xl:px-6 py-2.5 rounded-full bg-[#4c7650] text-sm font-medium text-white transition-all duration-500 hover:bg-[#3d5f41] hover:shadow-[0_10px_25px_rgba(76,118,80,0.2)] hover:scale-[1.02] active:scale-[0.98] group overflow-hidden"
+                                    className="relative flex items-center justify-center px-3 xl:px-5 py-2 rounded-full bg-[#4c7650] text-sm font-medium text-white transition-all duration-500 hover:bg-[#3d5f41] hover:shadow-[0_10px_25px_rgba(76,118,80,0.2)] hover:scale-[1.02] active:scale-[0.98] group overflow-hidden"
                                 >
                                     <span className="relative z-10">S'inscrire</span>
                                 </Link>
@@ -116,7 +116,7 @@ export default function Header() {
                                 {/* Bouton Mes entrainements */}
                                 <Link
                                     href="/mes-entrainements"
-                                    className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-[#4c7650]/30 text-[#4c7650] text-sm font-medium transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:shadow-[0_5px_15px_rgba(76,118,80,0.15)] hover:scale-105 active:scale-95"
+                                    className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border-2 border-[#4c7650]/30 text-[#4c7650] text-sm font-medium transition-all duration-300 hover:border-[#4c7650] hover:bg-[#4c7650]/5 hover:shadow-[0_5px_15px_rgba(76,118,80,0.15)] hover:scale-105 active:scale-95"
                                 >
                                     <svg
                                         className="w-4 h-4"
@@ -142,7 +142,7 @@ export default function Header() {
                                 <div className="relative user-menu">
                                     <button
                                         onClick={() => setMenuOpen(!menuOpen)}
-                                        className="relative flex items-center justify-center w-11 h-11 rounded-full transition-all duration-500 overflow-hidden group bg-gradient-to-br from-[#4c7650] to-[#3d5f41] text-white hover:shadow-[0_8px_20px_rgba(76,118,80,0.3)] hover:scale-105 active:scale-95"
+                                        className="relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-500 overflow-hidden group bg-gradient-to-br from-[#4c7650] to-[#3d5f41] text-white hover:shadow-[0_8px_20px_rgba(76,118,80,0.3)] hover:scale-105 active:scale-95"
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         <UserIcon className="relative z-10 w-5 h-5" />
