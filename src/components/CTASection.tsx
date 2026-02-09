@@ -48,18 +48,18 @@ export default function CTASection() {
     ];
 
     return (
-        <section className="py-20 bg-white">
+        <section className="py-12 sm:py-16 lg:py-20 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-extrabold text-[#2d452e] mb-4">
+                <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2d452e] mb-3 sm:mb-4">
                         Prêt à commencer ?
                     </h2>
-                    <p className="text-lg text-zinc-600 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto px-4">
                         Choisissez l'option qui vous convient le mieux
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
                     {actions.map((action) => (
                         <Link
                             key={action.id}
@@ -70,19 +70,19 @@ export default function CTASection() {
                                 {/* Gradient background */}
                                 <div className={`absolute inset-0 bg-gradient-to-br ${action.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
 
-                                <div className="relative p-8 text-center">
-                                    <div className="text-6xl mb-4">{action.icon}</div>
-                                    <h3 className="text-2xl font-bold text-[#2d452e] mb-3 group-hover:text-[#4c7650] transition-colors">
+                                <div className="relative p-6 sm:p-8 text-center">
+                                    <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">{action.icon}</div>
+                                    <h3 className="text-xl sm:text-2xl font-bold text-[#2d452e] mb-2 sm:mb-3 group-hover:text-[#4c7650] transition-colors">
                                         {action.title}
                                     </h3>
-                                    <p className="text-zinc-600">
+                                    <p className="text-sm sm:text-base text-zinc-600">
                                         {action.description}
                                     </p>
-                                    <div className="mt-6">
-                                        <span className="inline-flex items-center text-[#4c7650] font-semibold group-hover:text-[#639268] transition-colors">
+                                    <div className="mt-4 sm:mt-6">
+                                        <span className="inline-flex items-center text-sm sm:text-base text-[#4c7650] font-semibold group-hover:text-[#639268] transition-colors">
                                             Découvrir
                                             <svg
-                                                className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                                                className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"

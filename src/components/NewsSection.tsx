@@ -24,34 +24,34 @@ export default function NewsSection() {
     ];
 
     return (
-        <section id="actualites" className="py-20 bg-gray-50">
+        <section id="actualites" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl font-extrabold text-[#2d452e] mb-4">
+                <div className="text-center mb-8 sm:mb-10 lg:mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2d452e] mb-3 sm:mb-4">
                         Dernières informations
                     </h2>
-                    <p className="text-lg text-zinc-600 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-lg text-zinc-600 max-w-2xl mx-auto px-4">
                         Restez informé des actualités, événements et nouveautés du club
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
                     {news.map((item) => (
                         <div
                             key={item.id}
                             className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden group hover:-translate-y-1"
                         >
-                            <div className="h-48 bg-gradient-to-br from-[#4c7650] to-[#639268] flex items-center justify-center text-7xl">
+                            <div className="h-36 sm:h-40 lg:h-48 bg-gradient-to-br from-[#4c7650] to-[#639268] flex items-center justify-center text-6xl sm:text-7xl">
                                 {item.image}
                             </div>
-                            <div className="p-6">
-                                <p className="text-sm text-[#639268] font-semibold mb-2">
+                            <div className="p-5 sm:p-6">
+                                <p className="text-xs sm:text-sm text-[#639268] font-semibold mb-2">
                                     {item.date}
                                 </p>
-                                <h3 className="text-xl font-bold text-[#2d452e] mb-3 group-hover:text-[#4c7650] transition-colors">
+                                <h3 className="text-lg sm:text-xl font-bold text-[#2d452e] mb-2 sm:mb-3 group-hover:text-[#4c7650] transition-colors">
                                     {item.title}
                                 </h3>
-                                <p className="text-zinc-600 leading-relaxed">
+                                <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
                                     {item.description}
                                 </p>
                             </div>

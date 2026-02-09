@@ -4,9 +4,9 @@ import { Facebook, Instagram, MapPin, Mail } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-16 pb-8 overflow-hidden border-t border-white/5">
+        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-10 sm:pt-12 lg:pt-16 pb-6 sm:pb-8 overflow-hidden border-t border-white/5">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-0">
                     {/* Club Info */}
                     <div className="relative space-y-6 md:pr-12 lg:pr-10">
                         <Image
@@ -14,10 +14,10 @@ export default function Footer() {
                             alt="Tennis Club Halluin"
                             width={180}
                             height={75}
-                            className="h-14 w-auto object-contain"
+                            className="h-10 sm:h-12 lg:h-14 w-auto object-contain"
                             priority
                         />
-                        <p className="text-white text-sm leading-relaxed max-w-xs">
+                        <p className="text-white text-xs sm:text-sm leading-relaxed max-w-xs">
                             L'excellence du tennis au cœur d'Halluin. Un cadre unique pour votre passion, ouvert à tous.
                         </p>
                         {/* Vertical Divider (MD & LG) */}
@@ -26,8 +26,8 @@ export default function Footer() {
 
                     {/* Contact - Minimal */}
                     <div className="relative md:pl-12 lg:px-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-8">Contact</h3>
-                        <div className="space-y-6">
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6 sm:mb-8">Contact</h3>
+                        <div className="space-y-4 sm:space-y-6">
                             <div className="flex items-center gap-4 cursor-default group">
                                 <div className="p-2 -ml-2 rounded-lg group-hover:bg-white/5 transition-colors">
                                     <MapPin className="w-5 h-5 text-white flex-shrink-0" />
@@ -53,7 +53,7 @@ export default function Footer() {
 
                     {/* Navigation - Minimal */}
                     <div className="relative md:pr-12 lg:px-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-8">Explorer</h3>
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6 sm:mb-8">Explorer</h3>
                         <ul className="grid grid-cols-1 gap-4">
                             {[
                                 { name: "Accueil", href: "/" },
@@ -78,7 +78,7 @@ export default function Footer() {
 
                     {/* Stats/Horaires - Minimal */}
                     <div className="self-start md:pl-12 lg:pl-10">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-8">Horaires</h3>
+                        <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-6 sm:mb-8">Horaires</h3>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center text-sm border-b border-white/5 pb-3">
                                 <span className="text-white/70">Semaine</span>
@@ -93,7 +93,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar - Ultra Discreet */}
-                <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-6">
+                <div className="mt-10 sm:mt-12 lg:mt-16 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-white/50 text-[10px] font-medium tracking-wider uppercase">
                         <span>&copy; {new Date().getFullYear()} Tennis Club d'Halluin</span>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />
