@@ -34,28 +34,55 @@ export default function ClubPage() {
             </section>
 
             {/* Section Héritage & Esprit */}
-            <section className="py-20 sm:py-32">
+            <section className="py-24 sm:py-32 relative overflow-hidden bg-white">
+                {/* Decorative background element */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#4c7650]/20 to-transparent" />
+
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#2d452e] mb-6">Un héritage, une passion</h2>
-                            <p className="text-gray-600 text-lg leading-relaxed">
-                                Implanté au cœur d'Halluin depuis près d'un siècle, le Tennis Club d'Halluin est bien plus qu'une simple infrastructure sportive. C'est un lieu de vie, de rencontre et de transmission où chaque génération vient écrire son histoire.
-                            </p>
+                    <div className="max-w-5xl mx-auto">
+                        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center mb-24">
+                            <div className="lg:w-1/2">
+                                <h2 className="text-4xl sm:text-5xl font-extrabold text-[#2d452e] mb-8 tracking-tight leading-tight">
+                                    Un héritage, <br />
+                                    <span className="text-[#4c7650]">une passion.</span>
+                                </h2>
+                                <div className="space-y-6">
+                                    <p className="text-[#2d452e]/90 text-lg sm:text-xl leading-relaxed font-medium">
+                                        Implanté au cœur d'Halluin depuis près d'un siècle, le Tennis Club d'Halluin est bien plus qu'une simple infrastructure sportive.
+                                    </p>
+                                    <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+                                        C'est un lieu de vie, de rencontre et de transmission où chaque génération vient écrire son histoire. Notre engagement envers l'excellence et la convivialité reste le moteur de notre développement quotidien.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="lg:w-1/2 relative">
+                                <div className="relative aspect-square w-full max-w-md mx-auto">
+                                    <div className="absolute inset-0 rounded-[2.5rem] bg-[#4c7650]/5 -rotate-6 transform transition-transform group-hover:rotate-0 duration-700" />
+                                    <div className="absolute inset-0 rounded-[2.5rem] border-2 border-[#4c7650]/10 rotate-3" />
+                                    <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl">
+                                        <Image
+                                            src="/hero-indoor-new.jpeg"
+                                            alt="L'esprit TCH"
+                                            fill
+                                            className="object-cover scale-110 transition-transform duration-700 hover:scale-100"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
                             {[
-                                { icon: Shield, title: "Excellence", desc: "Une formation de qualité pour tous les niveaux." },
-                                { icon: Users, title: "Convivialité", desc: "L'esprit club avant tout, dans le respect et l'amitié." },
-                                { icon: Trophy, title: "Compétition", desc: "Le goût du défi et le dépassement de soi." }
+                                { icon: Shield, title: "Excellence", desc: "Une formation de qualité supérieure adaptée à chaque profil de joueur.", color: "bg-blue-50 text-blue-600" },
+                                { icon: Users, title: "Convivialité", desc: "Un esprit de famille unique qui fait la force de notre communauté.", color: "bg-orange-50 text-orange-600" },
+                                { icon: Trophy, title: "Compétition", desc: "Le goût du challenge porté par des équipes passionnées et soudées.", color: "bg-green-50 text-green-600" }
                             ].map((item, idx) => (
-                                <div key={idx} className="group flex flex-col items-center">
-                                    <div className="w-16 h-16 rounded-2xl bg-[#4c7650]/5 flex items-center justify-center mb-6 group-hover:bg-[#4c7650] transition-all duration-500">
-                                        <item.icon className="w-8 h-8 text-[#4c7650] group-hover:text-white transition-colors duration-500" />
+                                <div key={idx} className="relative p-8 rounded-3xl bg-gray-50/50 border border-gray-100/50 hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-500 group">
+                                    <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-sm`}>
+                                        <item.icon className="w-6 h-6" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-[#2d452e] mb-3">{item.title}</h3>
-                                    <p className="text-gray-500 text-sm">{item.desc}</p>
+                                    <h3 className="text-xl font-bold text-[#2d452e] mb-4">{item.title}</h3>
+                                    <p className="text-gray-600 text-base leading-relaxed">{item.desc}</p>
                                 </div>
                             ))}
                         </div>
