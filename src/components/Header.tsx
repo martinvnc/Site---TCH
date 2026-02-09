@@ -50,13 +50,13 @@ export default function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border-b py-2.5 ${scrolled
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border-b py-1.5 xl:py-2.5 ${scrolled
                 ? "bg-white/98 backdrop-blur-xl shadow-[0_10px_30px_rgba(45,69,46,0.08)] border-[#4c7650]/10"
                 : "bg-white/95 backdrop-blur-md border-[#4c7650]/5"
                 }`}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-14 sm:h-16">
+                <div className="flex items-center justify-between h-14 xl:h-16">
                     {/* Groupe Gauche : Logo + Nav */}
                     <div className="flex items-center gap-4 xl:gap-12">
                         <Link
@@ -68,7 +68,7 @@ export default function Header() {
                                 alt="Tennis Club Halluin"
                                 width={180}
                                 height={75}
-                                className="w-auto h-8 sm:h-9 md:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
+                                className="w-auto h-8 xl:h-10 object-contain transition-transform duration-500 group-hover:scale-105"
                             />
                         </Link>
 

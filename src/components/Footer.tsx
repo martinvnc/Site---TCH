@@ -4,7 +4,7 @@ import { Facebook, Instagram, MapPin, Mail } from "lucide-react";
 
 export default function Footer() {
     return (
-        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-10 sm:pt-12 lg:pt-16 pb-6 sm:pb-8 overflow-hidden border-t border-white/5">
+        <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-10 xl:pt-16 pb-6 xl:pb-8 overflow-hidden border-t border-white/5">
             {/* Subtle Golden Decorative Pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                 <div className="absolute top-10 right-20 w-32 h-32 rounded-full bg-[#F6CA73] blur-3xl" />
@@ -20,7 +20,7 @@ export default function Footer() {
                             width={180}
                             height={75}
                             sizes="180px"
-                            className="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+                            className="h-9 xl:h-14 w-auto object-contain"
                             priority
                             loading="eager"
                             quality={85}
@@ -118,7 +118,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom Bar - Ultra Discreet */}
-                <div className="mt-10 sm:mt-12 lg:mt-16 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+                <div className="mt-8 xl:mt-16 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-white/40 text-[10px] font-bold tracking-wider uppercase">
                         <span>&copy; {new Date().getFullYear()} Tennis Club d'Halluin</span>
                         <div className="hidden sm:block w-1 h-1 rounded-full bg-white/10" />
