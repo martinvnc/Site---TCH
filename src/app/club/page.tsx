@@ -23,7 +23,7 @@ export default function ClubPage() {
                         priority
                     />
                 </div>
-                <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 animate-fade-in-up">
+                <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                     <Image
                         src="/Logo TCH - Blanc.png"
                         alt="Logo Tennis Club Halluin"
@@ -38,11 +38,11 @@ export default function ClubPage() {
             </section>
 
             {/* Section Héritage & Esprit */}
-            <section className="py-24 sm:py-32 relative overflow-hidden bg-white">
+            <section className="py-16 sm:py-24 relative overflow-hidden bg-white">
                 {/* Decorative background element */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#4c7650]/20 to-transparent" />
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                     <div className="max-w-5xl mx-auto">
                         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center mb-24">
                             <div className="lg:w-1/2">
@@ -96,12 +96,10 @@ export default function ClubPage() {
 
             {/* Section Infrastructures - Premium Grid */}
             <section className="py-20 bg-gray-50/50">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                        <div className="max-w-2xl">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-[#2d452e] mb-4">Infrastructures d'exception</h2>
-                            <p className="text-gray-600">Des équipements de pointe pour une pratique optimale toute l'année, quelles que soient les conditions météo.</p>
-                        </div>
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
+                    <div className="text-center max-w-2xl mx-auto mb-16">
+                        <h2 className="text-3xl sm:text-4xl font-bold text-[#2d452e] mb-4">Infrastructures d'exception</h2>
+                        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">Des équipements de pointe pour une pratique optimale toute l'année, quelles que soient les conditions météo.</p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -219,7 +217,7 @@ export default function ClubPage() {
             {/* CTA Section Final */}
             <section className="py-20 sm:py-32 bg-[#2d452e] relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-1/3 h-full bg-[#4c7650]/5 -skew-x-12 transform translate-x-1/2" />
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10 text-center">
                     <h2 className="text-3xl sm:text-5xl font-bold text-white mb-8">Prêt à entrer sur le court ?</h2>
                     <p className="text-white/70 text-lg mb-12 max-w-2xl mx-auto">
                         Que vous soyez débutant ou compétiteur chevronné, il y a une place pour vous au Tennis Club d'Halluin.

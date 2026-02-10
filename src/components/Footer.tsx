@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className="absolute top-10 right-20 w-32 h-32 rounded-full bg-[#F6CA73] blur-3xl" />
                 <div className="absolute bottom-20 left-10 w-40 h-40 rounded-full bg-[#F6CA73] blur-3xl" />
             </div>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0">
                     {/* Club Info */}
                     <div className="relative space-y-4 md:pr-12 lg:pr-10">

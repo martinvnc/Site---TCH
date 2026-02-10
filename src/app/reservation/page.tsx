@@ -333,7 +333,7 @@ export default function ReservationPage() {
             <Header />
 
             <div className="flex-grow">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 mb-20">
                     {/* Clean Header Area */}
                     <div className="mb-12 flex flex-col md:flex-row justify-between items-center gap-8">
                         <div className="text-left">
@@ -646,7 +646,7 @@ export default function ReservationPage() {
             )}
 
             {/* Admin Interface - Only visible for admins */}
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 mb-12">
                 {isUserAdmin && user && <AdminBulkReservations user={user} />}
             </div>
 

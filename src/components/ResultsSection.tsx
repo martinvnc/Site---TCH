@@ -124,40 +124,42 @@ const ResultsSection = memo(function ResultsSection() {
     const showControls = results.length > itemsPerView;
 
     return (
-        <section className="py-24 sm:py-32 bg-white relative overflow-hidden">
-            <div className="container mx-auto px-4 sm:px-6 relative z-10">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
-                    <div className="max-w-3xl">
-                        <h2 className="text-3xl sm:text-5xl font-bold text-[#2d452e] mb-2 tracking-tight">
-                            Derniers <span className="text-[#4c7650]">résultats</span>
+        <section className="py-10 sm:py-16 bg-white relative overflow-hidden">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10">
+                <div className="text-center max-w-3xl mx-auto mb-10 relative">
+                    <div className="flex flex-col items-center">
+                        <h2 className="text-3xl sm:text-5xl font-medium text-[#2d452e] mb-4 tracking-tight">
+                            Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
                         </h2>
-                        <p className="text-sm text-gray-400 uppercase tracking-widest">Performances & Matchs</p>
+                        <div className="w-12 h-1 bg-[#F6CA73] rounded-full mb-4" />
+                        <p className="text-xs sm:text-sm text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
                     </div>
+                </div>
 
-                    {/* Desktop Controls */}
+                <div
+                    className="relative group/carousel"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                >
+                    {/* Navigation Arrows - Left for Left, Right for Right */}
                     {showControls && (
-                        <div className="hidden md:flex items-center gap-3">
+                        <>
                             <button
                                 onClick={prevSlide}
-                                className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-[#2d452e] hover:bg-[#4c7650] hover:text-white transition-all shadow-sm group active:bg-[#3a5a3d]"
+                                className="hidden md:flex absolute -left-12 lg:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-gray-100 bg-white shadow-xl items-center justify-center text-[#2d452e] hover:bg-[#4c7650] hover:text-white transition-all z-20 group active:bg-[#3a5a3d]"
+                                title="Précédent"
                             >
                                 <ChevronLeft className="w-6 h-6 stroke-[3px] transform group-active:scale-90 transition-transform" />
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-[#2d452e] hover:bg-[#4c7650] hover:text-white transition-all shadow-sm group active:bg-[#3a5a3d]"
+                                className="hidden md:flex absolute -right-12 lg:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-gray-100 bg-white shadow-xl items-center justify-center text-[#2d452e] hover:bg-[#4c7650] hover:text-white transition-all z-20 group active:bg-[#3a5a3d]"
+                                title="Suivant"
                             >
                                 <ChevronRight className="w-6 h-6 stroke-[3px] transform group-active:scale-90 transition-transform" />
                             </button>
-                        </div>
+                        </>
                     )}
-                </div>
-
-                <div
-                    className="relative"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                >
                     <div className="overflow-visible sm:overflow-hidden -mx-4 px-4 sm:mx-0 sm:px-0">
                         <div
                             className="flex transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) gap-6"
@@ -191,9 +193,9 @@ const ResultsSection = memo(function ResultsSection() {
                                         className="flex-shrink-0 transition-all duration-500"
                                         style={{ width: `calc((100% - ${(itemsPerView - 1) * 24}px) / ${itemsPerView})` }}
                                     >
-                                        <div className="group h-full bg-white rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1 flex flex-col overflow-hidden">
+                                        <div className="group h-full bg-white rounded-[2.5rem] border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
                                             {/* Photo Banner or Icon Fallback */}
-                                            <div className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center group-hover:bg-gray-100 transition-colors duration-500">
+                                            <div className="relative aspect-[5/4] overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (
                                                     <>
                                                         <img src={res.image_url} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -212,8 +214,8 @@ const ResultsSection = memo(function ResultsSection() {
                                                 )}
                                             </div>
 
-                                            <div className="p-6 flex flex-col flex-grow">
-                                                <div className="flex items-center justify-between mb-6">
+                                            <div className="p-5 flex flex-col flex-grow">
+                                                <div className="flex items-center justify-between mb-4">
                                                     <span className="px-2.5 py-1 bg-[#4c7650]/10 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[#4c7650]">
                                                         {isTournoi || isInterclub ? res.status : res.type}
                                                     </span>
@@ -225,7 +227,7 @@ const ResultsSection = memo(function ResultsSection() {
                                                     </div>
                                                 </div>
 
-                                                <div className="flex-grow space-y-2.5 mb-6">
+                                                <div className="flex-grow space-y-1.5 mb-4">
 
                                                     {isAmical ? (
                                                         players.map((p, pIdx) => {
@@ -280,16 +282,23 @@ const ResultsSection = memo(function ResultsSection() {
 
                                                             return (
                                                                 <div key={pIdx} className="flex items-center justify-between py-1.5">
-                                                                    <span className={`text-base sm:text-lg font-black tracking-tight ${hasWon ? "text-[#2d452e]" : "text-gray-500"}`}>
-                                                                        {p}
-                                                                    </span>
-                                                                    {hasWon && <Trophy className="w-4.5 h-4.5 text-yellow-500 fill-current drop-shadow-sm" />}
+                                                                    <div className="flex items-center gap-2">
+                                                                        <span className={`text-base sm:text-lg font-medium tracking-tight ${hasWon ? "text-[#2d452e]" : "text-gray-500"}`}>
+                                                                            {p}
+                                                                        </span>
+                                                                    </div>
+                                                                    {hasWon && (
+                                                                        <div className="relative">
+                                                                            <Trophy className="w-4.5 h-4.5 text-yellow-500 fill-current drop-shadow-sm relative z-10" />
+                                                                            <div className="absolute inset-0 bg-yellow-400 blur-md opacity-20" />
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                             );
                                                         })
                                                     ) : (
-                                                        <div className="bg-gray-50/50 p-3.5 rounded-xl border border-transparent hover:border-gray-100 transition-colors">
-                                                            <h3 className="text-lg sm:text-xl font-black text-[#2d452e] leading-tight mb-1.5 uppercase italic">{res.players}</h3>
+                                                        <div className="bg-[#4c7650]/5 p-3.5 rounded-xl border border-[#4c7650]/10 hover:border-[#4c7650]/20 transition-colors">
+                                                            <h3 className="text-lg sm:text-xl font-medium text-[#2d452e] leading-tight mb-1.5 uppercase tracking-tight">{res.players}</h3>
                                                             <p className={`text-[10px] font-black uppercase tracking-widest ${isVictory ? "text-green-600" : "text-red-600"}`}>
                                                                 {res.status}
                                                             </p>
@@ -297,7 +306,7 @@ const ResultsSection = memo(function ResultsSection() {
                                                     )}
                                                 </div>
 
-                                                <div className="pt-4 border-t border-gray-100 flex flex-wrap gap-2">
+                                                <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
                                                     {scores.map((s, sIdx) => {
                                                         const isSTB = s.includes("-");
                                                         const hasTBPoints = s.includes("(");
@@ -313,17 +322,17 @@ const ResultsSection = memo(function ResultsSection() {
                                                         const [p1, p2] = isSTB ? (cleanScore.split("-") || ["0", "0"]) : (cleanScore.split("/") || ["0", "0"]);
 
                                                         return (
-                                                            <div key={sIdx} className={`relative bg-white px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-3.5 min-w-[80px] justify-center transition-transform hover:scale-105 ${isSTB ? "bg-yellow-50/20 border-yellow-100" : ""}`}>
+                                                            <div key={sIdx} className={`relative bg-white px-2.5 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2.5 min-w-[70px] justify-center transition-transform hover:scale-105 ${isSTB ? "bg-yellow-50/20 border-yellow-100" : ""}`}>
                                                                 <div className="flex items-center gap-0.5">
-                                                                    <span className={`font-black text-xs sm:text-2xl ${parseInt(p1 || "0") > parseInt(p2 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p1 || "0"}</span>
-                                                                    {hasTBPoints && parseInt(p1 || "0") < parseInt(p2 || "0") && <span className="text-[12px] font-bold text-gray-400 self-start mt-1">{tbPoints}</span>}
+                                                                    <span className={`font-black text-xs sm:text-xl ${parseInt(p1 || "0") > parseInt(p2 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p1 || "0"}</span>
+                                                                    {hasTBPoints && parseInt(p1 || "0") < parseInt(p2 || "0") && <span className="text-[10px] font-bold text-gray-400 self-start mt-0.5">{tbPoints}</span>}
                                                                 </div>
 
-                                                                <div className="w-px h-6 bg-gray-200" />
+                                                                <div className="w-px h-5 bg-gray-200" />
 
                                                                 <div className="flex items-center gap-0.5">
-                                                                    <span className={`font-black text-xs sm:text-2xl ${parseInt(p2 || "0") > parseInt(p1 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p2 || "0"}</span>
-                                                                    {hasTBPoints && parseInt(p2 || "0") < parseInt(p1 || "0") && <span className="text-[12px] font-bold text-gray-400 self-start mt-1">{tbPoints}</span>}
+                                                                    <span className={`font-black text-xs sm:text-xl ${parseInt(p2 || "0") > parseInt(p1 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p2 || "0"}</span>
+                                                                    {hasTBPoints && parseInt(p2 || "0") < parseInt(p1 || "0") && <span className="text-[10px] font-bold text-gray-400 self-start mt-0.5">{tbPoints}</span>}
                                                                 </div>
                                                             </div>
                                                         );

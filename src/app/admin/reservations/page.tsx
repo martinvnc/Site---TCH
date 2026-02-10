@@ -188,8 +188,8 @@ export default function AdminReservationsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#f8f9f5] to-[#e8ede8] py-8 px-4">
-            <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen bg-gradient-to-br from-[#f8f9f5] to-[#e8ede8] py-8">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-black text-[#2d452e] mb-2">Gestion Admin</h1>
@@ -244,8 +244,8 @@ export default function AdminReservationsPage() {
                                         key={court.id}
                                         onClick={() => handleCourtToggle(court.id)}
                                         className={`p-3 rounded-lg border-2 transition-all ${formData.courts.includes(court.id)
-                                                ? 'bg-[#4c7650] text-white border-[#4c7650]'
-                                                : 'bg-white text-[#2d452e] border-[#4c7650]/20 hover:border-[#4c7650]'
+                                            ? 'bg-[#4c7650] text-white border-[#4c7650]'
+                                            : 'bg-white text-[#2d452e] border-[#4c7650]/20 hover:border-[#4c7650]'
                                             }`}
                                     >
                                         {court.name}

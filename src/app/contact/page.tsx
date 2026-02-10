@@ -31,7 +31,7 @@ export default function ContactPage() {
                     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-green/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
                 </div>
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                     <h1 className="text-5xl md:text-6xl font-extrabold text-[#2d452e] mb-6 leading-tight">
                         Contactez-nous
                     </h1>
@@ -43,7 +43,7 @@ export default function ContactPage() {
 
             {/* Content Section */}
             <section className="pb-40">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
 
                         {/* Form Column - Left */}

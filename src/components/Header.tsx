@@ -68,7 +68,7 @@ export default function Header() {
                 : "bg-white/95 backdrop-blur-md border-[#4c7650]/5"
                 }`}
         >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
                 <div className="flex items-center justify-between h-12 xl:h-14">
                     {/* Groupe Gauche : Logo + Nav */}
                     <div className="flex items-center gap-4 xl:gap-12">

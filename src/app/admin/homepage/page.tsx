@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { isAdmin } from "@/lib/roles";
-import { Trophy, Calendar, Users, Star, Plus, Trash2, Eye, EyeOff, Edit2, Loader2, ArrowLeft, Upload, Target, X } from "lucide-react";
+import { Trophy, Calendar, Users, Star, Plus, Trash2, Eye, EyeOff, Edit2, Loader2, ArrowLeft, Upload, Target, X, Bold, Italic, Underline } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,8 @@ type News = {
     category: string;
     description: string;
     image: string;
+    image_url?: string;
+    image_urls?: string[];
     is_visible: boolean;
 };
 
@@ -44,9 +46,17 @@ export default function AdminHomepage() {
     const [isResultModalOpen, setIsResultModalOpen] = useState(false);
     const [editingNews, setEditingNews] = useState<News | null>(null);
     const [editingResult, setEditingResult] = useState<Result | null>(null);
+    const editorRef = useRef<HTMLDivElement>(null);
+
+    // Synchronize editor content on modal open/edit
+    useEffect(() => {
+        if (isNewsModalOpen && editorRef.current) {
+            editorRef.current.innerHTML = newsForm.description;
+        }
+    }, [isNewsModalOpen, editingNews]);
 
     // Form states
-    const [newsForm, setNewsForm] = useState({ title: "", date: "", category: "Événement", description: "", image: "🎾" });
+    const [newsForm, setNewsForm] = useState({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] as string[] });
     const [resultForm, setResultForm] = useState({
         players: "",
         type: "",
@@ -142,10 +152,50 @@ export default function AdminHomepage() {
 
         if (!error) {
             setIsNewsModalOpen(false);
-            setNewsForm({ title: "", date: "", category: "Événement", description: "", image: "🎾" });
+            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] });
             setEditingNews(null);
             await fetchNews();
+        } else {
+            console.error('Erreur submission news:', error);
+            alert("Erreur : " + (error as any).message);
         }
+        setSaving(false);
+    };
+
+    const handleNewsImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+        if ((newsForm.image_urls?.length || 0) + files.length > 5) {
+            alert("Maximum 5 photos par actualité.");
+            return;
+        }
+
+        setSaving(true);
+        const newUrls = [...(newsForm.image_urls || [])];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `news/${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from('homepage')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                console.error('Erreur upload:', uploadError);
+                continue;
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('homepage')
+                .getPublicUrl(filePath);
+
+            newUrls.push(publicUrl);
+        }
+
+        setNewsForm(prev => ({ ...prev, image_urls: newUrls, image_url: newUrls[0] || "" }));
         setSaving(false);
     };
 
@@ -284,7 +334,7 @@ export default function AdminHomepage() {
         <div className="min-h-screen bg-gray-50 pb-20">
             <Header />
 
-            <div className="container mx-auto px-4 pt-32 lg:pt-40 max-w-6xl">
+            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 pt-32 lg:pt-40">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
                     <div>
                         <Link href="/mon-compte" className="text-sm text-[#4c7650] font-medium flex items-center gap-2 mb-2 hover:underline">
@@ -321,7 +371,7 @@ export default function AdminHomepage() {
                                     <button
                                         onClick={() => {
                                             setEditingNews(null);
-                                            setNewsForm({ title: "", date: "", category: "Événement", description: "", image: "🎾" });
+                                            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] });
                                             setIsNewsModalOpen(true);
                                         }}
                                         className="flex items-center gap-2 px-4 py-2 bg-[#4c7650] text-white rounded-xl text-sm font-bold hover:bg-[#3a5a3d] transition-all"
@@ -340,7 +390,7 @@ export default function AdminHomepage() {
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-1">
                                                         <span className="text-[10px] font-bold uppercase tracking-wider text-[#4c7650]">{item.category}</span>
-                                                        <span className="text-xs text-gray-400">• {item.date}</span>
+                                                        <span className="text-xs text-gray-400">• {isNaN(new Date(item.date).getTime()) ? item.date : new Date(item.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                                                     </div>
                                                     <h3 className="font-bold text-[#2d452e]">{item.title}</h3>
                                                 </div>
@@ -356,7 +406,15 @@ export default function AdminHomepage() {
                                                 <button
                                                     onClick={() => {
                                                         setEditingNews(item);
-                                                        setNewsForm({ title: item.title, date: item.date, category: item.category, description: item.description, image: item.image });
+                                                        setNewsForm({
+                                                            title: item.title,
+                                                            date: item.date,
+                                                            category: item.category,
+                                                            description: item.description,
+                                                            image: item.image,
+                                                            image_url: item.image_url || "",
+                                                            image_urls: item.image_urls || (item.image_url ? [item.image_url] : [])
+                                                        });
                                                         setIsNewsModalOpen(true);
                                                     }}
                                                     className="p-2 text-[#4c7650] bg-[#4c7650]/5 rounded-lg hover:bg-[#4c7650]/10"
@@ -557,33 +615,106 @@ export default function AdminHomepage() {
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
-                        <form onSubmit={handleNewsSubmit} className="p-8 space-y-4">
+                        <form onSubmit={handleNewsSubmit} className="p-8 space-y-4 max-h-[80vh] overflow-y-auto">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Image (Emoji)</label>
-                                    <input type="text" value={newsForm.image} onChange={e => setNewsForm({ ...newsForm, image: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium" />
-                                </div>
-                                <div className="space-y-1">
                                     <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Catégorie</label>
-                                    <select value={newsForm.category} onChange={e => setNewsForm({ ...newsForm, category: e.target.value })} className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium">
-                                        <option>Club</option>
-                                        <option>Événement</option>
-                                        <option>École de Tennis</option>
-                                        <option>Tournoi</option>
+                                    <select value={newsForm.category} onChange={e => setNewsForm({ ...newsForm, category: e.target.value })} className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white">
+                                        <option value="Événement">Événement</option>
+                                        <option value="Tournoi">Tournoi</option>
+                                        <option value="Stage">Stage</option>
+                                        <option value="Autre">Autre</option>
                                     </select>
                                 </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Date de l'actualité</label>
+                                    <input type="date" value={newsForm.date} onChange={e => setNewsForm({ ...newsForm, date: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white" />
+                                </div>
                             </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Photos de l'actualité ({newsForm.image_urls?.length || 0}/5)</label>
+                                <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                                    {(newsForm.image_urls || []).map((url, idx) => (
+                                        <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-100 group">
+                                            <img src={url} alt="" className="w-full h-full object-cover" />
+                                            <button
+                                                type="button"
+                                                onClick={() => setNewsForm(prev => {
+                                                    const filtered = prev.image_urls.filter((_, i) => i !== idx);
+                                                    return { ...prev, image_urls: filtered, image_url: filtered[0] || "" };
+                                                })}
+                                                className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                                            >
+                                                <Trash2 className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                    {(newsForm.image_urls?.length || 0) < 5 && (
+                                        <label className="flex flex-col items-center justify-center aspect-square border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#4c7650]/30 hover:bg-gray-50 transition-all">
+                                            <Upload className="w-5 h-5 text-gray-400" />
+                                            <span className="text-[8px] text-gray-400 mt-1 font-bold tracking-widest uppercase">Ajouter</span>
+                                            <input type="file" className="hidden" accept="image/*" multiple onChange={handleNewsImageUpload} disabled={saving} />
+                                        </label>
+                                    )}
+                                </div>
+                                <p className="text-[10px] text-gray-400 mt-2 leading-tight italic">
+                                    L'affichage sur le site fera défiler ces photos toutes les 5 secondes.
+                                </p>
+                            </div>
+
                             <div className="space-y-1">
                                 <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Titre</label>
                                 <input type="text" value={newsForm.title} onChange={e => setNewsForm({ ...newsForm, title: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium" />
                             </div>
-                            <div className="space-y-1">
-                                <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Date</label>
-                                <input type="text" value={newsForm.date} onChange={e => setNewsForm({ ...newsForm, date: e.target.value })} placeholder="15 Jan. 2026" required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium" />
-                            </div>
+
                             <div className="space-y-1">
                                 <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Description</label>
-                                <textarea value={newsForm.description} onChange={e => setNewsForm({ ...newsForm, description: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none h-24 text-gray-900 font-medium" />
+                                <div className="border-2 border-gray-100 rounded-xl overflow-hidden focus-within:border-[#4c7650]/30 transition-all">
+                                    <div className="flex bg-gray-50 border-b border-gray-100 p-1 gap-1">
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                document.execCommand('bold', false);
+                                            }}
+                                            className="p-1.5 hover:bg-gray-200 rounded-lg text-gray-600 transition-colors"
+                                            title="Gras"
+                                        >
+                                            <Bold className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                document.execCommand('italic', false);
+                                            }}
+                                            className="p-1.5 hover:bg-gray-200 rounded-lg text-gray-600 transition-colors"
+                                            title="Italique"
+                                        >
+                                            <Italic className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                document.execCommand('underline', false);
+                                            }}
+                                            className="p-1.5 hover:bg-gray-200 rounded-lg text-gray-600 transition-colors"
+                                            title="Souligné"
+                                        >
+                                            <Underline className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                    <div
+                                        ref={editorRef}
+                                        contentEditable
+                                        suppressContentEditableWarning
+                                        onInput={(e) => setNewsForm({ ...newsForm, description: e.currentTarget.innerHTML })}
+                                        onBlur={(e) => setNewsForm({ ...newsForm, description: e.currentTarget.innerHTML })}
+                                        className="w-full px-4 py-3 min-h-[120px] outline-none text-gray-900 font-medium prose prose-zinc max-w-none bg-white"
+                                    />
+                                </div>
                             </div>
                             <div className="flex gap-4 pt-4">
                                 <button type="button" onClick={() => setIsNewsModalOpen(false)} className="flex-1 px-6 py-3 border-2 border-gray-100 text-gray-400 font-bold rounded-xl hover:bg-gray-50 transition-all">Annuler</button>

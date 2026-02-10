@@ -100,3 +100,18 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 1s ease-out forwards;
 }
+
+/* Rich Text Styles for News Descriptions */
+.news-description b,
+.news-description strong {
+  font-weight: 700;
+}
+
+.news-description i,
+.news-description em {
+  font-style: italic;
+}
+
+.news-description u {
+  text-decoration: underline;
+}
