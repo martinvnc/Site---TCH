@@ -12,7 +12,7 @@ export default function ClubPage() {
             <Header />
 
             {/* Hero Section Épurée */}
-            <section className="relative h-[45vh] sm:h-[50vh] flex items-center justify-center overflow-hidden bg-[#2d452e]">
+            <section className="relative h-[30vh] sm:h-[35vh] flex items-center justify-center overflow-hidden bg-[#2d452e]">
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#2d452e]" />
                     <Image
@@ -30,7 +30,7 @@ export default function ClubPage() {
                         width={240}
                         height={120}
                         sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 450px"
-                        className="w-auto h-32 sm:h-40 md:h-48 lg:h-56 xl:h-64 object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)] translate-y-4 -translate-x-1"
+                        className="w-auto h-28 sm:h-32 md:h-36 lg:h-44 xl:h-52 object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
                         priority
                         quality={90}
                     />

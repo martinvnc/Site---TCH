@@ -126,14 +126,12 @@ const ResultsSection = memo(function ResultsSection() {
     return (
         <section className="py-10 sm:py-16 bg-white relative overflow-hidden">
             <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-10 relative">
-                    <div className="flex flex-col items-center">
-                        <h2 className="text-3xl sm:text-5xl font-medium text-[#2d452e] mb-4 tracking-tight">
-                            Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
-                        </h2>
-                        <div className="w-12 h-1 bg-[#F6CA73] rounded-full mb-4" />
-                        <p className="text-xs sm:text-sm text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
-                    </div>
+                <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 flex flex-col items-center">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#2d452e] mb-2 tracking-tight">
+                        Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
+                    </h2>
+                    <div className="w-12 h-1 bg-[#F6CA73] rounded-full mb-4" />
+                    <p className="text-xs sm:text-sm text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
                 </div>
 
                 <div

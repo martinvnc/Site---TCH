@@ -329,7 +329,7 @@ export default function ReservationPage() {
     }
 
     return (
-        <main className="min-h-screen bg-[#fcfdfc] pt-32 flex flex-col">
+        <main className="min-h-screen bg-[#fcfdfc] pt-24 flex flex-col">
             <Header />
 
             <div className="flex-grow">

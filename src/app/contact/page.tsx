@@ -25,7 +25,7 @@ export default function ContactPage() {
             <Header />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-8 overflow-hidden">
+            <section className="relative pt-24 pb-8 overflow-hidden">
                 <div className="absolute inset-0 -z-10">
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-yellow/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-green/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />

@@ -146,7 +146,7 @@ export default function MyReservationsPage() {
         <main className="flex flex-col min-h-screen bg-white">
             <Header />
 
-            <div className="flex-grow pt-32 pb-20">
+            <div className="flex-grow pt-24 pb-20">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-20">
                     {/* Page Header */}
                     <div className="mb-12">
