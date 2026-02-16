@@ -43,14 +43,18 @@ export default function MyReservationsPage() {
     const router = useRouter();
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (!session) {
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error || !session) {
+                if (error) console.error("Session error in MyReservationsPage:", error);
                 router.push("/login");
             } else {
                 setUser(session.user);
                 fetchMyReservations(session.user.id);
                 setLoading(false);
             }
+        }).catch((err) => {
+            console.error("Unexpected session retrieval error in MyReservationsPage:", err);
+            router.push("/login");
         });
     }, [router]);
 

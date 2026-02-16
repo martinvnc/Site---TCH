@@ -124,7 +124,7 @@ const ResultsSection = memo(function ResultsSection() {
     const showControls = results.length > itemsPerView;
 
     return (
-        <section className="py-10 sm:py-16 bg-white relative overflow-hidden">
+        <section className="pt-2 sm:pt-4 pb-10 sm:pb-16 bg-white relative overflow-hidden">
             <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 flex flex-col items-center">
                     <h2 className="text-2xl sm:text-3xl font-bold text-[#2d452e] mb-2 tracking-tight">
@@ -191,7 +191,7 @@ const ResultsSection = memo(function ResultsSection() {
                                         className="flex-shrink-0 transition-all duration-500"
                                         style={{ width: `calc((100% - ${(itemsPerView - 1) * 24}px) / ${itemsPerView})` }}
                                     >
-                                        <div className="group h-full bg-white rounded-[2.5rem] border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
+                                        <div className="group h-full bg-white rounded-2xl border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
                                             {/* Photo Banner or Icon Fallback */}
                                             <div className="relative aspect-[5/4] overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (

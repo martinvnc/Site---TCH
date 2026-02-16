@@ -19,8 +19,18 @@ export default function ResetPasswordPage() {
     useEffect(() => {
         // Vérifier si l'utilisateur a une session de récupération valide
         const checkSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            setHasValidSession(!!session);
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.error("Session error in ResetPasswordPage:", error);
+                    setHasValidSession(false);
+                } else {
+                    setHasValidSession(!!session);
+                }
+            } catch (err) {
+                console.error("Unexpected session error in ResetPasswordPage:", err);
+                setHasValidSession(false);
+            }
         };
         checkSession();
     }, []);

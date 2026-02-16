@@ -20,20 +20,14 @@ export default function Hero() {
                 />
             </div>
 
-            {/* Content centered - Centered Logo as in Club style */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
-                <div className="flex flex-col items-center">
-                    <Image
-                        src="/Logo TCH - Blanc.png"
-                        alt="Logo Tennis Club Halluin"
-                        width={240}
-                        height={120}
-                        sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 450px"
-                        className="w-auto h-24 sm:h-32 md:h-40 lg:h-48 xl:h-52 object-contain drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
-                        priority
-                        quality={90}
-                    />
-                </div>
+            {/* Content centered - Improved visual centering */}
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-14 w-full h-full">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                    Les Actualités
+                </h1>
+                <p className="mt-4 text-lg sm:text-xl md:text-2xl font-normal text-[#F6CA73] tracking-[0.2em] uppercase drop-shadow-[0_5px_15px_rgba(0,0,0,0.4)]">
+                    du Tennis Club d'Halluin
+                </p>
             </div>
         </section>
     );

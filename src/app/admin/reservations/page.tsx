@@ -51,23 +51,29 @@ export default function AdminReservationsPage() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
 
-            if (!session) {
-                router.push('/login');
-                return;
+                if (error || !session) {
+                    if (error) console.error("Session error in AdminReservationsPage:", error);
+                    router.push('/login');
+                    return;
+                }
+
+                setUser(session.user);
+                const adminStatus = await isAdmin(session.user.id);
+
+                if (!adminStatus) {
+                    router.push('/reservation');
+                    return;
+                }
+
+                setIsUserAdmin(true);
+                setLoading(false);
+            } catch (err) {
+                console.error("Unexpected session retrieval error in AdminReservationsPage:", err);
+                router.push("/login");
             }
-
-            setUser(session.user);
-            const adminStatus = await isAdmin(session.user.id);
-
-            if (!adminStatus) {
-                router.push('/reservation');
-                return;
-            }
-
-            setIsUserAdmin(true);
-            setLoading(false);
         };
 
         checkAuth();

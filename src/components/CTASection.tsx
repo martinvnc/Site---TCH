@@ -9,8 +9,16 @@ const CTASection = memo(function CTASection() {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setUser(session?.user ?? null);
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                console.error("Session error in CTASection:", error);
+                setUser(null);
+            } else {
+                setUser(session?.user ?? null);
+            }
+        }).catch((err) => {
+            console.error("Unexpected session retrieval error in CTASection:", err);
+            setUser(null);
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

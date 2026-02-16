@@ -13,11 +13,17 @@ export default function MesEntrainementsPage() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error || !session) {
+                    if (error) console.error("Session error in MesEntrainementsPage:", error);
+                    router.push("/login");
+                } else {
+                    setUser(session.user);
+                }
+            } catch (err) {
+                console.error("Unexpected session retrieval error in MesEntrainementsPage:", err);
                 router.push("/login");
-            } else {
-                setUser(session.user);
             }
             setLoading(false);
         };

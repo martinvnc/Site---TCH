@@ -17,6 +17,8 @@ type News = {
     image: string;
     image_url?: string;
     image_urls?: string[];
+    button_text?: string;
+    button_url?: string;
     is_visible: boolean;
 };
 
@@ -47,6 +49,7 @@ export default function AdminHomepage() {
     const [editingNews, setEditingNews] = useState<News | null>(null);
     const [editingResult, setEditingResult] = useState<Result | null>(null);
     const editorRef = useRef<HTMLDivElement>(null);
+    const [showButton, setShowButton] = useState(false);
 
     // Synchronize editor content on modal open/edit
     useEffect(() => {
@@ -56,7 +59,7 @@ export default function AdminHomepage() {
     }, [isNewsModalOpen, editingNews]);
 
     // Form states
-    const [newsForm, setNewsForm] = useState({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] as string[] });
+    const [newsForm, setNewsForm] = useState({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] as string[], button_text: "", button_url: "" });
     const [resultForm, setResultForm] = useState({
         players: "",
         type: "",
@@ -152,12 +155,13 @@ export default function AdminHomepage() {
 
         if (!error) {
             setIsNewsModalOpen(false);
-            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] });
+            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [], button_text: "", button_url: "" });
+            setShowButton(false);
             setEditingNews(null);
             await fetchNews();
         } else {
             console.error('Erreur submission news:', error);
-            alert("Erreur : " + (error as any).message);
+            alert("Erreur lors de l'enregistrement : " + (error.message || JSON.stringify(error, null, 2)));
         }
         setSaving(false);
     };
@@ -371,7 +375,8 @@ export default function AdminHomepage() {
                                     <button
                                         onClick={() => {
                                             setEditingNews(null);
-                                            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [] });
+                                            setNewsForm({ title: "", date: new Date().toISOString().split('T')[0], category: "Événement", description: "", image: "🎾", image_url: "", image_urls: [], button_text: "", button_url: "" });
+                                            setShowButton(false);
                                             setIsNewsModalOpen(true);
                                         }}
                                         className="flex items-center gap-2 px-4 py-2 bg-[#4c7650] text-white rounded-xl text-sm font-bold hover:bg-[#3a5a3d] transition-all"
@@ -384,8 +389,14 @@ export default function AdminHomepage() {
                                     {news.map((item) => (
                                         <div key={item.id} className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 bg-gray-50 rounded-2xl border border-[#4c7650]/5 hover:border-[#4c7650]/20 transition-all gap-4">
                                             <div className="flex items-center gap-6">
-                                                <div className="w-16 h-16 bg-[#2d452e] rounded-xl flex items-center justify-center text-3xl">
-                                                    {item.image}
+                                                <div className="w-16 h-16 bg-[#2d452e]/5 border border-[#4c7650]/10 rounded-xl flex items-center justify-center text-3xl overflow-hidden">
+                                                    {item.image_urls && item.image_urls.length > 0 ? (
+                                                        <img src={item.image_urls[0]} alt="" className="w-full h-full object-cover" />
+                                                    ) : item.image_url ? (
+                                                        <img src={item.image_url} alt="" className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <span className="opacity-50">{item.image}</span>
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-1">
@@ -413,8 +424,11 @@ export default function AdminHomepage() {
                                                             description: item.description,
                                                             image: item.image,
                                                             image_url: item.image_url || "",
-                                                            image_urls: item.image_urls || (item.image_url ? [item.image_url] : [])
+                                                            image_urls: item.image_urls || (item.image_url ? [item.image_url] : []),
+                                                            button_text: item.button_text || "",
+                                                            button_url: item.button_url || ""
                                                         });
+                                                        setShowButton(!!item.button_text);
                                                         setIsNewsModalOpen(true);
                                                     }}
                                                     className="p-2 text-[#4c7650] bg-[#4c7650]/5 rounded-lg hover:bg-[#4c7650]/10"
@@ -715,6 +729,49 @@ export default function AdminHomepage() {
                                         className="w-full px-4 py-3 min-h-[120px] outline-none text-gray-900 font-medium prose prose-zinc max-w-none bg-white"
                                     />
                                 </div>
+                            </div>
+
+                            {/* CTA Button Option */}
+                            <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-4">
+                                <label className="flex items-center gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={showButton}
+                                        onChange={(e) => {
+                                            setShowButton(e.target.checked);
+                                            if (!e.target.checked) setNewsForm(prev => ({ ...prev, button_text: "", button_url: "" }));
+                                        }}
+                                        className="w-5 h-5 rounded border-gray-300 text-[#4c7650] focus:ring-[#4c7650]"
+                                    />
+                                    <span className="text-sm font-bold text-[#2d452e]">Ajouter un bouton d'action (Lien externe)</span>
+                                </label>
+
+                                {showButton && (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Texte du bouton</label>
+                                            <input
+                                                type="text"
+                                                value={newsForm.button_text}
+                                                onChange={e => setNewsForm({ ...newsForm, button_text: e.target.value })}
+                                                placeholder="ex: S'inscrire maintenant"
+                                                required={showButton}
+                                                className="w-full px-4 py-2 border-2 border-white rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white"
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Lien du bouton (URL)</label>
+                                            <input
+                                                type="url"
+                                                value={newsForm.button_url}
+                                                onChange={e => setNewsForm({ ...newsForm, button_url: e.target.value })}
+                                                placeholder="https://..."
+                                                required={showButton}
+                                                className="w-full px-4 py-2 border-2 border-white rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                             <div className="flex gap-4 pt-4">
                                 <button type="button" onClick={() => setIsNewsModalOpen(false)} className="flex-1 px-6 py-3 border-2 border-gray-100 text-gray-400 font-bold rounded-xl hover:bg-gray-50 transition-all">Annuler</button>

@@ -30,16 +30,26 @@ export default function Header() {
         supabase.auth.getSession().then(({ data: { session }, error }) => {
             if (error) {
                 console.error("Session retrieval error:", error);
-                if (error.message.includes("refresh_token_not_found") || error.message.includes("refresh token")) {
-                    supabase.auth.signOut();
+                // If there's an issue with the refresh token, sign out to clear stale data
+                if (error.message?.includes("refresh_token_not_found") ||
+                    error.message?.includes("refresh token") ||
+                    error.status === 400) {
+                    supabase.auth.signOut().then(() => {
+                        setUser(null);
+                        // Optional: trigger a refresh or redirect if on a protected page
+                    });
+                } else {
+                    setUser(null);
                 }
-                setUser(null);
             } else {
                 setUser(session?.user ?? null);
             }
         }).catch((err) => {
             console.error("Unexpected session error:", err);
-            setUser(null);
+            // In case of any serious error, try to sign out to recover
+            supabase.auth.signOut().finally(() => {
+                setUser(null);
+            });
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

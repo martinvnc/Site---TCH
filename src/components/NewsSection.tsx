@@ -109,49 +109,37 @@ const NewsSection = memo(function NewsSection() {
     if (news.length === 0) return null;
 
     return (
-        <section id="actualites" className="pt-8 pb-10 sm:pt-12 sm:pb-16 bg-white relative overflow-hidden">
+        <section id="actualites" className="pt-4 sm:pt-6 pb-2 sm:pb-4 bg-white relative overflow-hidden">
             <div className="relative z-10">
-                {/* Header */}
-                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 pt-8 pb-10 sm:pt-12 sm:pb-16">
-                    <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 flex flex-col items-center">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-[#2d452e] mb-2 tracking-tight">
-                            Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">événements</span>
-                        </h2>
-                        <div className="w-12 h-1 bg-[#F6CA73] rounded-full mb-4" />
-                        <p className="text-xs sm:text-sm text-gray-500 font-medium tracking-wide">Toute l'actualité et la vie de notre club.</p>
-                    </div>
-                </div>
-
                 <div className="flex flex-col">
                     {news.map((item, index) => {
-                        const isDark = index % 2 !== 0;
                         return (
                             <div
                                 key={item.id}
-                                className={`${isDark ? 'bg-[#2d452e] py-16 sm:py-24' : 'py-16 sm:py-24'}`}
+                                className="py-6 sm:py-8 flex flex-col items-center"
                             >
-                                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
+                                <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 w-full">
                                     <div
                                         className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-10 sm:gap-14 md:gap-16 items-center`}
                                     >
                                         {/* Image Block - Independent - Reduced Size */}
                                         <div className="w-full md:w-[40%] group relative">
-                                            <div className={`aspect-square overflow-hidden rounded-2xl bg-[#2d452e]/5 shadow-[0_15px_40px_rgba(45,69,46,0.08)] transition-transform duration-700 group-hover:scale-[1.02] ${isDark ? 'border-2 border-white/10' : ''}`}>
+                                            <div className="aspect-square overflow-hidden rounded-xl bg-[#2d452e]/5 shadow-[0_15px_40px_rgba(45,69,46,0.08)] transition-transform duration-700 group-hover:scale-[1.02]">
                                                 <NewsCarousel news={item} />
-                                                <div className={`absolute inset-0 border rounded-2xl pointer-events-none z-10 ${isDark ? 'border-white/10' : 'border-[#2d452e]/10'}`} />
+                                                <div className="absolute inset-0 border rounded-xl pointer-events-none z-10 border-[#2d452e]/10" />
                                             </div>
                                             {/* Decorative badge behind */}
                                             <div className={`absolute -bottom-3 ${index % 2 === 0 ? '-right-3' : '-left-3'} w-20 h-20 bg-[#f6ca73]/10 rounded-full blur-2xl -z-10`} />
                                         </div>
 
                                         {/* Text Block - Independent - Adjusted width */}
-                                        <div className="w-full md:w-[60%] flex flex-col items-start px-2">
+                                        <div className="w-full md:w-[60%] flex flex-col items-start px-2 text-black">
                                             <div className="flex items-center gap-4 mb-3">
-                                                <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#F6CA73]">
+                                                <span className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#F6CA73]">
                                                     {item.category}
                                                 </span>
-                                                <span className={`w-1 h-1 rounded-full ${isDark ? 'bg-white/20' : 'bg-zinc-200'}`} />
-                                                <span className={`text-[10px] font-medium uppercase tracking-widest ${isDark ? 'text-white/60' : 'text-zinc-400'}`}>
+                                                <span className="w-1 h-1 rounded-full bg-zinc-200" />
+                                                <span className="text-[11px] font-medium uppercase tracking-widest text-black/70">
                                                     {(() => {
                                                         const d = new Date(item.date);
                                                         if (isNaN(d.getTime())) return item.date;
@@ -164,27 +152,33 @@ const NewsSection = memo(function NewsSection() {
                                                 </span>
                                             </div>
 
-                                            <h3 className={`text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 leading-[1.1] tracking-normal ${isDark ? 'text-white' : 'text-[#2d452e]'}`}>
+                                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 leading-[1.1] tracking-normal text-[#2d452e]">
                                                 {item.title}
                                             </h3>
 
                                             <div
-                                                className={`text-base leading-relaxed mb-6 max-w-lg news-description ${isDark ? 'text-white/80' : 'text-zinc-500'}`}
+                                                className="text-base leading-relaxed max-w-lg news-description text-black"
                                                 dangerouslySetInnerHTML={{ __html: item.description }}
                                             />
 
-                                            <button className="group relative flex items-center gap-4 py-2">
-                                                <span className={`text-[10px] font-medium uppercase tracking-[0.2em] transition-colors ${isDark ? 'text-white/90 group-hover:text-[#F6CA73]' : 'text-[#2d452e] group-hover:text-[#4c7650]'}`}>
-                                                    Lire la suite
-                                                </span>
-                                                <div className="flex items-center">
-                                                    <div className="w-6 h-[2px] bg-[#f6ca73] transition-all duration-300 group-hover:w-10" />
-                                                    <div className="w-1.5 h-1.5 border-t-2 border-r-2 border-[#f6ca73] rotate-45 -ml-1" />
-                                                </div>
-                                            </button>
+                                            {(item as any).button_text && (item as any).button_url && (
+                                                <a
+                                                    href={(item as any).button_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="mt-6 inline-flex items-center px-6 py-2.5 bg-[#4c7650] text-white text-sm font-bold rounded-xl hover:bg-[#3d5f41] transition-all shadow-md shadow-[#4c7650]/10"
+                                                >
+                                                    {(item as any).button_text}
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Decorative Separator */}
+                                {index < news.length - 1 && (
+                                    <div className="mt-10 sm:mt-12 w-12 h-0.5 bg-[#F6CA73]/40 rounded-full" />
+                                )}
                             </div>
                         );
                     })}

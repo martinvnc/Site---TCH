@@ -60,8 +60,9 @@ export default function ReservationPage() {
     const router = useRouter();
 
     useEffect(() => {
-        supabase.auth.getSession().then(async ({ data: { session } }) => {
-            if (!session) {
+        supabase.auth.getSession().then(async ({ data: { session }, error }) => {
+            if (error || !session) {
+                if (error) console.error("Session error in ReservationPage:", error);
                 router.push("/login");
             } else {
                 setUser(session.user);
@@ -70,6 +71,9 @@ export default function ReservationPage() {
                 setIsUserAdmin(adminStatus);
                 setLoading(false);
             }
+        }).catch((err) => {
+            console.error("Unexpected session retrieval error in ReservationPage:", err);
+            router.push("/login");
         });
     }, [router]);
 

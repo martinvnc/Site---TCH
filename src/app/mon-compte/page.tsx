@@ -17,13 +17,19 @@ export default function MonComptePage() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error || !session) {
+                    if (error) console.error("Session error in MonComptePage:", error);
+                    router.push("/login");
+                } else {
+                    setUser(session.user);
+                    const isUserAdmin = await isAdmin(session.user.id);
+                    setAdmin(isUserAdmin);
+                }
+            } catch (err) {
+                console.error("Unexpected session retrieval error in MonComptePage:", err);
                 router.push("/login");
-            } else {
-                setUser(session.user);
-                const isUserAdmin = await isAdmin(session.user.id);
-                setAdmin(isUserAdmin);
             }
             setLoading(false);
         };
