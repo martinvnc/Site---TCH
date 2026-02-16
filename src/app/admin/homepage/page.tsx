@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { isAdmin } from "@/lib/roles";
-import { Trophy, Calendar, Users, Star, Plus, Trash2, Eye, EyeOff, Edit2, Loader2, ArrowLeft, Upload, Target, X, Bold, Italic, Underline } from "lucide-react";
+import { Trophy, Calendar, Users, Star, Plus, Trash2, Eye, EyeOff, Edit2, Loader2, ArrowLeft, ArrowRight, Upload, Target, X, Bold, Italic, Underline, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
@@ -50,6 +50,8 @@ export default function AdminHomepage() {
     const [editingResult, setEditingResult] = useState<Result | null>(null);
     const editorRef = useRef<HTMLDivElement>(null);
     const [showButton, setShowButton] = useState(false);
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+    const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
     // Synchronize editor content on modal open/edit
     useEffect(() => {
@@ -201,6 +203,37 @@ export default function AdminHomepage() {
 
         setNewsForm(prev => ({ ...prev, image_urls: newUrls, image_url: newUrls[0] || "" }));
         setSaving(false);
+    };
+
+    const handleDragStart = (e: React.DragEvent, index: number) => {
+        setDraggedIndex(index);
+        e.dataTransfer.effectAllowed = "move";
+        // Required for Firefox
+        e.dataTransfer.setData("text/plain", index.toString());
+    };
+
+    const handleDragOver = (e: React.DragEvent, index: number) => {
+        e.preventDefault();
+        if (draggedIndex === null || draggedIndex === index) return;
+        setDragOverIndex(index);
+    };
+
+    const handleDrop = (e: React.DragEvent, index: number) => {
+        e.preventDefault();
+        if (draggedIndex === null || draggedIndex === index) {
+            setDraggedIndex(null);
+            setDragOverIndex(null);
+            return;
+        }
+
+        const newUrls = [...(newsForm.image_urls || [])];
+        const draggedItem = newUrls[draggedIndex];
+        newUrls.splice(draggedIndex, 1);
+        newUrls.splice(index, 0, draggedItem);
+
+        setNewsForm(prev => ({ ...prev, image_urls: newUrls, image_url: newUrls[0] || "" }));
+        setDraggedIndex(null);
+        setDragOverIndex(null);
     };
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -650,18 +683,38 @@ export default function AdminHomepage() {
                                 <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Photos de l'actualité ({newsForm.image_urls?.length || 0}/5)</label>
                                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
                                     {(newsForm.image_urls || []).map((url, idx) => (
-                                        <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-100 group">
-                                            <img src={url} alt="" className="w-full h-full object-cover" />
+                                        <div
+                                            key={idx}
+                                            draggable
+                                            onDragStart={(e) => handleDragStart(e, idx)}
+                                            onDragOver={(e) => handleDragOver(e, idx)}
+                                            onDrop={(e) => handleDrop(e, idx)}
+                                            onDragEnd={() => {
+                                                setDraggedIndex(null);
+                                                setDragOverIndex(null);
+                                            }}
+                                            className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-move group ${draggedIndex === idx ? "opacity-40 scale-95" : "opacity-100"} ${dragOverIndex === idx ? "border-[#4c7650] scale-105" : "border-gray-100"}`}
+                                        >
+                                            <img src={url} alt="" className="w-full h-full object-cover pointer-events-none" />
+                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+
                                             <button
                                                 type="button"
                                                 onClick={() => setNewsForm(prev => {
                                                     const filtered = prev.image_urls.filter((_, i) => i !== idx);
                                                     return { ...prev, image_urls: filtered, image_url: filtered[0] || "" };
                                                 })}
-                                                className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                                                className="absolute top-1 right-1 p-1 bg-red-600/80 hover:bg-red-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                                title="Supprimer la photo"
                                             >
-                                                <Trash2 className="w-5 h-5" />
+                                                <Trash2 className="w-4 h-4" />
                                             </button>
+
+                                            {idx === 0 && (
+                                                <div className="absolute bottom-0 inset-x-0 bg-[#4c7650]/90 text-[8px] text-white font-black uppercase tracking-tighter py-0.5 text-center">
+                                                    Couverture
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                     {(newsForm.image_urls?.length || 0) < 5 && (
