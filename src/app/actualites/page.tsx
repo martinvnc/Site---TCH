@@ -1,21 +1,18 @@
+"use client";
+
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import NewsSection from "@/components/NewsSection";
-import ResultsSection from "@/components/ResultsSection";
-import SocialBanner from "@/components/SocialBanner";
-import ScrollingTicker from "@/components/ScrollingTicker";
 import Footer from "@/components/Footer";
 
-export default function Home() {
+export default function ActualitesPage() {
     return (
         <main className="min-h-screen flex flex-col bg-white">
             <Header />
             <div className="flex-grow">
+                {/* On réutilise le Hero mais on pourrait le spécialiser si besoin */}
                 <Hero />
-                <ScrollingTicker />
-                <NewsSection />
-                <SocialBanner />
-                <ResultsSection />
+                <NewsSection isFullPage={true} />
             </div>
             <Footer />
         </main>

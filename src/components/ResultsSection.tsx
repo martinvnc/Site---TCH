@@ -35,7 +35,8 @@ const ResultsSection = memo(function ResultsSection() {
         const handleResize = () => {
             if (window.innerWidth < 640) setItemsPerView(1);
             else if (window.innerWidth < 1024) setItemsPerView(2);
-            else setItemsPerView(3);
+            else if (window.innerWidth < 1440) setItemsPerView(3);
+            else setItemsPerView(4);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -44,17 +45,21 @@ const ResultsSection = memo(function ResultsSection() {
 
     useEffect(() => {
         const fetchResults = async () => {
-            const { data, error } = await supabase
-                .from("homepage_results")
-                .select("*")
-                .eq("is_visible", true)
-                .order("date", { ascending: false })
-                .order("created_at", { ascending: false });
+            try {
+                const { data, error } = await supabase
+                    .from("homepage_results")
+                    .select("*")
+                    .eq("is_visible", true)
+                    .order("date", { ascending: false })
+                    .order("created_at", { ascending: false });
 
-            if (!error && data) {
-                setResults(data);
+                if (error) throw error;
+                if (data) setResults(data);
+            } catch (err) {
+                console.error("Error fetching results:", err);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         fetchResults();
@@ -124,8 +129,8 @@ const ResultsSection = memo(function ResultsSection() {
     const showControls = results.length > itemsPerView;
 
     return (
-        <section className="pt-2 sm:pt-4 pb-10 sm:pb-16 bg-white relative overflow-hidden">
-            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24 relative z-10">
+        <section className="py-10 sm:py-14 bg-white relative overflow-hidden">
+            <div className="w-full px-6 sm:px-10 lg:px-24 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 flex flex-col items-center">
                     <h2 className="text-2xl sm:text-3xl font-bold text-[#2d452e] mb-2 tracking-tight">
                         Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
@@ -160,9 +165,9 @@ const ResultsSection = memo(function ResultsSection() {
                     )}
                     <div className="overflow-visible sm:overflow-hidden -mx-4 px-4 sm:mx-0 sm:px-0">
                         <div
-                            className="flex transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) gap-6"
+                            className="flex transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) gap-4"
                             style={{
-                                transform: `translateX(calc(-${currentIndex} * (100% + 24px) / ${itemsPerView}))`
+                                transform: `translateX(calc(-${currentIndex} * (100% + 16px) / ${itemsPerView}))`
                             }}
                         >
                             {results.map((res) => {
@@ -189,43 +194,43 @@ const ResultsSection = memo(function ResultsSection() {
                                     <div
                                         key={res.id}
                                         className="flex-shrink-0 transition-all duration-500"
-                                        style={{ width: `calc((100% - ${(itemsPerView - 1) * 24}px) / ${itemsPerView})` }}
+                                        style={{ width: `calc((100% - ${(itemsPerView - 1) * 16}px) / ${itemsPerView})` }}
                                     >
-                                        <div className="group h-full bg-white rounded-2xl border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
+                                        <div className="group h-full bg-white rounded-xl border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
                                             {/* Photo Banner or Icon Fallback */}
-                                            <div className="relative aspect-[5/4] overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
+                                            <div className="relative aspect-video overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (
                                                     <>
                                                         <img src={res.image_url} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                                     </>
                                                 ) : (
-                                                    <div className="flex flex-col items-center gap-3 text-[#4c7650]/20 transition-transform duration-500 group-hover:scale-110 group-hover:text-[#4c7650]/40">
+                                                    <div className="flex flex-col items-center gap-2 text-[#4c7650]/20 transition-transform duration-500 group-hover:scale-110 group-hover:text-[#4c7650]/40">
                                                         {res.type === "Tournoi" ? (
-                                                            <Trophy className="w-20 h-20 stroke-[1.2px]" />
+                                                            <Trophy className="w-12 h-12 stroke-[1.2px]" />
                                                         ) : res.type === "Interclub" ? (
-                                                            <Target className="w-20 h-20 stroke-[1.2px]" />
+                                                            <Target className="w-12 h-12 stroke-[1.2px]" />
                                                         ) : (
-                                                            <Users className="w-20 h-20 stroke-[1.2px]" />
+                                                            <Users className="w-12 h-12 stroke-[1.2px]" />
                                                         )}
                                                     </div>
                                                 )}
                                             </div>
 
-                                            <div className="p-5 flex flex-col flex-grow">
-                                                <div className="flex items-center justify-between mb-4">
-                                                    <span className="px-2.5 py-1 bg-[#4c7650]/10 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[#4c7650]">
+                                            <div className="p-4 flex flex-col flex-grow">
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-[#4c7650]">
                                                         {isTournoi || isInterclub ? res.status : res.type}
                                                     </span>
-                                                    <div className="flex items-center gap-1.5 text-gray-600 text-[10px] sm:text-xs font-bold">
-                                                        <Calendar className="w-3.5 h-3.5 text-[#4c7650]" />
+                                                    <div className="flex items-center gap-1.5 text-gray-500 text-[9px] sm:text-[10px] font-bold">
+                                                        <Calendar className="w-3 h-3 text-[#4c7650]" />
                                                         {(res.date || "").includes("-")
                                                             ? new Date(res.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })
                                                             : res.date}
                                                     </div>
                                                 </div>
 
-                                                <div className="flex-grow space-y-1.5 mb-4">
+                                                <div className="flex-grow space-y-1 mb-3">
 
                                                     {isAmical ? (
                                                         players.map((p, pIdx) => {
@@ -279,15 +284,15 @@ const ResultsSection = memo(function ResultsSection() {
                                                             const hasWon = pIdx === 0 ? p1Wins > p2Wins : p2Wins > p1Wins;
 
                                                             return (
-                                                                <div key={pIdx} className="flex items-center justify-between py-1.5">
+                                                                <div key={pIdx} className="flex items-center justify-between py-1">
                                                                     <div className="flex items-center gap-2">
-                                                                        <span className={`text-base sm:text-lg font-medium tracking-tight ${hasWon ? "text-[#2d452e]" : "text-gray-500"}`}>
-                                                                            {p}
+                                                                        <span className={`text-sm sm:text-base font-medium tracking-tight ${hasWon ? "text-[#2d452e]" : "text-gray-500"}`}>
+                                                                            {p.length > 20 ? p.substring(0, 18) + "..." : p}
                                                                         </span>
                                                                     </div>
                                                                     {hasWon && (
                                                                         <div className="relative">
-                                                                            <Trophy className="w-4.5 h-4.5 text-yellow-500 fill-current drop-shadow-sm relative z-10" />
+                                                                            <Trophy className="w-3.5 h-3.5 text-yellow-500 fill-current drop-shadow-sm relative z-10" />
                                                                             <div className="absolute inset-0 bg-yellow-400 blur-md opacity-20" />
                                                                         </div>
                                                                     )}
@@ -295,16 +300,16 @@ const ResultsSection = memo(function ResultsSection() {
                                                             );
                                                         })
                                                     ) : (
-                                                        <div className="bg-[#4c7650]/5 p-3.5 rounded-xl border border-[#4c7650]/10 hover:border-[#4c7650]/20 transition-colors">
-                                                            <h3 className="text-lg sm:text-xl font-medium text-[#2d452e] leading-tight mb-1.5 uppercase tracking-tight">{res.players}</h3>
-                                                            <p className={`text-[10px] font-black uppercase tracking-widest ${isVictory ? "text-green-600" : "text-red-600"}`}>
+                                                        <div className="bg-[#4c7650]/5 p-2.5 rounded-xl border border-[#4c7650]/10 hover:border-[#4c7650]/20 transition-colors">
+                                                            <h3 className="text-sm sm:text-base font-medium text-[#2d452e] leading-tight mb-1 uppercase tracking-tight line-clamp-1">{res.players}</h3>
+                                                            <p className={`text-[9px] font-black uppercase tracking-widest ${isVictory ? "text-green-600" : "text-red-600"}`}>
                                                                 {res.status}
                                                             </p>
                                                         </div>
                                                     )}
                                                 </div>
 
-                                                <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+                                                <div className="pt-2 border-t border-gray-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
                                                     {scores.map((s, sIdx) => {
                                                         const isSTB = s.includes("-");
                                                         const hasTBPoints = s.includes("(");
@@ -320,17 +325,15 @@ const ResultsSection = memo(function ResultsSection() {
                                                         const [p1, p2] = isSTB ? (cleanScore.split("-") || ["0", "0"]) : (cleanScore.split("/") || ["0", "0"]);
 
                                                         return (
-                                                            <div key={sIdx} className={`relative bg-white px-2.5 py-1.5 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2.5 min-w-[70px] justify-center transition-transform hover:scale-105 ${isSTB ? "bg-yellow-50/20 border-yellow-100" : ""}`}>
+                                                            <div key={sIdx} className={`relative bg-white px-1.5 py-1 rounded-lg border border-gray-100 shadow-sm flex items-center gap-2 min-w-[50px] justify-center transition-transform hover:scale-105 ${isSTB ? "bg-yellow-50/20 border-yellow-100" : ""}`}>
                                                                 <div className="flex items-center gap-0.5">
-                                                                    <span className={`font-black text-xs sm:text-xl ${parseInt(p1 || "0") > parseInt(p2 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p1 || "0"}</span>
-                                                                    {hasTBPoints && parseInt(p1 || "0") < parseInt(p2 || "0") && <span className="text-[10px] font-bold text-gray-400 self-start mt-0.5">{tbPoints}</span>}
+                                                                    <span className={`font-black text-xs sm:text-sm ${parseInt(p1 || "0") > parseInt(p2 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p1 || "0"}</span>
                                                                 </div>
 
-                                                                <div className="w-px h-5 bg-gray-200" />
+                                                                <div className="w-px h-3 bg-gray-200" />
 
                                                                 <div className="flex items-center gap-0.5">
-                                                                    <span className={`font-black text-xs sm:text-xl ${parseInt(p2 || "0") > parseInt(p1 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p2 || "0"}</span>
-                                                                    {hasTBPoints && parseInt(p2 || "0") < parseInt(p1 || "0") && <span className="text-[10px] font-bold text-gray-400 self-start mt-0.5">{tbPoints}</span>}
+                                                                    <span className={`font-black text-xs sm:text-sm ${parseInt(p2 || "0") > parseInt(p1 || "0") ? "text-[#4c7650]" : "text-gray-600"}`}>{p2 || "0"}</span>
                                                                 </div>
                                                             </div>
                                                         );

@@ -57,7 +57,7 @@ const CTASection = memo(function CTASection() {
 
     return (
         <section className="py-8 sm:py-12 bg-white min-h-[auto]">
-            <div className="max-w-6xl mx-auto px-10 sm:px-16 lg:px-24">
+            <div className="w-full px-6 sm:px-10 lg:px-24">
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12">
                     <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2d452e] mb-3 sm:mb-4">
                         Prêt à commencer ?

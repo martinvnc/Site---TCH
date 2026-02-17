@@ -110,7 +110,7 @@ export default function AdminHomepage() {
         const { data, error } = await supabase
             .from("homepage_news")
             .select("*")
-            .order("created_at", { ascending: false });
+            .order("date", { ascending: false });
         if (!error && data) setNews(data);
     };
 
