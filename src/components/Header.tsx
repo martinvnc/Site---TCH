@@ -20,50 +20,47 @@ export default function Header() {
             setScrolled(window.scrollY > 20);
         };
 
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (menuOpen && !(e.target as Element).closest('.user-menu')) {
                 setMenuOpen(false);
             }
         };
 
-        // Auth state
-        supabase.auth.getSession().then(({ data: { session }, error }) => {
-            if (error) {
-                console.error("Session retrieval error:", error);
-                // If there's an issue with the refresh token, sign out to clear stale data
-                if (error.message?.includes("refresh_token_not_found") ||
-                    error.message?.includes("refresh token") ||
-                    error.status === 400) {
-                    supabase.auth.signOut().then(() => {
-                        setUser(null);
-                        // Optional: trigger a refresh or redirect if on a protected page
-                    });
-                } else {
+        window.addEventListener("mousedown", handleClickOutside);
+        return () => window.removeEventListener("mousedown", handleClickOutside);
+    }, [menuOpen]);
+
+    useEffect(() => {
+        // Auth state initialization
+        const initAuth = async () => {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                setUser(session?.user ?? null);
+            } catch (err: any) {
+                console.error("Session error:", err);
+                if (err.message?.includes("refresh_token_not_found")) {
+                    await supabase.auth.signOut();
                     setUser(null);
                 }
-            } else {
-                setUser(session?.user ?? null);
             }
-        }).catch((err) => {
-            console.error("Unexpected session error:", err);
-            // In case of any serious error, try to sign out to recover
-            supabase.auth.signOut().finally(() => {
-                setUser(null);
-            });
-        });
+        };
+
+        initAuth();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
         });
 
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("mousedown", handleClickOutside);
         return () => {
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("mousedown", handleClickOutside);
             subscription.unsubscribe();
         };
-    }, [menuOpen]);
+    }, []);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();

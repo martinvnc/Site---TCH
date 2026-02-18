@@ -15,7 +15,7 @@ export default function Footer() {
                     {/* Club Info */}
                     <div className="relative space-y-4 md:pr-12 lg:pr-10">
                         <Image
-                            src="/Logo TCH - Blanc (footer).png"
+                            src="/Logo TCH - Blanc.png"
                             alt="Tennis Club Halluin"
                             width={180}
                             height={75}
