@@ -84,7 +84,7 @@ export default function Header() {
                             className="flex items-center group shrink-0"
                         >
                             <Image
-                                src="/Logo TCH - Vert (header).png"
+                                src="/Logo TCH - Blanc.png"
                                 alt="Tennis Club Halluin"
                                 width={180}
                                 height={75}
