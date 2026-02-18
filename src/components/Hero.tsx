@@ -8,7 +8,7 @@ export default function Hero() {
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#2d452e]" />
                 <Image
-                    src="/hero-indoor-new.jpeg"
+                    src="/hero-tch-indoor.jpg"
                     alt="Tennis Club Halluin"
                     fill
                     priority
