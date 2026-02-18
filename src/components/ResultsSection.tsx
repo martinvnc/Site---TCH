@@ -198,7 +198,7 @@ const ResultsSection = memo(function ResultsSection() {
                                     >
                                         <div className="group h-full bg-white rounded-xl border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
                                             {/* Photo Banner or Icon Fallback */}
-                                            <div className="relative aspect-video overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
+                                            <div className="relative aspect-square overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (
                                                     <>
                                                         <img src={res.image_url} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />

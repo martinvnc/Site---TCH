@@ -46,6 +46,18 @@ const garet = localFont({
 export const metadata: Metadata = {
   title: "Tennis Club d'Halluin",
   description: "Site officiel du Tennis Club d'Halluin. Réservation de cours, école de tennis et actualités.",
+  manifest: "/manifest.json",
+  themeColor: "#4c7650",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "TCH",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({
