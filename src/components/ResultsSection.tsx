@@ -36,7 +36,7 @@ const ResultsSection = memo(function ResultsSection() {
             if (window.innerWidth < 640) setItemsPerView(1);
             else if (window.innerWidth < 1024) setItemsPerView(2);
             else if (window.innerWidth < 1440) setItemsPerView(3);
-            else setItemsPerView(4);
+            else setItemsPerView(3);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
