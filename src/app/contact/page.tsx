@@ -22,43 +22,18 @@ export default function ContactPage() {
         <main className="min-h-screen bg-white">
             <Header />
 
-            {/* ── HERO DARK ── */}
-            <section className="relative bg-[#2d452e] pt-28 pb-20 px-6 sm:px-10 lg:px-24 overflow-hidden">
-                {/* Background texture */}
-                <div className="absolute inset-0 opacity-5" style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-                    backgroundSize: "32px 32px"
-                }} />
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#4c7650]/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#F6CA73]/10 rounded-full blur-3xl translate-y-1/2" />
 
-                <div className="relative max-w-6xl mx-auto">
-                    <span className="inline-block px-3 py-1 bg-[#F6CA73]/20 text-[#F6CA73] text-[10px] font-black uppercase tracking-widest rounded-lg mb-6">
-                        Tennis Club d'Halluin
-                    </span>
-                    <h1 className="text-5xl sm:text-6xl font-black text-white leading-tight mb-5">
-                        On est là<br />
-                        <span className="text-[#F6CA73]">pour vous.</span>
+            {/* ── HERO blanc ── */}
+            <section className="pt-28 pb-10 px-6 sm:px-10 lg:px-24">
+                <div className="max-w-6xl mx-auto">
+                    <p className="text-xs font-black uppercase tracking-widest text-[#4c7650] mb-4">Tennis Club d'Halluin</p>
+                    <h1 className="text-5xl sm:text-6xl font-black text-[#2d452e] leading-tight mb-4">
+                        Contactez-<span className="text-[#4c7650]">nous</span>
                     </h1>
-                    <p className="text-white/60 font-medium leading-relaxed max-w-sm text-lg">
-                        Une question sur le club, une inscription, un renseignement&nbsp;? Écrivez-nous, on répond vite.
+                    <div className="w-14 h-1.5 bg-[#F6CA73] rounded-full mb-5" />
+                    <p className="text-zinc-500 font-medium max-w-lg leading-relaxed">
+                        Une question sur le club, une inscription, un renseignement ? On vous répond dans les plus brefs délais.
                     </p>
-
-                    {/* Quick contact chips */}
-                    <div className="mt-8 flex flex-wrap gap-3">
-                        <a href="mailto:contact@tch-tennis.fr"
-                            className="group flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-all text-white text-sm font-bold">
-                            <Mail className="w-4 h-4 text-[#F6CA73]" />
-                            contact@tch-tennis.fr
-                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                        <a href="tel:+33320202020"
-                            className="group flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition-all text-white text-sm font-bold">
-                            <Phone className="w-4 h-4 text-[#F6CA73]" />
-                            03 20 20 20 20
-                            <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                    </div>
                 </div>
             </section>
 
