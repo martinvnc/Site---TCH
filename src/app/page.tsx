@@ -1,7 +1,9 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import NewsSection from "@/components/NewsSection";
+import SocialBanner from "@/components/SocialBanner";
+import ResultsSection from "@/components/ResultsSection";
 import Footer from "@/components/Footer";
-import ClientSections from "@/components/ClientSections";
 
 export default function Home() {
     return (
@@ -9,7 +11,9 @@ export default function Home() {
             <Header />
             <div className="flex-grow">
                 <Hero />
-                <ClientSections />
+                <NewsSection />
+                <SocialBanner />
+                <ResultsSection />
             </div>
             <Footer />
         </main>

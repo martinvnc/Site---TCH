@@ -20,16 +20,22 @@ export default function ResultsSection() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        supabase
-            .from("homepage_results")
-            .select("id, players, type, score, status, date, icon, image_url")
-            .eq("is_visible", true)
-            .order("date", { ascending: false })
-            .order("created_at", { ascending: false })
-            .then(({ data }) => {
+        const load = async () => {
+            try {
+                const { data } = await supabase
+                    .from("homepage_results")
+                    .select("id, players, type, score, status, date, icon, image_url")
+                    .eq("is_visible", true)
+                    .order("date", { ascending: false })
+                    .order("created_at", { ascending: false });
                 if (data) setResults(data);
+            } catch {
+                // fail silently
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+        load();
     }, []);
 
     if (loading) {

@@ -183,10 +183,9 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                                     {item.title}
                                 </h3>
 
-                                <div
-                                    className="text-zinc-600 text-sm leading-relaxed mb-6 line-clamp-3 font-medium news-description"
-                                    dangerouslySetInnerHTML={{ __html: item.description }}
-                                />
+                                <p className="text-zinc-600 text-sm leading-relaxed mb-6 line-clamp-3 font-medium">
+                                    {item.description ? item.description.replace(/<[^>]*>/g, '') : ''}
+                                </p>
 
                                 <div className="mt-auto">
                                     {isFullPage && item.button_text && item.button_url ? (
