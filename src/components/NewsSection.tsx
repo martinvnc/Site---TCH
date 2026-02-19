@@ -179,7 +179,17 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                                 </h3>
 
                                 <p className="text-zinc-600 text-sm leading-relaxed mb-6 line-clamp-3 font-medium">
-                                    {item.description ? item.description.replace(/<[^>]*>/g, '') : ''}
+                                    {item.description
+                                        ? item.description
+                                            .replace(/<[^>]*>/g, '')
+                                            .replace(/&nbsp;/g, ' ')
+                                            .replace(/&amp;/g, '&')
+                                            .replace(/&lt;/g, '<')
+                                            .replace(/&gt;/g, '>')
+                                            .replace(/&quot;/g, '"')
+                                            .replace(/&#39;/g, "'")
+                                            .trim()
+                                        : ''}
                                 </p>
 
                                 <div className="mt-auto">
