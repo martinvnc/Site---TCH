@@ -188,18 +188,18 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                                             href={item.button_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-[#4c7650] hover:text-[#2d452e] transition-colors group/link px-3 py-1.5 bg-[#4c7650]/5 rounded-lg"
+                                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#4c7650]/10 text-[#4c7650] text-xs font-black uppercase tracking-widest hover:bg-[#4c7650] hover:text-white transition-all"
                                         >
                                             {item.button_text}
-                                            <span className="ml-2 transform group-hover/link:translate-x-1 transition-transform">→</span>
+                                            <ArrowRight className="w-3.5 h-3.5" />
                                         </a>
                                     ) : (
                                         <Link
                                             href="/actualites"
-                                            className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-[#4c7650] hover:text-[#2d452e] transition-colors group/link"
+                                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#4c7650]/10 text-[#4c7650] text-xs font-black uppercase tracking-widest hover:bg-[#4c7650] hover:text-white transition-all"
                                         >
                                             En savoir plus
-                                            <span className="ml-2 transform group-hover/link:translate-x-1 transition-transform">→</span>
+                                            <ArrowRight className="w-3.5 h-3.5" />
                                         </Link>
                                     )}
                                 </div>
