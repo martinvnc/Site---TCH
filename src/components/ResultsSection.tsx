@@ -224,7 +224,7 @@ const ResultsSection = memo(function ResultsSection() {
                                             <div className="relative aspect-video overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (
                                                     <>
-                                                        <img src={res.image_url} alt="" className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-110" />
+                                                        <img src={res.image_url} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-110" />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                                     </>
                                                 ) : (

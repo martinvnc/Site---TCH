@@ -41,9 +41,10 @@ const NewsImage = ({ news }: { news: NewsItem }) => {
         <img
             src={imageUrl}
             alt={news.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             onError={(e) => {
-                // Fallback if image fails to load
                 (e.target as HTMLImageElement).style.display = 'none';
                 (e.target as HTMLImageElement).parentElement!.innerHTML = `<div class="w-full h-full bg-zinc-50 flex items-center justify-center text-5xl">${news.image || "🎾"}</div>`;
             }}
