@@ -10,21 +10,22 @@ const highlights = [
 ];
 
 export default function ScrollingTicker() {
+    // Duplicate for seamless loop
+    const duplicatedHighlights = [...highlights, ...highlights, ...highlights];
+
     return (
         <section className="bg-[#2d452e] py-3 border-y border-white/5 overflow-hidden">
-            <div className="flex flex-wrap items-center justify-center gap-y-4 px-4">
-                {highlights.map((item, index) => (
+            <div className="flex whitespace-nowrap animate-scroll-ticker w-max">
+                {duplicatedHighlights.map((item, index) => (
                     <div
                         key={index}
-                        className="flex items-center gap-3 px-6"
+                        className="flex items-center gap-4 px-12"
                     >
                         <item.icon className="w-4 h-4 text-[#F6CA73]" />
-                        <span className="text-white text-[10px] font-bold tracking-widest uppercase">
+                        <span className="text-white text-xs font-bold tracking-widest uppercase">
                             {item.text}
                         </span>
-                        {index < highlights.length - 1 && (
-                            <div className="hidden sm:block w-1 h-1 rounded-full bg-white/20 ml-6" />
-                        )}
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#F6CA73]/30 ml-8" />
                     </div>
                 ))}
             </div>
