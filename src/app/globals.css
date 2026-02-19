@@ -15,6 +15,18 @@
   --color-brand-green-light: #639268;
   --color-brand-yellow: #f6ca73;
   --color-brand-dark: #2d452e;
+
+  --animate-scroll-ticker: scroll-ticker 40s linear infinite;
+
+  @keyframes scroll-ticker {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -99,20 +111,6 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 1s ease-out forwards;
-}
-
-@keyframes scroll-ticker {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-scroll-ticker {
-  animation: scroll-ticker 40s linear infinite;
 }
 
 /* Rich Text Styles for News Descriptions */
