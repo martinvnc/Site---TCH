@@ -663,20 +663,9 @@ export default function AdminHomepage() {
                             </button>
                         </div>
                         <form onSubmit={handleNewsSubmit} className="p-8 space-y-4 max-h-[80vh] overflow-y-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Catégorie</label>
-                                    <select value={newsForm.category} onChange={e => setNewsForm({ ...newsForm, category: e.target.value })} className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white">
-                                        <option value="Événement">Événement</option>
-                                        <option value="Tournoi">Tournoi</option>
-                                        <option value="Stage">Stage</option>
-                                        <option value="Autre">Autre</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Date de l'actualité</label>
-                                    <input type="date" value={newsForm.date} onChange={e => setNewsForm({ ...newsForm, date: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white" />
-                                </div>
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Date de l'actualité</label>
+                                <input type="date" value={newsForm.date} onChange={e => setNewsForm({ ...newsForm, date: e.target.value })} required className="w-full px-4 py-2 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-medium bg-white" />
                             </div>
 
                             <div className="space-y-1">
@@ -859,8 +848,8 @@ export default function AdminHomepage() {
                                         type="button"
                                         onClick={() => setResultForm({ ...resultForm, type: t })}
                                         className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${resultForm.type === t
-                                                ? "bg-[#4c7650] text-white shadow-md"
-                                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                            ? "bg-[#4c7650] text-white shadow-md"
+                                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                                             }`}
                                     >
                                         {t}
