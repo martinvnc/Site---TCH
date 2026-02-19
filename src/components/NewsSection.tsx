@@ -158,12 +158,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                                 <div className="w-full h-full transition-transform duration-1000 group-hover:scale-105">
                                     <NewsImage news={item} />
                                 </div>
-                                {/* Category Badge */}
-                                <div className="absolute top-4 left-4 z-20">
-                                    <span className="px-3 py-1 bg-white text-[#2d452e] text-[9px] font-black uppercase tracking-widest rounded-lg shadow-sm border border-black/5">
-                                        {item.category}
-                                    </span>
-                                </div>
+
                             </div>
 
                             {/* Card Text Area (60%) */}
