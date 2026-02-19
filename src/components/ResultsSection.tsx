@@ -50,10 +50,7 @@ function ResultCard({ res }: { res: Result }) {
 
             {/* Content */}
             <div className="p-3">
-                <div className="flex items-center justify-between mb-2">
-                    <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[9px] font-black uppercase tracking-widest text-[#4c7650]">
-                        {res.type}
-                    </span>
+                <div className="flex items-center justify-end mb-2">
                     <div className="flex items-center gap-1 text-gray-400 text-[9px] font-bold">
                         <Calendar className="w-2.5 h-2.5 text-[#4c7650]/50" />
                         {(res.date || "").includes("-")

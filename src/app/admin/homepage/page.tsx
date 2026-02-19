@@ -851,19 +851,21 @@ export default function AdminHomepage() {
                             </button>
                         </div>
                         <form onSubmit={handleResultSubmit} className="p-8 space-y-6 max-h-[80vh] overflow-y-auto">
-                            {/* Type Selection First */}
-                            <div className="space-y-1">
-                                <label className="text-xs font-bold text-[#4c7650] uppercase tracking-widest">Type de résultat</label>
-                                <select
-                                    value={resultForm.type}
-                                    onChange={e => setResultForm({ ...resultForm, type: e.target.value })}
-                                    className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:border-[#4c7650]/30 outline-none text-gray-900 font-bold text-lg"
-                                >
-                                    <option value="">Sélectionner un type...</option>
-                                    <option value="Interclub">Interclub</option>
-                                    <option value="Match amical">Match amical</option>
-                                    <option value="Tournoi">Tournoi</option>
-                                </select>
+                            {/* Type hidden — sélection masquée, visible via les onglets ci-dessous */}
+                            <div className="flex gap-2">
+                                {["Match amical", "Tournoi", "Interclub"].map(t => (
+                                    <button
+                                        key={t}
+                                        type="button"
+                                        onClick={() => setResultForm({ ...resultForm, type: t })}
+                                        className={`flex-1 py-2 rounded-xl text-sm font-bold transition-all ${resultForm.type === t
+                                                ? "bg-[#4c7650] text-white shadow-md"
+                                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                            }`}
+                                    >
+                                        {t}
+                                    </button>
+                                ))}
                             </div>
 
                             {resultForm.type && (
