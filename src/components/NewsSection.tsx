@@ -66,7 +66,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                 .select("*")
                 .eq("is_visible", true)
                 .order("date", { ascending: false })
-                .limit(isFullPage ? 50 : 6);
+                .limit(isFullPage ? 50 : 4);
 
             if (error) throw error;
             if (data) setNews(data);
@@ -214,6 +214,19 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                 </div>
 
             </div>
+
+            {!isFullPage && (
+                <div className="flex justify-center mt-8">
+                    <Link
+                        href="/actualites"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-[#2d452e] text-white text-sm font-bold rounded-xl hover:bg-[#4c7650] transition-colors group"
+                    >
+                        Voir toutes les actualités du club
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </div>
+            )}
+
         </section>
     );
 });
