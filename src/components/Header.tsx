@@ -38,14 +38,21 @@ export default function Header() {
     useEffect(() => {
         // Auth state initialization
         const initAuth = async () => {
+            if (!supabase) return;
             try {
-                const { data: { session }, error } = await supabase.auth.getSession();
+                const { data, error } = await supabase.auth.getSession();
                 if (error) throw error;
-                setUser(session?.user ?? null);
+                setUser(data.session?.user ?? null);
             } catch (err: any) {
-                console.error("Session error:", err);
+                console.error("Session initialization failed:", err);
+
+                // Detailed check for specific network errors
+                if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                    console.warn("Network error during auth init - will retry on state change");
+                }
+
                 if (err.message?.includes("refresh_token_not_found")) {
-                    await supabase.auth.signOut();
+                    await supabase.auth.signOut().catch(() => { });
                     setUser(null);
                 }
             }
@@ -58,7 +65,7 @@ export default function Header() {
         });
 
         return () => {
-            subscription.unsubscribe();
+            if (subscription) subscription.unsubscribe();
         };
     }, []);
 

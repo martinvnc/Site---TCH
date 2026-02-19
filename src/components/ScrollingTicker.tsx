@@ -19,13 +19,15 @@ export default function ScrollingTicker() {
                 {duplicatedHighlights.map((item, index) => (
                     <div
                         key={index}
-                        className="flex items-center gap-4 px-12"
+                        className="flex items-center gap-8 px-8"
                     >
-                        <item.icon className="w-3.5 h-3.5 text-[#F6CA73]" />
-                        <span className="text-white text-[10px] font-bold tracking-widest uppercase">
-                            {item.text}
-                        </span>
-                        <div className="w-1 h-1 rounded-full bg-[#F6CA73]/30 ml-8" />
+                        <div className="flex items-center gap-4">
+                            <item.icon className="w-3.5 h-3.5 text-[#F6CA73]" />
+                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">
+                                {item.text}
+                            </span>
+                        </div>
+                        <div className="w-1 h-1 rounded-full bg-[#F6CA73]/30" />
                     </div>
                 ))}
             </div>

@@ -27,41 +27,43 @@ const ResultsSection = memo(function ResultsSection() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
-
-    // Responsive items per view
     const [itemsPerView, setItemsPerView] = useState(3);
+    const [error, setError] = useState<any>(null);
 
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 640) setItemsPerView(1);
             else if (window.innerWidth < 1024) setItemsPerView(2);
-            else if (window.innerWidth < 1440) setItemsPerView(3);
-            else setItemsPerView(3);
+            else if (window.innerWidth < 1280) setItemsPerView(3);
+            else setItemsPerView(4);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const fetchResults = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const { data, error } = await supabase
+                .from("homepage_results")
+                .select("*")
+                .eq("is_visible", true)
+                .order("date", { ascending: false })
+                .order("created_at", { ascending: false });
+
+            if (error) throw error;
+            if (data) setResults(data);
+        } catch (err) {
+            console.error("Error fetching results:", err);
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchResults = async () => {
-            try {
-                const { data, error } = await supabase
-                    .from("homepage_results")
-                    .select("*")
-                    .eq("is_visible", true)
-                    .order("date", { ascending: false })
-                    .order("created_at", { ascending: false });
-
-                if (error) throw error;
-                if (data) setResults(data);
-            } catch (err) {
-                console.error("Error fetching results:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchResults();
     }, []);
 
@@ -112,13 +114,34 @@ const ResultsSection = memo(function ResultsSection() {
 
     if (loading) {
         return (
-            <section className="py-24 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="h-64 bg-gray-50 rounded-3xl animate-pulse" />
+            <section className="py-8 sm:py-12 bg-white">
+                <div className="w-full px-6 sm:px-10 lg:px-24">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="aspect-video bg-zinc-50 rounded-xl animate-pulse" />
                         ))}
                     </div>
+                </div>
+            </section>
+        );
+    }
+    if (error) {
+        return (
+            <section className="py-20 bg-white">
+                <div className="w-full px-6 sm:px-10 lg:px-24 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-red-50 rounded-full mb-4 text-red-500">
+                        <Target className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-lg font-bold text-[#2d452e] mb-2">Impossible de charger les résultats</h3>
+                    <p className="text-xs text-zinc-500 mb-6 max-w-sm mx-auto">
+                        Une erreur réseau est survenue. Vérifiez votre connexion.
+                    </p>
+                    <button
+                        onClick={() => fetchResults()}
+                        className="px-6 py-2 bg-[#2d452e] text-white text-xs rounded-xl font-bold hover:bg-[#4c7650] transition-colors"
+                    >
+                        Réessayer
+                    </button>
                 </div>
             </section>
         );
@@ -129,14 +152,14 @@ const ResultsSection = memo(function ResultsSection() {
     const showControls = results.length > itemsPerView;
 
     return (
-        <section className="py-10 sm:py-14 bg-white relative overflow-hidden">
+        <section className="py-8 sm:py-10 bg-white relative overflow-hidden">
             <div className="w-full px-6 sm:px-10 lg:px-24 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 flex flex-col items-center">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-[#2d452e] mb-2 tracking-tight">
+                <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 flex flex-col items-center">
+                    <h2 className="text-xl sm:text-2xl font-bold text-[#2d452e] mb-1.5 tracking-tight">
                         Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
                     </h2>
-                    <div className="w-12 h-1 bg-[#F6CA73] rounded-full mb-4" />
-                    <p className="text-xs sm:text-sm text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
+                    <div className="w-10 h-1 bg-[#F6CA73] rounded-full mb-3" />
+                    <p className="text-[10px] sm:text-xs text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
                 </div>
 
                 <div
@@ -198,32 +221,32 @@ const ResultsSection = memo(function ResultsSection() {
                                     >
                                         <div className="group h-full bg-white rounded-xl border border-[#2d452e]/10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(45,69,46,0.08)] transition-all duration-500 hover:-translate-y-1.5 flex flex-col overflow-hidden">
                                             {/* Photo Banner or Icon Fallback */}
-                                            <div className="relative aspect-square overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
+                                            <div className="relative aspect-video overflow-hidden bg-white flex items-center justify-center group-hover:bg-zinc-50 transition-colors duration-500">
                                                 {res.image_url ? (
                                                     <>
-                                                        <img src={res.image_url} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                                        <img src={res.image_url} alt="" className="w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-110" />
                                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                                     </>
                                                 ) : (
                                                     <div className="flex flex-col items-center gap-2 text-[#4c7650]/20 transition-transform duration-500 group-hover:scale-110 group-hover:text-[#4c7650]/40">
                                                         {res.type === "Tournoi" ? (
-                                                            <Trophy className="w-12 h-12 stroke-[1.2px]" />
+                                                            <Trophy className="w-10 h-10 stroke-[1.2px]" />
                                                         ) : res.type === "Interclub" ? (
-                                                            <Target className="w-12 h-12 stroke-[1.2px]" />
+                                                            <Target className="w-10 h-10 stroke-[1.2px]" />
                                                         ) : (
-                                                            <Users className="w-12 h-12 stroke-[1.2px]" />
+                                                            <Users className="w-10 h-10 stroke-[1.2px]" />
                                                         )}
                                                     </div>
                                                 )}
                                             </div>
 
-                                            <div className="p-4 flex flex-col flex-grow">
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-[#4c7650]">
+                                            <div className="p-3.5 flex flex-col flex-grow">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-[#4c7650]">
                                                         {isTournoi || isInterclub ? res.status : res.type}
                                                     </span>
-                                                    <div className="flex items-center gap-1.5 text-gray-500 text-[9px] sm:text-[10px] font-bold">
-                                                        <Calendar className="w-3 h-3 text-[#4c7650]" />
+                                                    <div className="flex items-center gap-1 text-gray-400 text-[8px] sm:text-[9px] font-bold">
+                                                        <Calendar className="w-2.5 h-2.5 text-[#4c7650]/50" />
                                                         {(res.date || "").includes("-")
                                                             ? new Date(res.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })
                                                             : res.date}
@@ -300,9 +323,9 @@ const ResultsSection = memo(function ResultsSection() {
                                                             );
                                                         })
                                                     ) : (
-                                                        <div className="bg-[#4c7650]/5 p-2.5 rounded-xl border border-[#4c7650]/10 hover:border-[#4c7650]/20 transition-colors">
-                                                            <h3 className="text-sm sm:text-base font-medium text-[#2d452e] leading-tight mb-1 uppercase tracking-tight line-clamp-1">{res.players}</h3>
-                                                            <p className={`text-[9px] font-black uppercase tracking-widest ${isVictory ? "text-green-600" : "text-red-600"}`}>
+                                                        <div className="bg-[#4c7650]/5 p-2 rounded-xl border border-[#4c7650]/10 hover:border-[#4c7650]/20 transition-colors">
+                                                            <h3 className="text-xs sm:text-sm font-medium text-[#2d452e] leading-tight mb-0.5 uppercase tracking-tight line-clamp-1">{res.players}</h3>
+                                                            <p className={`text-[8px] font-black uppercase tracking-widest ${isVictory ? "text-green-600" : "text-red-600"}`}>
                                                                 {res.status}
                                                             </p>
                                                         </div>
@@ -313,13 +336,10 @@ const ResultsSection = memo(function ResultsSection() {
                                                     {scores.map((s, sIdx) => {
                                                         const isSTB = s.includes("-");
                                                         const hasTBPoints = s.includes("(");
-                                                        let tbPoints = "";
                                                         let cleanScore = s;
 
                                                         if (hasTBPoints) {
-                                                            const parts = s.split("(");
-                                                            cleanScore = parts[0];
-                                                            tbPoints = parts[1].replace(")", "");
+                                                            cleanScore = s.split("(")[0];
                                                         }
 
                                                         const [p1, p2] = isSTB ? (cleanScore.split("-") || ["0", "0"]) : (cleanScore.split("/") || ["0", "0"]);

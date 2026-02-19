@@ -56,33 +56,28 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
 
+    const fetchNews = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const { data, error } = await supabase
+                .from("homepage_news")
+                .select("*")
+                .eq("is_visible", true)
+                .order("date", { ascending: false })
+                .limit(isFullPage ? 50 : 6);
+
+            if (error) throw error;
+            if (data) setNews(data);
+        } catch (err) {
+            console.error('Error fetching news:', err);
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchNews = async () => {
-            try {
-                // Fetch and filter by is_visible = true
-                let query = supabase
-                    .from("homepage_news")
-                    .select("*")
-                    .eq("is_visible", true)
-                    .order("date", { ascending: false });
-
-                // On homepage, we might want to limit to 6 items
-                if (!isFullPage) {
-                    query = query.limit(6);
-                }
-
-                const { data, error } = await query;
-
-                if (error) throw error;
-                if (data) setNews(data);
-            } catch (err) {
-                console.error('Error fetching news:', err);
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchNews();
     }, [isFullPage]);
 
@@ -97,7 +92,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="flex flex-col sm:flex-row gap-6 animate-pulse">
-                                <div className="w-full sm:w-[40%] aspect-[4/3] bg-zinc-100 rounded-2xl" />
+                                <div className="w-full sm:w-[40%] aspect-video sm:aspect-auto bg-zinc-100 rounded-2xl" />
                                 <div className="w-full sm:w-[60%] space-y-4 py-2">
                                     <div className="h-3 w-20 bg-zinc-100 rounded-full" />
                                     <div className="h-6 w-full bg-zinc-100 rounded-lg" />
@@ -120,18 +115,18 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                     </div>
                     <h3 className="text-xl font-bold text-[#2d452e] mb-2">Oups ! Impossible de charger les actualités</h3>
                     <p className="text-zinc-500 max-w-md mx-auto mb-8">
-                        Il semble y avoir un petit souci de connexion. Vérifie ta connexion internet ou réessaie dans quelques instants.
+                        Il semble y avoir un souci de connexion réseau. Vérifie ta connexion ou réessaie.
                     </p>
                     <button
-                        onClick={() => window.location.reload()}
+                        onClick={() => fetchNews()}
                         className="px-6 py-2 bg-[#2d452e] text-white rounded-xl font-bold hover:bg-[#4c7650] transition-colors"
                     >
                         Réessayer
                     </button>
                     {process.env.NODE_ENV === 'development' && (
                         <div className="mt-8 p-4 bg-zinc-50 rounded-xl text-left text-[10px] font-mono text-zinc-400 overflow-auto max-w-xl mx-auto border border-zinc-100">
-                            <p className="font-bold text-zinc-500 mb-1 tracking-widest uppercase">Debug Info (Dev Only):</p>
-                            <p>{error.message || JSON.stringify(error)}</p>
+                            <p className="font-bold text-zinc-500 mb-1 tracking-widest uppercase">Debug Info:</p>
+                            <p>{error.message || String(error)}</p>
                             {!process.env.NEXT_PUBLIC_SUPABASE_URL && <p className="text-red-400 mt-1">⚠️ NEXT_PUBLIC_SUPABASE_URL is missing</p>}
                         </div>
                     )}
@@ -147,7 +142,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                 {isFullPage && (
                     <div className="flex flex-col items-center text-center mb-16">
                         <h1 className="text-4xl sm:text-6xl font-black text-[#2d452e] tracking-tight mb-4">
-                            Toute l'<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">Actualité</span>
+                            Toute l&apos;<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">Actualité</span>
                         </h1>
                         <div className="w-20 h-1.5 bg-[#F6CA73] rounded-full" />
                     </div>

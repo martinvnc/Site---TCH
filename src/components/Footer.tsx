@@ -5,11 +5,7 @@ import { Facebook, Instagram, MapPin, Mail } from "lucide-react";
 export default function Footer() {
     return (
         <footer className="relative bg-gradient-to-br from-[#2d452e] via-[#2d452e] to-[#1a2b1c] text-white pt-6 xl:pt-10 pb-4 xl:pb-6 overflow-hidden border-t border-white/5">
-            {/* Subtle Golden Decorative Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-                <div className="absolute top-10 right-20 w-32 h-32 rounded-full bg-[#F6CA73] blur-3xl" />
-                <div className="absolute bottom-20 left-10 w-40 h-40 rounded-full bg-[#F6CA73] blur-3xl" />
-            </div>
+
             <div className="w-full px-6 sm:px-10 lg:px-24 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0">
                     {/* Club Info */}

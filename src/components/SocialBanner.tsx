@@ -5,36 +5,60 @@ import Link from "next/link";
 
 export default function SocialBanner() {
     return (
-        <section className="bg-white relative overflow-hidden my-4 sm:my-6">
-            <div className="relative group bg-[#2d452e] py-6 sm:py-8 px-6 sm:px-10 lg:px-24 overflow-hidden border-y border-[#4c7650]/30 shadow-lg transition-colors duration-500 hover:bg-[#344d34]">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+        <section className="bg-white relative overflow-hidden">
+            <style>{`
+                @keyframes banner-shimmer {
+                    0% { transform: translateX(-120%) skewX(-15deg); }
+                    100% { transform: translateX(220%) skewX(-15deg); }
+                }
+                .banner-shimmer::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(
+                        90deg,
+                        transparent 0%,
+                        rgba(255,255,255,0.06) 40%,
+                        rgba(255,255,255,0.10) 50%,
+                        rgba(255,255,255,0.06) 60%,
+                        transparent 100%
+                    );
+                    animation: banner-shimmer 3.5s ease-in-out infinite;
+                    pointer-events: none;
+                    will-change: transform;
+                }
+            `}</style>
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-                    <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8">
-                        <h2 className="text-xl sm:text-2xl font-black text-white leading-tight tracking-tight uppercase">
-                            <span className="text-[#F6CA73]">Suivez-nous</span> sur les réseaux
-                        </h2>
-                    </div>
 
-                    <div className="flex items-center gap-4 sm:gap-6">
+            <div className="banner-shimmer relative bg-[#2d452e] py-4 px-6 sm:px-10 lg:px-24 overflow-hidden border-y border-[#4c7650]/30 shadow-md transition-colors duration-500 hover:bg-[#344d34]">
+
+
+
+
+                <div className="relative z-10 flex items-center justify-between gap-6">
+                    <h2 className="text-sm font-black text-white uppercase tracking-widest whitespace-nowrap">
+                        <span className="text-[#F6CA73]">Suivez-nous</span> sur les réseaux
+                    </h2>
+
+                    <div className="flex items-center gap-3">
                         <Link
                             href="https://www.facebook.com/tchalluinois"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-8 py-3 bg-white text-[#2d452e] rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                            className="flex items-center gap-2 px-5 py-2 bg-white text-[#2d452e] rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-lg whitespace-nowrap"
                         >
-                            <Facebook className="w-5 h-5 fill-current" />
-                            <span className="text-xs uppercase tracking-widest text-nowrap">Facebook</span>
+                            <Facebook className="w-4 h-4 fill-current flex-shrink-0" />
+                            Facebook
                         </Link>
 
                         <Link
                             href="https://www.instagram.com/tchalluin/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-3 px-8 py-3 bg-[#F6CA73] text-[#2d452e] rounded-xl font-bold transition-all duration-300 hover:scale-105"
+                            className="flex items-center gap-2 px-5 py-2 bg-[#F6CA73] text-[#2d452e] rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-105 hover:shadow-lg whitespace-nowrap"
                         >
-                            <Instagram className="w-5 h-5" />
-                            <span className="text-xs uppercase tracking-widest text-nowrap">Instagram</span>
+                            <Instagram className="w-4 h-4 flex-shrink-0" />
+                            Instagram
                         </Link>
                     </div>
                 </div>

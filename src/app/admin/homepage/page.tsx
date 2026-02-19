@@ -414,7 +414,7 @@ export default function AdminHomepage() {
                                         }}
                                         className="flex items-center gap-2 px-4 py-2 bg-[#4c7650] text-white rounded-xl text-sm font-bold hover:bg-[#3a5a3d] transition-all"
                                     >
-                                        <Plus className="w-4 h-4" /> Ajouter une news
+                                        <Plus className="w-4 h-4" /> Ajouter une actualité
                                     </button>
                                 </div>
 
