@@ -156,7 +156,7 @@ const ResultsSection = memo(function ResultsSection() {
             <div className="w-full px-6 sm:px-10 lg:px-24 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 flex flex-col items-center">
                     <h2 className="text-xl sm:text-2xl font-bold text-[#2d452e] mb-1.5 tracking-tight">
-                        Derniers <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">résultats</span>
+                        Derniers <span className="text-[#4c7650]">résultats</span>
                     </h2>
                     <div className="w-10 h-1 bg-[#F6CA73] rounded-full mb-3" />
                     <p className="text-[10px] sm:text-xs text-gray-500 font-medium tracking-wide">Découvrez les performances récentes de nos équipes et joueurs.</p>
@@ -314,10 +314,7 @@ const ResultsSection = memo(function ResultsSection() {
                                                                         </span>
                                                                     </div>
                                                                     {hasWon && (
-                                                                        <div className="relative">
-                                                                            <Trophy className="w-3.5 h-3.5 text-yellow-500 fill-current drop-shadow-sm relative z-10" />
-                                                                            <div className="absolute inset-0 bg-yellow-400 blur-md opacity-20" />
-                                                                        </div>
+                                                                        <Trophy className="w-3.5 h-3.5 text-yellow-500 fill-current" />
                                                                     )}
                                                                 </div>
                                                             );
