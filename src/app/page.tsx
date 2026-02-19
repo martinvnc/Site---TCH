@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import ScrollingTicker from "@/components/ScrollingTicker";
 import NewsSection from "@/components/NewsSection";
 import SocialBanner from "@/components/SocialBanner";
 import ResultsSection from "@/components/ResultsSection";
@@ -11,6 +12,7 @@ export default function Home() {
             <Header />
             <div className="flex-grow">
                 <Hero />
+                <ScrollingTicker />
                 <NewsSection />
                 <SocialBanner />
                 <ResultsSection />
