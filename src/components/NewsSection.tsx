@@ -138,7 +138,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
     if (news.length === 0) return null;
 
     return (
-        <section id="actualites" ref={ref} className={`${isFullPage ? 'pt-32 lg:pt-40 pb-24' : 'pt-12 sm:pt-16 pb-12 sm:pb-20'} bg-white relative overflow-hidden`}>
+        <section id="actualites" ref={ref} className={`${isFullPage ? 'pt-32 lg:pt-40 pb-24' : 'pt-12 sm:pt-16 pb-8 sm:pb-10'} bg-white relative overflow-hidden`}>
             <div className="w-full px-6 sm:px-10 lg:px-24 relative z-10">
                 {isFullPage && (
                     <div className="flex flex-col items-center text-center mb-16">
