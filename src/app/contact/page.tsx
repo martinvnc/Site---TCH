@@ -25,7 +25,7 @@ export default function ContactPage() {
 
             {/* ── HERO blanc ── */}
             <section className="pt-28 pb-10 px-6 sm:px-10 lg:px-24">
-                <div className="max-w-6xl mx-auto">
+                <div className="w-full">
                     <p className="text-xs font-black uppercase tracking-widest text-[#4c7650] mb-4">Tennis Club d'Halluin</p>
                     <h1 className="text-5xl sm:text-6xl font-black text-[#2d452e] leading-tight mb-4">
                         Contactez-<span className="text-[#4c7650]">nous</span>
@@ -39,7 +39,7 @@ export default function ContactPage() {
 
             {/* ── CONTENT ── */}
             <section className="py-20 px-6 sm:px-10 lg:px-24">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
+                <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
 
                     {/* Form */}
                     <div>
