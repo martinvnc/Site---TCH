@@ -83,10 +83,7 @@ export default function ContactPage() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="mt-6 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                            <span className="text-xs text-white/40 font-medium">Secrétariat ouvert aujourd'hui</span>
-                        </div>
+
                     </div>
                 </div>
             </section>
