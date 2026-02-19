@@ -27,7 +27,8 @@ export default function ResultsSection() {
                     .select("id, players, type, score, status, date, icon, image_url")
                     .eq("is_visible", true)
                     .order("date", { ascending: false })
-                    .order("created_at", { ascending: false });
+                    .order("created_at", { ascending: false })
+                    .limit(4);
                 if (data) setResults(data);
             } catch {
                 // fail silently
