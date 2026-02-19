@@ -16,6 +16,80 @@ type Result = {
 };
 
 const ITEMS_PER_PAGE = 4;
+const GAP = 12; // px gap between cards
+
+function ResultCard({ res }: { res: Result }) {
+    const isVictory = (res.status || "").toLowerCase().includes("victoire") || (res.status || "").toLowerCase().includes("vainqueur");
+    const players = (res.players || "").split(" | ");
+    const scores = (res.score || "").split(" ");
+
+    return (
+        <div className="bg-white rounded-xl border border-[#2d452e]/10 shadow-sm overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+            {/* Image or icon */}
+            <div className="relative aspect-video bg-zinc-50 overflow-hidden flex items-center justify-center">
+                {res.image_url ? (
+                    <img
+                        src={res.image_url}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover object-[center_25%]"
+                    />
+                ) : (
+                    <div className="text-[#4c7650]/20">
+                        {res.type === "Tournoi" ? (
+                            <Trophy className="w-8 h-8 stroke-[1.2px]" />
+                        ) : res.type === "Interclub" ? (
+                            <Target className="w-8 h-8 stroke-[1.2px]" />
+                        ) : (
+                            <Users className="w-8 h-8 stroke-[1.2px]" />
+                        )}
+                    </div>
+                )}
+            </div>
+
+            {/* Content */}
+            <div className="p-3">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[9px] font-black uppercase tracking-widest text-[#4c7650]">
+                        {res.type}
+                    </span>
+                    <div className="flex items-center gap-1 text-gray-400 text-[9px] font-bold">
+                        <Calendar className="w-2.5 h-2.5 text-[#4c7650]/50" />
+                        {(res.date || "").includes("-")
+                            ? new Date(res.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "short" })
+                            : res.date}
+                    </div>
+                </div>
+
+                <div className="space-y-1 mb-2">
+                    {players.map((p, i) => (
+                        <div key={i} className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-[#2d452e] truncate max-w-[80%]">
+                                {p.length > 20 ? p.substring(0, 18) + "…" : p}
+                            </span>
+                            {i === 0 && isVictory && (
+                                <Trophy className="w-3.5 h-3.5 text-yellow-500 fill-current flex-shrink-0" />
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+                <div className="flex gap-1.5 flex-wrap border-t border-gray-100 pt-2">
+                    {scores.map((s, i) => {
+                        const parts = s.includes("/") ? s.split("/") : s.includes("-") ? s.split("-") : [s];
+                        return (
+                            <div key={i} className="bg-zinc-50 border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1 text-xs font-black">
+                                <span className="text-[#4c7650]">{parts[0]?.split("(")[0]}</span>
+                                {parts[1] && <><span className="text-gray-300">/</span><span className="text-gray-500">{parts[1]?.split("(")[0]}</span></>}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function ResultsSection() {
     const [results, setResults] = useState<Result[]>([]);
@@ -58,7 +132,6 @@ export default function ResultsSection() {
     if (results.length === 0) return null;
 
     const maxIndex = Math.max(0, results.length - ITEMS_PER_PAGE);
-    const visible = results.slice(index, index + ITEMS_PER_PAGE);
 
     return (
         <section className="py-8 sm:py-10 bg-white">
@@ -74,7 +147,7 @@ export default function ResultsSection() {
                     </p>
                 </div>
 
-                {/* Carousel */}
+                {/* Carousel wrapper */}
                 <div className="relative">
                     {/* Prev arrow */}
                     {index > 0 && (
@@ -95,93 +168,44 @@ export default function ResultsSection() {
                         </button>
                     )}
 
-                    {/* Cards — scroll on mobile, grid on desktop */}
-                    <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0">
-                        {visible.map((res) => {
-                            const isVictory = (res.status || "").toLowerCase().includes("victoire") || (res.status || "").toLowerCase().includes("vainqueur");
-                            const players = (res.players || "").split(" | ");
-                            const scores = (res.score || "").split(" ");
-
-                            return (
+                    {/* Desktop: animated translateX carousel */}
+                    <div className="hidden sm:block overflow-hidden">
+                        <div
+                            className="flex transition-transform duration-500 ease-in-out"
+                            style={{
+                                gap: `${GAP}px`,
+                                transform: `translateX(calc(-${index} * (100% + ${GAP}px) / ${ITEMS_PER_PAGE}))`,
+                            }}
+                        >
+                            {results.map((res) => (
                                 <div
                                     key={res.id}
-                                    className="flex-shrink-0 w-[72vw] sm:w-auto snap-start bg-white rounded-xl border border-[#2d452e]/10 shadow-sm overflow-hidden"
+                                    style={{ width: `calc((100% - ${(ITEMS_PER_PAGE - 1) * GAP}px) / ${ITEMS_PER_PAGE})` }}
+                                    className="flex-shrink-0"
                                 >
-                                    {/* Image or icon */}
-                                    <div className="relative aspect-video bg-zinc-50 overflow-hidden flex items-center justify-center">
-                                        {res.image_url ? (
-                                            <img
-                                                src={res.image_url}
-                                                alt=""
-                                                loading="lazy"
-                                                decoding="async"
-                                                className="w-full h-full object-cover object-[center_25%]"
-                                            />
-                                        ) : (
-                                            <div className="text-[#4c7650]/20">
-                                                {res.type === "Tournoi" ? (
-                                                    <Trophy className="w-8 h-8 stroke-[1.2px]" />
-                                                ) : res.type === "Interclub" ? (
-                                                    <Target className="w-8 h-8 stroke-[1.2px]" />
-                                                ) : (
-                                                    <Users className="w-8 h-8 stroke-[1.2px]" />
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-3">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="px-2 py-0.5 bg-[#4c7650]/10 rounded-lg text-[9px] font-black uppercase tracking-widest text-[#4c7650]">
-                                                {res.type}
-                                            </span>
-                                            <div className="flex items-center gap-1 text-gray-400 text-[9px] font-bold">
-                                                <Calendar className="w-2.5 h-2.5 text-[#4c7650]/50" />
-                                                {(res.date || "").includes("-")
-                                                    ? new Date(res.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "short" })
-                                                    : res.date}
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-1 mb-2">
-                                            {players.map((p, i) => (
-                                                <div key={i} className="flex items-center justify-between">
-                                                    <span className="text-sm font-medium text-[#2d452e] truncate max-w-[80%]">
-                                                        {p.length > 20 ? p.substring(0, 18) + "…" : p}
-                                                    </span>
-                                                    {i === 0 && isVictory && (
-                                                        <Trophy className="w-3.5 h-3.5 text-yellow-500 fill-current flex-shrink-0" />
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <div className="flex gap-1.5 flex-wrap border-t border-gray-100 pt-2">
-                                            {scores.map((s, i) => {
-                                                const parts = s.includes("/") ? s.split("/") : s.includes("-") ? s.split("-") : [s];
-                                                return (
-                                                    <div key={i} className="bg-zinc-50 border border-gray-100 rounded-lg px-1.5 py-0.5 flex items-center gap-1 text-xs font-black">
-                                                        <span className="text-[#4c7650]">{parts[0]?.split("(")[0]}</span>
-                                                        {parts[1] && <><span className="text-gray-300">/</span><span className="text-gray-500">{parts[1]?.split("(")[0]}</span></>}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
+                                    <ResultCard res={res} />
                                 </div>
-                            );
-                        })}
+                            ))}
+                        </div>
                     </div>
 
-                    {/* Mobile dots */}
+                    {/* Mobile: native CSS scroll */}
+                    <div className="flex sm:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory">
+                        {results.map((res) => (
+                            <div key={res.id} className="flex-shrink-0 w-[72vw] snap-start">
+                                <ResultCard res={res} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop dots */}
                     {results.length > ITEMS_PER_PAGE && (
-                        <div className="flex justify-center gap-2 mt-4 md:hidden">
+                        <div className="hidden sm:flex justify-center gap-2 mt-4">
                             {Array.from({ length: maxIndex + 1 }).map((_, i) => (
                                 <button
                                     key={i}
                                     onClick={() => setIndex(i)}
-                                    className={`h-2 rounded-full transition-all ${index === i ? "bg-[#4c7650] w-6" : "bg-gray-200 w-2"}`}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${index === i ? "bg-[#4c7650] w-6" : "bg-gray-200 w-2"}`}
                                 />
                             ))}
                         </div>
