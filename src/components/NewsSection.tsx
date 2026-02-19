@@ -212,7 +212,7 @@ const NewsSection = forwardRef<HTMLElement, NewsSectionProps>(({ isFullPage = fa
                     <div className="flex justify-center mt-10">
                         <Link
                             href="/actualites"
-                            className="group flex items-center gap-2.5 text-base font-bold text-[#4c7650] hover:text-[#2d452e] transition-colors"
+                            className="group flex items-center gap-3 text-xl sm:text-2xl font-bold text-[#4c7650] hover:text-[#2d452e] transition-colors"
                         >
                             Toutes les actualités du club
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
