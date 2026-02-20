@@ -132,7 +132,7 @@ export default function ActualitesPage() {
             <Header />
 
             <section className="pt-28 pb-40 px-6 sm:px-10 lg:px-24">
-                <div className="max-w-6xl mx-auto">
+                <div className="w-full">
                     {loading ? (
                         <div className="space-y-10">
                             {[1, 2].map(i => (
