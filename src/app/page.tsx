@@ -3,19 +3,15 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ScrollingTicker from "@/components/ScrollingTicker";
 
-// Chargement différé des sections sous la fold (non critiques pour le LCP)
+// Chargement différé des sections sous la fold
 const NewsSection = dynamic(() => import("@/components/NewsSection"), {
-    ssr: false,
     loading: () => <div className="py-20" />,
 });
-const SocialBanner = dynamic(() => import("@/components/SocialBanner"), {
-    ssr: false,
-});
+const SocialBanner = dynamic(() => import("@/components/SocialBanner"));
 const ResultsSection = dynamic(() => import("@/components/ResultsSection"), {
-    ssr: false,
     loading: () => <div className="py-20" />,
 });
-const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
     return (
