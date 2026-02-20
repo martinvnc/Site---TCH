@@ -49,14 +49,14 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     const isEven = index % 2 === 0; // pair → photo gauche, impair → photo droite
 
     const imageBlock = (
-        <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto relative overflow-hidden rounded-[1.5rem] bg-zinc-100 shrink-0">
+        <div className="w-full md:w-[38%] aspect-[4/3] relative overflow-hidden rounded-[1.5rem] bg-zinc-100 shrink-0 shadow-sm border border-zinc-50">
             {img ? (
                 <img
                     src={img}
                     alt={item.title}
                     loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
             ) : (
                 <div className="w-full h-full flex items-center justify-center text-6xl bg-[#4c7650]/5">
@@ -67,7 +67,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     );
 
     const textBlock = (
-        <div className="w-full md:w-1/2 flex flex-col justify-center">
+        <div className="w-full md:w-[62%] flex flex-col justify-center">
             <p className="text-[10px] font-black uppercase tracking-widest text-[#4c7650] mb-3 flex items-center gap-1.5">
                 <Calendar className="w-3 h-3" />
                 {formatDate(item.date)}
