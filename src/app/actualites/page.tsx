@@ -49,7 +49,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     const isEven = index % 2 === 0; // pair → photo gauche, impair → photo droite
 
     const imageBlock = (
-        <div className="w-full lg:w-1/2 aspect-[4/3] lg:aspect-auto relative overflow-hidden rounded-[1.5rem] bg-zinc-100 shrink-0">
+        <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto relative overflow-hidden rounded-[1.5rem] bg-zinc-100 shrink-0">
             {img ? (
                 <img
                     src={img}
@@ -67,7 +67,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     );
 
     const textBlock = (
-        <div className="w-full lg:w-1/2 flex flex-col justify-center">
+        <div className="w-full md:w-1/2 flex flex-col justify-center">
             <p className="text-[10px] font-black uppercase tracking-widest text-[#4c7650] mb-3 flex items-center gap-1.5">
                 <Calendar className="w-3 h-3" />
                 {formatDate(item.date)}
@@ -96,7 +96,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     );
 
     return (
-        <div className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-16 items-center py-16 border-b border-zinc-100 last:border-0`}>
+        <div className={`flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"} gap-8 md:gap-16 items-center py-16 border-b border-zinc-100 last:border-0`}>
             {imageBlock}
             {textBlock}
         </div>
