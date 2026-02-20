@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import { ArrowLeft, ArrowRight, Calendar, Signal } from "lucide-react";
+import { ArrowRight, Calendar, Signal } from "lucide-react";
 
 interface NewsItem {
     id: string;
@@ -132,28 +131,7 @@ export default function ActualitesPage() {
         <main className="min-h-screen bg-white">
             <Header />
 
-            {/* Header page épuré */}
-            <section className="pt-32 pb-16 px-6 sm:px-10 lg:px-24">
-                <div className="max-w-6xl mx-auto">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#4c7650]/40 hover:text-[#4c7650] transition-colors mb-8 group"
-                    >
-                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        Accueil
-                    </Link>
-
-                    <p className="text-xs font-black uppercase tracking-[0.3em] text-[#4c7650]/60 mb-4 ml-1">Tennis Club d'Halluin</p>
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-[#2d452e] leading-[0.9] tracking-tighter mb-8">
-                        L&apos;actu<br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">du club.</span>
-                    </h1>
-                    <div className="w-20 h-2 bg-[#F6CA73] rounded-full" />
-                </div>
-            </section>
-
-            {/* Content avec larges marges */}
-            <section className="pb-40 px-6 sm:px-10 lg:px-24">
+            <section className="pt-28 pb-40 px-6 sm:px-10 lg:px-24">
                 <div className="max-w-6xl mx-auto">
                     {loading ? (
                         <div className="space-y-10">
@@ -181,8 +159,8 @@ export default function ActualitesPage() {
                         </div>
                     ) : news.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-40 text-center gap-4">
-                            <span className="text-7xl text-zinc-100">🎾</span>
-                            <h3 className="text-2xl font-black text-zinc-200">Aucune actualité publiée</h3>
+                            <span className="text-7xl">🎾</span>
+                            <h3 className="text-2xl font-black text-[#2d452e]">Aucune actualité publiée</h3>
                         </div>
                     ) : (
                         <div>
