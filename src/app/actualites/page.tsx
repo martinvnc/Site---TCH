@@ -67,7 +67,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     );
 
     const textBlock = (
-        <div className={`w-full lg:w-1/2 flex flex-col justify-center ${isEven ? "lg:pl-12" : "lg:pr-12"}`}>
+        <div className="w-full lg:w-1/2 flex flex-col justify-center">
             <p className="text-[10px] font-black uppercase tracking-widest text-[#4c7650] mb-3 flex items-center gap-1.5">
                 <Calendar className="w-3 h-3" />
                 {formatDate(item.date)}
@@ -96,7 +96,7 @@ function NewsRow({ item, index }: { item: NewsItem; index: number }) {
     );
 
     return (
-        <div className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-0 items-center py-14 border-b border-zinc-100 last:border-0`}>
+        <div className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-16 items-center py-16 border-b border-zinc-100 last:border-0`}>
             {imageBlock}
             {textBlock}
         </div>
@@ -135,59 +135,63 @@ export default function ActualitesPage() {
 
             {/* Header page */}
             <section className="pt-24 sm:pt-28 pb-4 px-6 sm:px-10 lg:px-24">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-[#4c7650] transition-colors mb-6 group"
-                >
-                    <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-                    Retour à l'accueil
-                </Link>
-                <p className="text-xs font-black uppercase tracking-widest text-[#4c7650] mb-3">Tennis Club d'Halluin</p>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#2d452e] leading-tight mb-3">
-                    Toutes les{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">actualités</span>
-                </h1>
-                <div className="w-14 h-1.5 bg-[#F6CA73] rounded-full" />
+                <div className="max-w-5xl mx-auto">
+                    <Link
+                        href="/"
+                        className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-[#4c7650] transition-colors mb-6 group"
+                    >
+                        <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                        Retour à l'accueil
+                    </Link>
+                    <p className="text-xs font-black uppercase tracking-widest text-[#4c7650] mb-3">Tennis Club d'Halluin</p>
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#2d452e] leading-tight mb-3">
+                        Toutes les{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4c7650] to-[#2d452e]">actualités</span>
+                    </h1>
+                    <div className="w-14 h-1.5 bg-[#F6CA73] rounded-full" />
+                </div>
             </section>
 
             {/* Content */}
             <section className="pb-28 px-6 sm:px-10 lg:px-24">
-                {loading ? (
-                    <div className="space-y-14 pt-10">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className={`flex ${i % 2 !== 0 ? "flex-row" : "flex-row-reverse"} gap-12 items-center py-14 border-b border-zinc-100 animate-pulse`}>
-                                <div className="w-1/2 aspect-[4/3] rounded-[1.5rem] bg-zinc-100" />
-                                <div className="w-1/2 space-y-4">
-                                    <div className="h-3 w-24 bg-zinc-100 rounded" />
-                                    <div className="h-8 w-3/4 bg-zinc-100 rounded" />
-                                    <div className="h-1 w-10 bg-zinc-100 rounded" />
-                                    <div className="h-24 bg-zinc-100 rounded" />
+                <div className="max-w-5xl mx-auto">
+                    {loading ? (
+                        <div className="space-y-14 pt-10">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className={`flex ${i % 2 !== 0 ? "flex-row" : "flex-row-reverse"} gap-12 items-center py-14 border-b border-zinc-100 animate-pulse`}>
+                                    <div className="w-1/2 aspect-[4/3] rounded-[1.5rem] bg-zinc-100" />
+                                    <div className="w-1/2 space-y-4">
+                                        <div className="h-3 w-24 bg-zinc-100 rounded" />
+                                        <div className="h-8 w-3/4 bg-zinc-100 rounded" />
+                                        <div className="h-1 w-10 bg-zinc-100 rounded" />
+                                        <div className="h-24 bg-zinc-100 rounded" />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : error ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
-                            <Signal className="w-7 h-7 text-red-400" />
+                            ))}
                         </div>
-                        <h3 className="text-xl font-black text-[#2d452e]">Impossible de charger les actualités</h3>
-                        <button onClick={fetchNews} className="px-6 py-2.5 bg-[#2d452e] text-white rounded-xl font-bold text-sm hover:bg-[#4c7650] transition-colors">
-                            Réessayer
-                        </button>
-                    </div>
-                ) : news.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-center gap-3">
-                        <span className="text-5xl">🎾</span>
-                        <h3 className="text-xl font-black text-[#2d452e]">Aucune actualité pour le moment</h3>
-                    </div>
-                ) : (
-                    <div>
-                        {news.map((item, index) => (
-                            <NewsRow key={item.id} item={item} index={index} />
-                        ))}
-                    </div>
-                )}
+                    ) : error ? (
+                        <div className="flex flex-col items-center justify-center py-24 text-center gap-4">
+                            <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                                <Signal className="w-7 h-7 text-red-400" />
+                            </div>
+                            <h3 className="text-xl font-black text-[#2d452e]">Impossible de charger les actualités</h3>
+                            <button onClick={fetchNews} className="px-6 py-2.5 bg-[#2d452e] text-white rounded-xl font-bold text-sm hover:bg-[#4c7650] transition-colors">
+                                Réessayer
+                            </button>
+                        </div>
+                    ) : news.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-24 text-center gap-3">
+                            <span className="text-5xl">🎾</span>
+                            <h3 className="text-xl font-black text-[#2d452e]">Aucune actualité pour le moment</h3>
+                        </div>
+                    ) : (
+                        <div>
+                            {news.map((item, index) => (
+                                <NewsRow key={item.id} item={item} index={index} />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </section>
 
             <Footer />
