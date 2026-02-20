@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { Trophy, Calendar, Target, Users, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -28,13 +29,16 @@ function ResultCard({ res }: { res: Result }) {
             {/* Image or icon */}
             <div className="relative aspect-video bg-zinc-50 overflow-hidden flex items-center justify-center">
                 {res.image_url ? (
-                    <img
-                        src={res.image_url}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover object-[center_25%]"
-                    />
+                    <div className="relative w-full h-full">
+                        <Image
+                            src={res.image_url}
+                            alt=""
+                            fill
+                            loading="lazy"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            className="object-cover object-[center_25%]"
+                        />
+                    </div>
                 ) : (
                     <div className="text-[#4c7650]/20">
                         {res.type === "Tournoi" ? (

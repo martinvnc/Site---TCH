@@ -6,17 +6,7 @@ const garet = localFont({
   src: [
     {
       path: "./fonts/Garet-Book.woff",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Garet-Book.woff",
       weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Garet-Book.woff",
-      weight: "500",
       style: "normal",
     },
     {
@@ -26,22 +16,14 @@ const garet = localFont({
     },
     {
       path: "./fonts/Garet-Heavy.woff",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Garet-Heavy.woff",
-      weight: "850",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Garet-Heavy.woff",
       weight: "900",
       style: "normal",
     },
   ],
   variable: "--font-garet",
+  display: "swap",
 });
+
 
 export const viewport = {
   width: "device-width",
